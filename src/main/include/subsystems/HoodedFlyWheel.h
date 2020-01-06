@@ -8,10 +8,13 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <frc/WPILib.h>
+#include <ctre/Phoenix.h>
 
 class HoodedFlyWheel : public frc2::SubsystemBase {
  public:
   HoodedFlyWheel();
+  double BangBangMode(double speed);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -19,7 +22,7 @@ class HoodedFlyWheel : public frc2::SubsystemBase {
   void Periodic();
 
  private:
-
+  WPI_TalonSRX flyWheel;
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

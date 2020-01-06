@@ -7,7 +7,17 @@
 
 #include "subsystems/HoodedFlyWheel.h"
 
-HoodedFlyWheel::HoodedFlyWheel() {}
+HoodedFlyWheel::HoodedFlyWheel()
+: flyWheel(1)
+{}
 
 // This method will be called once per scheduler run
 void HoodedFlyWheel::Periodic() {}
+
+double HoodedFlyWheel::BangBangMode(double speedRPM) {
+    double wheelSpeedTP100ms = flyWheel.GetSelectedSensorVelocity();
+    double setSpeedTP100ms = speedRPM * 2048 * 60 * 10;
+    double bangState = wheelSpeedTP100ms < setSpeedTP100ms ? 1.0 : 0.0;
+    flyWheel.Set(bangState);
+    return wheelSpeedTP100ms;
+}
