@@ -6,14 +6,21 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
-
+#include "Robot.h"
 #include <frc/TimedRobot.h>
-#include <frc2/command/Command.h>
-
+#include <frc/util/color.h>
+#include "Instrum.h"
+#include "ctre/Phoenix.h"
+#include <frc/Joystick.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/CommandScheduler.h>
 #include "RobotContainer.h"
 
 class Robot : public frc::TimedRobot {
+
+
  public:
+  Robot();
   void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;
@@ -25,6 +32,10 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  private:
+
+  WPI_TalonFX *_talon;
+  frc::Joystick *_joy;
+	int _smoothing;
   // Have it null by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
   frc2::Command* m_autonomousCommand = nullptr;
