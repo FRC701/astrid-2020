@@ -7,8 +7,19 @@
 
 #include "subsystems/HoodedFlyWheel.h"
 
+const char HoodedFlyWheel::kSubsystemName[] = "HoodedFlyWheel";
+
+std::shared_ptr<HoodedFlyWheel> HoodedFlyWheel::self;
+
+std::shared_ptr<HoodedFlyWheel> HoodedFlyWheel::getInstance() {
+  if (! self) {
+     self = std::shared_ptr<HoodedFlyWheel>(new HoodedFlyWheel);
+  }
+  return self;
+}
+
 HoodedFlyWheel::HoodedFlyWheel()
-: flyWheel(1)
+: flyWheel(0)
 {}
 
 // This method will be called once per scheduler run
