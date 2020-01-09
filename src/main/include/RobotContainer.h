@@ -11,6 +11,9 @@
 
 #include "commands/ExampleCommand.h"
 #include "subsystems/ExampleSubsystem.h"
+#include "frc/WPILib.h"
+#include "ctre/Phoenix.h"
+#include "frc2/command/button/JoystickButton.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -26,9 +29,17 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
+  frc::Joystick driver;
+  frc2::JoystickButton dA;
+  frc2::JoystickButton dB;
+  frc2::JoystickButton dX;
+  frc2::JoystickButton dY;
   // The robot's subsystems and commands are defined here...
   ExampleSubsystem m_subsystem;
   ExampleCommand m_autonomousCommand;
 
   void ConfigureButtonBindings();
+
+  double getDriverLeftYAxis();
+  double getDriverRightYAxis();
 };
