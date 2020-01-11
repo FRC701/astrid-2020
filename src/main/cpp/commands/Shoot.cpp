@@ -10,18 +10,32 @@
 Shoot::Shoot(HoodedFlyWheel* hoodedFlyWheel) : m_hoodedFlyWheel(hoodedFlyWheel) {
   SetName("Shoot");// Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({m_hoodedFlyWheel});
+  std::cout << "Shoot::Shoot" << std::endl;
+}
+
+Shoot::~Shoot() {
+  std::cout << "die die die::Shoot" << std::endl;
 }
 
 // Called when the command is initially scheduled.
-void Shoot::Initialize() {}
+void Shoot::Initialize() {
+  std::cout << "Shoot::Initialize" << std::endl;
+}
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
+  std::cout << "Shoot::Execute" << std::endl;
+
   m_hoodedFlyWheel->BangBangMode(0.8);
 }
 
 // Called once the command ends or is interrupted.
-void Shoot::End(bool interrupted) {}
+void Shoot::End(bool interrupted) {
+  std::cout << "Shoot::End" << std::endl;
+}
 
 // Returns true when the command should end.
-bool Shoot::IsFinished() { return false; }
+bool Shoot::IsFinished() {
+  std::cout << "Shoot::IsFinished" << std::endl;
+  return false; 
+}

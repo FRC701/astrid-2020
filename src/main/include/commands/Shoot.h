@@ -22,6 +22,7 @@ class Shoot
     : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
  public:
   Shoot(HoodedFlyWheel* hoodedFlyWheel);
+  ~Shoot();
 
   void Initialize() override;
 

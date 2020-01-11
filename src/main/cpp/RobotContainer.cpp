@@ -11,6 +11,7 @@
 RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem)
  {
    frc::SmartDashboard::PutData(&m_hoodedFlyWheel);
+   frc::SmartDashboard::PutData("Shoot", new Shoot(&m_hoodedFlyWheel));
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings
@@ -18,10 +19,6 @@ RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem)
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-  frc2::JoystickButton dA{&driver, 1};
-  frc2::JoystickButton dB{&driver, 5};
-  frc2::JoystickButton dX{&driver, 6};
-  frc2::JoystickButton dY{&driver, 0};
 
   dA.WhenPressed(Shoot(&m_hoodedFlyWheel));
   dB.WhenPressed(Shoot(&m_hoodedFlyWheel));

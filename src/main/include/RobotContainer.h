@@ -30,10 +30,15 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
-  
-  frc::Joystick driver {0};
 
   HoodedFlyWheel m_hoodedFlyWheel;
+  
+  frc::Joystick driver {1};
+
+  frc2::JoystickButton dA{&driver, 1};
+  frc2::JoystickButton dB{&driver, 2};
+  frc2::JoystickButton dX{&driver, 3};
+  frc2::JoystickButton dY{&driver, 4};  
   // The robot's subsystems and commands are defined here...
   ExampleSubsystem m_subsystem;
   ExampleCommand m_autonomousCommand;

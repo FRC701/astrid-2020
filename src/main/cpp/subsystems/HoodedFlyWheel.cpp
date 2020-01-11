@@ -13,10 +13,12 @@ HoodedFlyWheel::HoodedFlyWheel()
   std::cout << "Constructing HoodedFlyWheel" << std::endl;
 }
 
-// This method will be called once per scheduler run
-void HoodedFlyWheel::Periodic() {
-  std::cout << "HoodedFlyWheel::Periodic" << std::endl;
+HoodedFlyWheel::~HoodedFlyWheel() {
+  std::cout << "die die die::HoodedFlyWheel" << std::endl;
 }
+
+// This method will be called once per scheduler run
+void HoodedFlyWheel::Periodic() {}
 
 double HoodedFlyWheel::BangBangMode(double speedRPM) {
     double wheelSpeedTP100ms = flyWheel.GetSelectedSensorVelocity();

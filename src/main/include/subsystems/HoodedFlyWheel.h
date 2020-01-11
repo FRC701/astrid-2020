@@ -14,6 +14,7 @@
 class HoodedFlyWheel : public frc2::SubsystemBase {
  public:
   HoodedFlyWheel();
+  ~HoodedFlyWheel();
   double BangBangMode(double speed);
 
   /**
