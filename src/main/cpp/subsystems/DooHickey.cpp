@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 #include <ctime>
 #include <fstream>
+#include <sstream>
 #include "subsystems/DooHickey.h"
 #include <frc/util/color.h>
 #include "ctre/Phoenix.h"
@@ -15,12 +16,36 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 DooHickey::DooHickey()
-:   spinner(1)
-, mLogfile("/home/lvuser/test.txt", std::ios_base::out)
+: spinner(0)
+,mLogfile("/home/lvuser/test.txt", std::ios_base::out)
 {
 }
 
 void DooHickey::Init() {
+    /* Set relevant frame periods to be at least as fast as periodic rate */
+    spinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_13_Base_PIDF0, 10, 10);
+    spinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, 10);
+
+     /* Set the peak and nominal outputs */
+    spinner.ConfigNominalOutputForward(0, 10);
+    spinner.ConfigNominalOutputReverse(0, 10);
+    spinner.ConfigPeakOutputForward(1, 10);
+    spinner.ConfigPeakOutputReverse(-1, 10);
+
+    /* Set Motion Magic gains in slot0 - see documentation */
+    spinner.SelectProfileSlot(0, 0);
+    spinner.Config_kF(0, 0.3, 10);
+    spinner.Config_kP(0, 0.1, 10);
+    spinner.Config_kI(0, 0.0, 10);
+    spinner.Config_kD(0, 0.0, 10);
+    
+     /* Set acceleration and vcruise velocity - see documentation */
+    spinner.ConfigMotionCruiseVelocity(1024, 10);
+    spinner.ConfigMotionAcceleration(1024, 10);
+
+    /* Zero the sensor */
+    spinner.SetSelectedSensorPosition(0, 0, 10);
+
     m_colorMatcher.AddColorMatch(kBlueTarget);
     m_colorMatcher.AddColorMatch(kGreenTarget);
     m_colorMatcher.AddColorMatch(kRedTarget);
@@ -49,10 +74,12 @@ void DooHickey::Periodic() {
      */
     std::string colorString;
     double confidence = 0.0;
+    int counter = 0;
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
 
     if (matchedColor == kBlueTarget) {
       colorString = "Blue";
+     counter++;
     } else if (matchedColor == kRedTarget) {
       colorString = "Red";
     } else if (matchedColor == kGreenTarget) {
@@ -62,6 +89,10 @@ void DooHickey::Periodic() {
     } else {
       colorString = "Unknown";
     }
+
+    if(counter == 6) {
+        spinner.Set(0);
+    }  
 
     time_point now = std::chrono::system_clock::now();
 
@@ -87,6 +118,9 @@ void DooHickey::Periodic() {
   
     mPreviousTime = now;
   }
-  void DooHickey::MoveSpinner(double speed) {
-    spinner.Set(1);
+  double DooHickey::MoveSpinner(double speedRPM) {
+    double wheelSpeedTP100ms = spinner.GetSelectedSensorVelocity();
+    double setSpeedTP100ms = speedRPM * 2048 * 60 * 10;
+    spinner.Set(setSpeedTP100ms);
+    return wheelSpeedTP100ms;
   }

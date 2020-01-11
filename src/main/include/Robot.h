@@ -9,7 +9,6 @@
 #include "Robot.h"
 #include <frc/TimedRobot.h>
 #include <frc/util/color.h>
-#include "Instrum.h"
 #include "ctre/Phoenix.h"
 #include <frc/Joystick.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -33,9 +32,6 @@ class Robot : public frc::TimedRobot {
 
  private:
 
-  WPI_TalonFX *_talon;
-  frc::Joystick *_joy;
-	int _smoothing;
   // Have it null by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
   frc2::Command* m_autonomousCommand = nullptr;

@@ -9,11 +9,10 @@
 #include <chrono>
 #include <fstream>
 #include <frc/util/color.h>
+#include <frc/WPILib.h>
 #include "ctre/Phoenix.h"
-
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
-
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/SubsystemBase.h>
 
@@ -35,9 +34,7 @@ class DooHickey : public frc2::SubsystemBase {
   DooHickey();
   void Init();
   void Periodic();
-  void UpdateSpeed();
-  void UpdatePos();
-  void MoveSpinner(double speed);
+  double MoveSpinner(double speed);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
