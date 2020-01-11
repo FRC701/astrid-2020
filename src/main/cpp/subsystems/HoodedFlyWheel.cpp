@@ -7,23 +7,16 @@
 
 #include "subsystems/HoodedFlyWheel.h"
 
-const char HoodedFlyWheel::kSubsystemName[] = "HoodedFlyWheel";
-
-std::shared_ptr<HoodedFlyWheel> HoodedFlyWheel::self;
-
-std::shared_ptr<HoodedFlyWheel> HoodedFlyWheel::getInstance() {
-  if (! self) {
-     self = std::shared_ptr<HoodedFlyWheel>(new HoodedFlyWheel);
-  }
-  return self;
-}
-
 HoodedFlyWheel::HoodedFlyWheel()
 : flyWheel(0)
-{}
+{
+  std::cout << "Constructing HoodedFlyWheel" << std::endl;
+}
 
 // This method will be called once per scheduler run
-void HoodedFlyWheel::Periodic() {}
+void HoodedFlyWheel::Periodic() {
+  std::cout << "HoodedFlyWheel::Periodic" << std::endl;
+}
 
 double HoodedFlyWheel::BangBangMode(double speedRPM) {
     double wheelSpeedTP100ms = flyWheel.GetSelectedSensorVelocity();

@@ -9,6 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include "subsystems/HoodedFlyWheel.h"
 
 /**
  * An example command.
@@ -20,7 +21,7 @@
 class Shoot
     : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
  public:
-  Shoot();
+  Shoot(HoodedFlyWheel* hoodedFlyWheel);
 
   void Initialize() override;
 
@@ -29,4 +30,6 @@ class Shoot
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+private:
+  HoodedFlyWheel* m_hoodedFlyWheel;
 };

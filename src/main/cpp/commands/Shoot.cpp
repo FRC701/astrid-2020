@@ -6,11 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/Shoot.h"
-#include "subsystems/HoodedFlyWheel.h"
 
-Shoot::Shoot() {
-  // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements(HoodedFlyWheel::getInstance().get());
+Shoot::Shoot(HoodedFlyWheel* hoodedFlyWheel) : m_hoodedFlyWheel(hoodedFlyWheel) {
+  SetName("Shoot");// Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements({m_hoodedFlyWheel});
 }
 
 // Called when the command is initially scheduled.
@@ -18,7 +17,7 @@ void Shoot::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-  HoodedFlyWheel::getInstance()->BangBangMode(0.8);
+  m_hoodedFlyWheel->BangBangMode(0.8);
 }
 
 // Called once the command ends or is interrupted.

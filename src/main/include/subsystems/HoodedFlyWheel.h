@@ -13,9 +13,6 @@
 
 class HoodedFlyWheel : public frc2::SubsystemBase {
  public:
-  static std::shared_ptr<HoodedFlyWheel> getInstance();
-
-
   HoodedFlyWheel();
   double BangBangMode(double speed);
 
@@ -25,8 +22,6 @@ class HoodedFlyWheel : public frc2::SubsystemBase {
   void Periodic();
 
  private:
-  static const char kSubsystemName[];
-  static std::shared_ptr<HoodedFlyWheel> self;
   WPI_TalonFX flyWheel;
 
   // Components (e.g. motor controllers and sensors) should generally be

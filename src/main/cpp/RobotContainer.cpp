@@ -8,13 +8,9 @@
 #include "RobotContainer.h"
 #include "commands/Shoot.h"
 
-RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem),
-driver(0),
-dA(0,1),
-dB(0,2),
-dX(0,3),
-dY(0,4)
+RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem)
  {
+   frc::SmartDashboard::PutData(&m_hoodedFlyWheel);
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings
@@ -22,15 +18,21 @@ dY(0,4)
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-  dA.WhenPressed(new Shoot());
+  frc2::JoystickButton dA{&driver, 1};
+  frc2::JoystickButton dB{&driver, 5};
+  frc2::JoystickButton dX{&driver, 6};
+  frc2::JoystickButton dY{&driver, 0};
+
+  dA.WhenPressed(Shoot(&m_hoodedFlyWheel));
+  dB.WhenPressed(Shoot(&m_hoodedFlyWheel));
+  dX.WhenPressed(Shoot(&m_hoodedFlyWheel));
+  dY.WhenPressed(Shoot(&m_hoodedFlyWheel));
+
+  
   // Configure your button bindings here
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
   return &m_autonomousCommand;
-}
-
-double RobotContainer::getDriverLeftYAxis() {
-  return driver.GetRawAxis(0);
 }
