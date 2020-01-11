@@ -12,7 +12,7 @@
 #include "commands/ExampleCommand.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "frc2/command/button/JoystickButton.h"
-#include "frc/Joystick.h
+#include "frc/Joystick.h"
 #include "subsystems/dualAxleShooter.h"
 
 /**
@@ -30,9 +30,8 @@ class RobotContainer {
 
  private:
 
- dualAxleShooter m_dualAxleShooter;
+  dualAxleShooter mDualAxleShooter;
 
-  frc::Joystick driver {0};
   ExampleSubsystem m_subsystem;
   ExampleCommand m_autonomousCommand;
 

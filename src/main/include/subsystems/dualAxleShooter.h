@@ -15,7 +15,6 @@
 class dualAxleShooter : public frc2::SubsystemBase {
  public:
   dualAxleShooter();
-
   static std::shared_ptr<dualAxleShooter> getInstance();
 
 
@@ -25,15 +24,15 @@ class dualAxleShooter : public frc2::SubsystemBase {
   void Periodic();
 
   double shoot(double speed);
+  double FlyWheelTopRPM();
+  double FlyWheelBottomRPM();
+  double MotorTopRPM();
+  double MotorBottomRPM();
 
  private:
 
   WPI_TalonFX shooter1;
   WPI_TalonFX shooter2;
-
-  static std::shared_ptr<dualAxleShooter> self;
-
-
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

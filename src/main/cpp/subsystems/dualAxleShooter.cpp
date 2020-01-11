@@ -7,25 +7,56 @@
 
 #include "subsystems/dualAxleShooter.h"
 
-
-std::shared_ptr<dualAxleShooter> dualAxleShooter::self;
-
-std::shared_ptr<dualAxleShooter> dualAxleShooter::getInstance() {
-  if (! self) {
-    self = std::shared_ptr<dualAxleShooter>(new dualAxleShooter);
-  }
-  return self;
-}
-
 dualAxleShooter::dualAxleShooter() :
 shooter1(0),
 shooter2(1)
-{}
+{
+  std::cout << "Constructing dualAxleShooter" << std::endl;
+  shooter1.SetInverted(true);
+}
 
 double dualAxleShooter::shoot(double speed){
-    shooter1.Set(1.0);
-    shooter2.Set(1.0);
+    shooter1.Set(speed);
+    shooter2.Set(speed);
     return speed;
+}
+
+double dualAxleShooter::FlyWheelTopRPM(){
+  constexpr double TPR {2048};
+  constexpr double hundredMSPS {10};
+  constexpr double secondsPMin {60};
+  constexpr double motorToFlywheel {2.0/3};
+  double SpeedTP100ms = shooter1.GetSelectedSensorVelocity();
+  double RPMflywheel = SpeedTP100ms*TPR*hundredMSPS*secondsPMin*motorToFlywheel;
+  return RPMflywheel;
+}
+// return no motor:flywheel
+double dualAxleShooter::FlyWheelBottomRPM(){
+  constexpr double TPR {2048};
+  constexpr double hundredMSPS {10};
+  constexpr double secondsPMin {60};
+  constexpr double motorToFlywheel {2.0/3};
+  double SpeedTP100msBottom = shooter2.GetSelectedSensorVelocity(0);
+  double RPMflywheelBottom = SpeedTP100msBottom*TPR*hundredMSPS*secondsPMin*motorToFlywheel;
+  return RPMflywheelBottom;
+}
+
+double dualAxleShooter::MotorTopRPM(){
+  constexpr double TPR {2048};
+  constexpr double hundredMSPS {10};
+  constexpr double secondsPMin {60};
+  double SpeedTP100msTop = shooter1.GetSelectedSensorVelocity();
+  double RPMMotorTop = SpeedTP100msTop/TPR*hundredMSPS*secondsPMin;
+  return RPMMotorTop;
+}
+
+double dualAxleShooter::MotorBottomRPM(){
+  constexpr double TPR {2048};
+  constexpr double hundredMSPS {10};
+  constexpr double secondsPMin {60};
+  double SpeedTP100msTop = shooter1.GetSelectedSensorVelocity();
+  double RPMMotorBottom = SpeedTP100msTop/TPR*hundredMSPS*secondsPMin;
+  return RPMMotorBottom;
 }
 
 // This method will be called once per scheduler run

@@ -21,13 +21,13 @@
 class Launch
     : public frc2::CommandHelper<frc2::CommandBase, Launch> {
  public:
-  Launch();
-
+  Launch(dualAxleShooter* DualAxleShooter, double speed);
   void Initialize() override;
-
   void Execute() override;
-
   void End(bool interrupted) override;
-
   bool IsFinished() override;
+
+  private:
+  dualAxleShooter* mDualAxleShooter;
+  double mSpeed;
 };
