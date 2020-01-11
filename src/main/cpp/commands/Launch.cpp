@@ -5,28 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "RobotContainer.h"
 #include "commands/Launch.h"
 
-
-RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem)
-{
-
-  ConfigureButtonBindings();
-  
+Launch::Launch() {
+  // Use addRequirements() here to declare subsystem dependencies.
 }
 
-void RobotContainer::ConfigureButtonBindings() {
+// Called when the command is initially scheduled.
+void Launch::Initialize() {}
 
-  frc2::JoystickButton dA {&driver,6};
-  frc2::JoystickButton dB {&driver,2};
-  frc2::JoystickButton dX {&driver,3};
-  frc2::JoystickButton dY {&driver,4};
-
-  dA.WhenPressed(Launch());
-
+// Called repeatedly when this Command is scheduled to run
+void Launch::Execute() {
+  dualAxleShooter::getInstance()->shoot(1.0);
 }
 
-frc2::Command* RobotContainer::GetAutonomousCommand() {
-    return &m_autonomousCommand;
-}
+// Called once the command ends or is interrupted.
+void Launch::End(bool interrupted) {}
+
+// Returns true when the command should end.
+bool Launch::IsFinished() { return false; }
