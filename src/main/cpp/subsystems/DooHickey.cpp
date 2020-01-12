@@ -29,8 +29,8 @@ void DooHickey::Init() {
      /* Set the peak and nominal outputs */
     spinner.ConfigNominalOutputForward(0, 10);
     spinner.ConfigNominalOutputReverse(0, 10);
-    spinner.ConfigPeakOutputForward(1, 10);
-    spinner.ConfigPeakOutputReverse(-1, 10);
+    spinner.ConfigPeakOutputForward(0.9404, 10);
+    spinner.ConfigPeakOutputReverse(-0.9404, 10);
 
     /* Set Motion Magic gains in slot0 - see documentation */
     spinner.SelectProfileSlot(0, 0);
@@ -74,12 +74,10 @@ void DooHickey::Periodic() {
      */
     std::string colorString;
     double confidence = 0.0;
-    int counter = 0;
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
 
     if (matchedColor == kBlueTarget) {
       colorString = "Blue";
-     counter++;
     } else if (matchedColor == kRedTarget) {
       colorString = "Red";
     } else if (matchedColor == kGreenTarget) {
@@ -88,11 +86,7 @@ void DooHickey::Periodic() {
       colorString = "Yellow";
     } else {
       colorString = "Unknown";
-    }
-
-    if(counter == 6) {
-        spinner.Set(0);
-    }  
+    } 
 
     time_point now = std::chrono::system_clock::now();
 
@@ -119,8 +113,11 @@ void DooHickey::Periodic() {
     mPreviousTime = now;
   }
   double DooHickey::MoveSpinner(double speedRPM) {
+    double radiusCW = 16; //16in radius 
+    double radiusDW = 2;  //change this later 
+    double targetPos = (4*(radiusCW/radiusDW)) * 2048;
     double wheelSpeedTP100ms = spinner.GetSelectedSensorVelocity();
     double setSpeedTP100ms = speedRPM * 2048 * 60 * 10;
-    spinner.Set(setSpeedTP100ms);
+    spinner.Set(TalonFXControlMode::MotionMagic, targetPos);
     return wheelSpeedTP100ms;
   }

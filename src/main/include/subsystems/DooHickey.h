@@ -8,6 +8,8 @@
 #pragma once
 #include <chrono>
 #include <fstream>
+//#include <frc/Joystick.h>
+#include <frc2/command/button/JoystickButton.h>
 #include <frc/util/color.h>
 #include <frc/WPILib.h>
 #include "ctre/Phoenix.h"
@@ -34,7 +36,7 @@ class DooHickey : public frc2::SubsystemBase {
   DooHickey();
   void Init();
   void Periodic();
-  double MoveSpinner(double speed);
+  double MoveSpinner(double speedRPM);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -46,6 +48,7 @@ class DooHickey : public frc2::SubsystemBase {
   static std::shared_ptr<DooHickey> self;
 
   WPI_TalonFX spinner;
+  //frc2::JoyStickButton m_joy
   std::ofstream mLogfile;
   time_point mPreviousTime; 
   // Components (e.g. motor controllers and sensors) should generally be

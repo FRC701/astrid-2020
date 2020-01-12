@@ -6,16 +6,20 @@
 /*----------------------------------------------------------------------------*/
 
 #include "RobotContainer.h"
+#include "commands/Spin.h"
 
 RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem) {
-  // Initialize all of your commands and subsystems here
 
-  // Configure the button bindings
+  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(&m_dooHickey, 0.9404));
+
   ConfigureButtonBindings();
+
 }
 
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
+
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

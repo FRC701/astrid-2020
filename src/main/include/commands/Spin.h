@@ -20,7 +20,7 @@
 class Spin
     : public frc2::CommandHelper<frc2::CommandBase, Spin> {
  public:
-  Spin(DooHickey* dooHickey);
+  Spin(DooHickey* dooHickey, double speedRPM);
 
   void Initialize() override;
 
@@ -31,4 +31,5 @@ class Spin
   bool IsFinished() override;
   private: 
   DooHickey* m_dooHickey;
+  double mSpeed;
 };

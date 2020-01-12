@@ -7,7 +7,7 @@
 
 #include "commands/Spin.h"
 
-Spin::Spin(DooHickey* dooHickey) : m_dooHickey(dooHickey) {
+Spin::Spin(DooHickey* dooHickey, double speedRPM) : m_dooHickey(dooHickey), mSpeed(speedRPM) {
   SetName("Spin");
   AddRequirements({m_dooHickey});   // Use addRequirements() here to declare subsystem dependencies.
   std::cout << "Spin::Spin" << std::endl;
@@ -21,7 +21,7 @@ void Spin::Initialize() {
 void Spin::Execute() {
   std::cout << "Spin::Execute" << std::endl;
 
-  m_dooHickey->MoveSpinner(0.8);
+  m_dooHickey->MoveSpinner(mSpeed);
 }
 
 // Called once the command ends or is interrupted.
