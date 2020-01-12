@@ -30,7 +30,6 @@ class dualAxleShooter : public frc2::SubsystemBase {
   double MotorBottomRPM();
 
  private:
-
   WPI_TalonFX shooter1;
   WPI_TalonFX shooter2;
   // Components (e.g. motor controllers and sensors) should generally be

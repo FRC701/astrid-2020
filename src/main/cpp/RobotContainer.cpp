@@ -24,10 +24,7 @@ RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem)
   frc::SmartDashboard::PutData("Launch 100%", new Launch(&mDualAxleShooter, 1.0));
   frc::SmartDashboard::PutData("Launch 5%", new Launch(&mDualAxleShooter, .05));
 
-  frc::SmartDashboard::PutNumber("Bottom Motor RPM", mDualAxleShooter.MotorBottomRPM());
-  frc::SmartDashboard::PutNumber("Top Motor RPM", mDualAxleShooter.MotorTopRPM());
-  frc::SmartDashboard::PutNumber("Bottom Flywheel RPM", mDualAxleShooter.FlyWheelBottomRPM());
-  frc::SmartDashboard::PutNumber("Top Flywheel RPM", mDualAxleShooter.FlyWheelTopRPM());
+
 
 //  frc::SmartDashboard::PutData("Shooter 10%", new shoot(0.1));
 

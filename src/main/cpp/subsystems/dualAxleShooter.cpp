@@ -7,7 +7,7 @@
 
 #include "subsystems/dualAxleShooter.h"
 
-dualAxleShooter::dualAxleShooter() :
+dualAxleShooter::dualAxleShooter() : 
 shooter1(0),
 shooter2(1)
 {
@@ -60,4 +60,11 @@ double dualAxleShooter::MotorBottomRPM(){
 }
 
 // This method will be called once per scheduler run
-void dualAxleShooter::Periodic() {}
+void dualAxleShooter::Periodic() {
+
+  frc::SmartDashboard::PutNumber("Bottom Motor RPM", MotorBottomRPM());
+  frc::SmartDashboard::PutNumber("Top Motor RPM", MotorTopRPM());
+  frc::SmartDashboard::PutNumber("Bottom Flywheel RPM", FlyWheelBottomRPM());
+  frc::SmartDashboard::PutNumber("Top Flywheel RPM", FlyWheelTopRPM());
+
+}
