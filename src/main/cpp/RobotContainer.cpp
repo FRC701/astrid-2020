@@ -16,9 +16,11 @@ RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem)
   frc::SmartDashboard::PutData("Launch 20%", new Launch(&mDualAxleShooter, 0.2));
   frc::SmartDashboard::PutData("Launch 30%", new Launch(&mDualAxleShooter, 0.3));
   frc::SmartDashboard::PutData("Launch 40%", new Launch(&mDualAxleShooter, 0.4));
+  frc::SmartDashboard::PutData("Launch 45%", new Launch(&mDualAxleShooter, 0.45));
   frc::SmartDashboard::PutData("Launch 50%", new Launch(&mDualAxleShooter, 0.5));
   frc::SmartDashboard::PutData("Launch 60%", new Launch(&mDualAxleShooter, 0.6));
   frc::SmartDashboard::PutData("Launch 70%", new Launch(&mDualAxleShooter, 0.7));
+  frc::SmartDashboard::PutData("Launch 75%", new Launch(&mDualAxleShooter, 0.75));
   frc::SmartDashboard::PutData("Launch 80%", new Launch(&mDualAxleShooter, 0.8));
   frc::SmartDashboard::PutData("Launch 90%", new Launch(&mDualAxleShooter, 0.9));
   frc::SmartDashboard::PutData("Launch 100%", new Launch(&mDualAxleShooter, 1.0));

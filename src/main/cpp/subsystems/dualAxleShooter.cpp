@@ -12,8 +12,8 @@ shooter1(0),
 shooter2(1)
 {
   std::cout << "Constructing dualAxleShooter" << std::endl;
-  shooter2.SetInverted(true);
-  shooter1.SetInverted(false);
+  shooter2.SetInverted(false);
+  shooter1.SetInverted(true);
 }
 
 double dualAxleShooter::shoot(double speed){
@@ -28,7 +28,7 @@ double dualAxleShooter::FlyWheelTopRPM(){
   constexpr double secondsPMin {60};
   constexpr double motorToFlywheel {2.0/3};
   double SpeedTP100ms = shooter1.GetSelectedSensorVelocity();
-  double RPMflywheel = SpeedTP100ms/TPR*hundredMSPS*secondsPMin*motorToFlywheel;
+  double RPMflywheel = (SpeedTP100ms/TPR)*hundredMSPS*secondsPMin*motorToFlywheel;
   return RPMflywheel;
 }
 // return no motor:flywheel
@@ -38,7 +38,7 @@ double dualAxleShooter::FlyWheelBottomRPM(){
   constexpr double secondsPMin {60};
   constexpr double motorToFlywheel {2.0/3};
   double SpeedTP100msBottom = shooter2.GetSelectedSensorVelocity(0);
-  double RPMflywheelBottom = SpeedTP100msBottom/TPR*hundredMSPS*secondsPMin*motorToFlywheel;
+  double RPMflywheelBottom = (SpeedTP100msBottom/TPR)*hundredMSPS*secondsPMin*motorToFlywheel;
   return RPMflywheelBottom;
 }
 
@@ -47,7 +47,7 @@ double dualAxleShooter::MotorTopRPM(){
   constexpr double hundredMSPS {10};
   constexpr double secondsPMin {60};
   double SpeedTP100msTop = shooter1.GetSelectedSensorVelocity();
-  double RPMMotorTop = SpeedTP100msTop/TPR*hundredMSPS*secondsPMin;
+  double RPMMotorTop = (SpeedTP100msTop/TPR)*hundredMSPS*secondsPMin;
   return RPMMotorTop;
 }
 
@@ -56,7 +56,7 @@ double dualAxleShooter::MotorBottomRPM(){
   constexpr double hundredMSPS {10};
   constexpr double secondsPMin {60};
   double SpeedTP100msTop = shooter1.GetSelectedSensorVelocity();
-  double RPMMotorBottom = SpeedTP100msTop/TPR*hundredMSPS*secondsPMin;
+  double RPMMotorBottom = (SpeedTP100msTop/TPR)*hundredMSPS*secondsPMin;
   return RPMMotorBottom;
 }
 
