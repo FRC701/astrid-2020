@@ -11,12 +11,12 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-ClimberEngage::ClimberEngage(Climber* climber) : mClimber(climber) {
+ClimberEngage::ClimberEngage(double speed, Climber* climber) : mSpeed(speed), mClimber(climber) {
   AddRequirements(mClimber);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
 void ClimberEngage::Initialize() {
-  mClimber->Engage();
+  mClimber->SetClimb(mSpeed);
 }

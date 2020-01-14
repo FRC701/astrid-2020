@@ -15,10 +15,11 @@ class ClimberEngage
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  ClimberEngage> {
  public:
-  ClimberEngage(Climber* climber);
+  ClimberEngage(double speed, Climber* climber);
 
   void Initialize() override;
 
 private:
+  double mSpeed;
   Climber* mClimber;
 };
