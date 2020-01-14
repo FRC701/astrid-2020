@@ -6,23 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Climber.h"
-#include "frc/DoubleSolenoid.h"
-
-constexpr frc::DoubleSolenoid::Value kClimberEngage {frc::DoubleSolenoid::kForward};
-constexpr frc::DoubleSolenoid::Value kClimberDisengage {frc::DoubleSolenoid::kReverse};
 
 Climber::Climber() :
-ClimberMotor(0),
-climberSolenoid(0, 7)
+m_climberMotor(0)
 {}
 
 // This method will be called once per scheduler run
 void Climber::Periodic() {}
 
-void Climber::Engage() {
-  climberSolenoid.Set(kClimberEngage);
-}
-
-void Climber::Disengage() {
-  climberSolenoid.Set(kClimberDisengage);
+void Climber::SetClimb(double speed) {
+  m_climberMotor.Set(speed);
 }

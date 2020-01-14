@@ -9,7 +9,6 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
-#include <frc/DoubleSolenoid.h>
 
 class Climber : public frc2::SubsystemBase {
  public:
@@ -19,13 +18,11 @@ class Climber : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic();
-  void Engage();
-  void Disengage();
+  void SetClimb(double speed);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
     
-    WPI_TalonFX ClimberMotor;
-    frc::DoubleSolenoid climberSolenoid;
+    WPI_TalonFX m_climberMotor;
 };
