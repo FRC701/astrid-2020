@@ -9,17 +9,26 @@
 
 dualAxleShooter::dualAxleShooter() : 
 shooter1(0),
-shooter2(1)
+shooter2(1),
+p(0), i(0), d(0), f(0)
 {
   std::cout << "Constructing dualAxleShooter" << std::endl;
   shooter2.SetInverted(false);
   shooter1.SetInverted(true);
+  SetPID();
 }
 
-double dualAxleShooter::shoot(double speed){
-    shooter1.Set(speed);
-    shooter2.Set(speed);
-    return speed;
+void dualAxleShooter::SetPID() {
+  shooter1.Config_kP(0, p, 10);
+  shooter1.Config_kI(0, i, 10);
+  shooter1.Config_kD(0, d, 10);
+  shooter1.Config_kF(0, f, 10);
+}
+
+double dualAxleShooter::shoot(double speed){  
+  shooter1.Set(ControlMode::Velocity, speed);
+  shooter2.Set(ControlMode::Velocity, speed);
+  return speed;
 }
 
 double dualAxleShooter::FlyWheelTopRPM(){

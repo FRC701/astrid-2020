@@ -24,6 +24,7 @@ class dualAxleShooter : public frc2::SubsystemBase {
   void Periodic();
 
   double shoot(double speed);
+  void SetPID();
   double FlyWheelTopRPM();
   double FlyWheelBottomRPM();
   double MotorTopRPM();
@@ -32,6 +33,7 @@ class dualAxleShooter : public frc2::SubsystemBase {
  private:
   WPI_TalonFX shooter1;
   WPI_TalonFX shooter2;
+  double p, i, d, f;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };
