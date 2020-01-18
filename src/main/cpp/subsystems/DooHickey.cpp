@@ -9,14 +9,16 @@
 #include <sstream>
 #include "subsystems/DooHickey.h"
 #include <frc/util/color.h>
-#include "ctre/Phoenix.h"
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
-
 #include <frc/smartdashboard/SmartDashboard.h>
+
+constexpr frc::DoubleSolenoid::Value kHickeyEngage {frc::DoubleSolenoid::kForward};
+constexpr frc::DoubleSolenoid::Value kHickeyDisengage {frc::DoubleSolenoid::kReverse};
 
 DooHickey::DooHickey()
 : spinner(0)
+,UpPushyThang(1,7)
 ,mLogfile("/home/lvuser/test.txt", std::ios_base::out)
 ,mMotorSpeed{0}
 ,mTargetPos{0}
@@ -33,8 +35,8 @@ void DooHickey::SetUpMotionMagic() {
      /* Set the peak and nominal outputs */
     spinner.ConfigNominalOutputForward(0, 10);
     spinner.ConfigNominalOutputReverse(0, 10);
-    spinner.ConfigPeakOutputForward(0.9404, 10);
-    spinner.ConfigPeakOutputReverse(-0.9404, 10);
+    spinner.ConfigPeakOutputForward(1.0, 10);
+    spinner.ConfigPeakOutputReverse(-1.0, 10);
 
     /* Set Motion Magic gains in slot0 - see documentation */
     spinner.SelectProfileSlot(0, 0);
@@ -74,6 +76,14 @@ void DooHickey::UpdateSpeed() {
 
 void DooHickey::UpdatePos() {
   spinner.Set(ControlMode::MotionMagic, mTargetPos);
+}
+
+void DooHickey::PushThang() {
+  UpPushyThang.Set(kHickeyEngage);
+}
+
+void DooHickey::RetractThang() {
+  UpPushyThang.Set(kHickeyDisengage);
 }
 
 void DooHickey::Periodic() {

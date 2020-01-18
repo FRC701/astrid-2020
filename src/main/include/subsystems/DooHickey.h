@@ -8,11 +8,11 @@
 #pragma once
 #include <chrono>
 #include <fstream>
-//#include <frc/Joystick.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/util/color.h>
 #include <frc/WPILib.h>
 #include "ctre/Phoenix.h"
+#include <frc/DoubleSolenoid.h>
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -42,6 +42,8 @@ class DooHickey : public frc2::SubsystemBase {
   void SetUpMotionMagic();
   void SetHickeySpeed();
   void SetHickeyPosition(double position);
+  void PushThang();
+  void RetractThang();
   void UpdateSpeed();
   void UpdatePos();
   void MoveSpinner(double speed);
@@ -56,6 +58,8 @@ class DooHickey : public frc2::SubsystemBase {
   static std::shared_ptr<DooHickey> self;
 
   WPI_TalonFX spinner;
+  frc::DoubleSolenoid UpPushyThang;
+
   //frc2::JoyStickButton m_joy
   std::ofstream mLogfile;
   time_point mPreviousTime; 
