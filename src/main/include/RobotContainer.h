@@ -39,4 +39,7 @@ class RobotContainer {
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
 
   void ConfigureButtonBindings();
+
+  double getDriverLeftYAxis();
+  double getDriverRightYAxis();
 };

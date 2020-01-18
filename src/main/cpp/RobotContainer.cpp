@@ -26,10 +26,15 @@ RobotContainer::RobotContainer()
 }
 
 void RobotContainer::ConfigureButtonBindings() {
+  dA.WhenPressed(new Shoot());
   // Configure your button bindings here
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
   return nullptr;
+}
+
+double RobotContainer::getDriverLeftYAxis() {
+  return driver.GetRawAxis(0);
 }
