@@ -7,7 +7,13 @@
 
 #include "subsystems/Chassis.h"
 
-Chassis::Chassis() {}
+Chassis::Chassis(const wpi::Twine& name)
+{
+    SetName(name);
+}
 
 // This method will be called once per scheduler run
-void Chassis::Periodic() {}
+void Chassis::Periodic() 
+{
+
+}

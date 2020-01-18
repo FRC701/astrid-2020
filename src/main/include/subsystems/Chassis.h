@@ -11,7 +11,7 @@
 
 class Chassis : public frc2::SubsystemBase {
  public:
-  Chassis();
+  Chassis(const wpi::Twine& name);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
