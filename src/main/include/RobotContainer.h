@@ -28,6 +28,7 @@ class RobotContainer {
  private:
 
   DooHickey m_dooHickey;
+  DooHickey mDooHickey;
   // The robot's subsystems and commands are defined here...
   ExampleSubsystem m_subsystem;
   ExampleCommand m_autonomousCommand;

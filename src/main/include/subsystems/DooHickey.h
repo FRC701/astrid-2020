@@ -25,7 +25,10 @@ class DooHickey : public frc2::SubsystemBase {
 
   rev::ColorSensorV3 m_colorSensor{i2cPort};
   rev::ColorMatch m_colorMatcher;
-  
+
+  double mTargetPos; 
+  double mMotorSpeed;
+
   static constexpr frc::Color kBlueTarget = frc::Color(0.143, 0.427, 0.429);
   static constexpr frc::Color kGreenTarget = frc::Color(0.197, 0.561, 0.240);
   static constexpr frc::Color kRedTarget = frc::Color(0.561, 0.232, 0.114);
@@ -36,7 +39,12 @@ class DooHickey : public frc2::SubsystemBase {
   DooHickey();
   void Init();
   void Periodic();
-  double MoveSpinner(double speedRPM);
+  void SetUpMotionMagic();
+  void SetHickeySpeed();
+  void SetHickeyPosition(double position);
+  void UpdateSpeed();
+  void UpdatePos();
+  void MoveSpinner(double speed);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

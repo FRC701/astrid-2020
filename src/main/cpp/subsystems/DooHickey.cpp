@@ -18,10 +18,14 @@
 DooHickey::DooHickey()
 : spinner(0)
 ,mLogfile("/home/lvuser/test.txt", std::ios_base::out)
+,mMotorSpeed{0}
+,mTargetPos{0}
 {
+    SetUpMotionMagic();
 }
 
-void DooHickey::Init() {
+void DooHickey::SetUpMotionMagic() {
+
     /* Set relevant frame periods to be at least as fast as periodic rate */
     spinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_13_Base_PIDF0, 10, 10);
     spinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, 10);
@@ -43,9 +47,10 @@ void DooHickey::Init() {
     spinner.ConfigMotionCruiseVelocity(1024, 10);
     spinner.ConfigMotionAcceleration(1024, 10);
 
-    /* Zero the sensor */
-    spinner.SetSelectedSensorPosition(0, 0, 10);
+}
 
+void DooHickey::Init() {
+    
     m_colorMatcher.AddColorMatch(kBlueTarget);
     m_colorMatcher.AddColorMatch(kGreenTarget);
     m_colorMatcher.AddColorMatch(kRedTarget);
@@ -53,8 +58,27 @@ void DooHickey::Init() {
 
     mPreviousTime = std::chrono::system_clock::now();
 }
-// This method will be called once per scheduler run
+void DooHickey::MoveSpinner(double speed) {
+  mMotorSpeed = speed;
+  UpdateSpeed();
+}
+
+void DooHickey::SetHickeyPosition(double position){
+  mTargetPos = position;
+  UpdatePos();
+}
+
+void DooHickey::UpdateSpeed() {
+  spinner.Set(ControlMode::PercentOutput, mMotorSpeed);
+}
+
+void DooHickey::UpdatePos() {
+  spinner.Set(ControlMode::MotionMagic, mTargetPos);
+}
+
 void DooHickey::Periodic() {
+   
+
      frc2::CommandScheduler::GetInstance().Run(); 
     /**
      * The method GetColor() returns a normalized color value from the sensor and can be
@@ -68,10 +92,7 @@ void DooHickey::Periodic() {
      */
     mPreviousTime = std::chrono::system_clock::now();
     frc::Color detectedColor = m_colorSensor.GetColor();
-
-    /**
-     * Run the color match algorithm on our detected color
-     */
+    
     std::string colorString;
     double confidence = 0.0;
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
@@ -100,7 +121,6 @@ void DooHickey::Periodic() {
     frc::SmartDashboard::PutNumber("Confidence", confidence);
     frc::SmartDashboard::PutString("Detected Color", colorString);
 
-
     std::chrono::duration<double> elapsed = now - mPreviousTime;
     std::time_t end_time = std::chrono::system_clock::to_time_t(now);
 
@@ -112,12 +132,4 @@ void DooHickey::Periodic() {
   
     mPreviousTime = now;
   }
-  double DooHickey::MoveSpinner(double speedRPM) {
-    double radiusCW = 16; //16in radius 
-    double radiusDW = 2;  //change this later 
-    double targetPos = (4*(radiusCW/radiusDW)) * 2048;
-    double wheelSpeedTP100ms = spinner.GetSelectedSensorVelocity();
-    double setSpeedTP100ms = speedRPM * 2048 * 60 * 10;
-    spinner.Set(TalonFXControlMode::MotionMagic, targetPos);
-    return wheelSpeedTP100ms;
-  }
+
