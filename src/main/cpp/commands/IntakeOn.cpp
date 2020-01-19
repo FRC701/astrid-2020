@@ -4,19 +4,27 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-#include "subsystems/Intake.h"
+
 #include "commands/IntakeOn.h"
+#include "subsystems/Intake.h"
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.
-// For more information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-IntakeOn::IntakeOn() {
+IntakeOn::IntakeOn(Intake* intake) : mIntake(intake) {
+  AddRequirements(mIntake);
   // Use addRequirements() here to declare subsystem dependencies.
-  Intake::getInstance()->SetIntake();
-
 }
 
 // Called when the command is initially scheduled.
 void IntakeOn::Initialize() {}
-  
 
+// Called repeatedly when this Command is scheduled to run
+void IntakeOn::Execute() {
+  mIntake->SetIntake();
+}
+
+// Called once the command ends or is interrupted.
+void IntakeOn::End(bool interrupted) {
+  mIntake->StopIntake();
+}
+
+// Returns true when the command should end.
+bool IntakeOn::IsFinished() { return false; }

@@ -6,16 +6,29 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
-
-#include <frc2/command/CommandHelper.h>
 #include "subsystems/Intake.h"
-#include <frc2/command/InstantCommand.h>
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
 
+/**
+ * An example command.
+ *
+ * <p>Note that this extends CommandHelper, rather extending CommandBase
+ * directly; this is crucially important, or else the decorator functions in
+ * Command will *not* work!
+ */
 class IntakeOn
-    : public frc2::CommandHelper<frc2::InstantCommand,
-                                 IntakeOn> {
+    : public frc2::CommandHelper<frc2::CommandBase, IntakeOn> {
  public:
-  IntakeOn();
+  IntakeOn(Intake* intake);
 
   void Initialize() override;
+
+  void Execute() override;
+
+  void End(bool interrupted) override;
+
+  bool IsFinished() override;
+private:
+  Intake* mIntake;
 };

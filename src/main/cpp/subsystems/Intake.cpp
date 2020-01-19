@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Intake.h"
+#include "frc/smartdashboard/SmartDashboard.h"
 
 namespace 
 {
@@ -15,30 +16,22 @@ constexpr frc::DoubleSolenoid::Value kMotorDisengage = frc::DoubleSolenoid::kRev
 
 constexpr double kIntakePercentSpeed = 0.5;
 
-constexpr int kForwardChannel = 0.5;
-constexpr int kReverseChannel = 0.5;
+constexpr int kForwardChannel = 0;
+constexpr int kReverseChannel = 7;
 }
 
 Intake::Intake() :
 IntakeMotor(1), IntakeGo(kForwardChannel, kReverseChannel)
 {}
-const char Intake::kSubsystemName[] { "Intake" };
-std::shared_ptr<Intake> Intake::self;
-
-std::shared_ptr<Intake> Intake::getInstance() {
-  if (! self) {
-    self = std::shared_ptr<Intake>(new Intake);
-  }
-  return self;
-}
 // This method will be called once per scheduler run
-void Intake::Periodic() {}
+void Intake::Periodic() {
+}
 
 void Intake::SetIntake() {
     IntakeMotor.Set(kIntakePercentSpeed);
+    
 }
 
-}
-bool Intake::GetIntakeLimit() {
-  return IntakeMotor.GetSensorCollection().IsFwdLimitSwitchClosed();
+void Intake::StopIntake() {
+  IntakeMotor.Set(0);
 }
