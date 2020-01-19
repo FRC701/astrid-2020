@@ -22,8 +22,13 @@ Chassis::Chassis(
 {
     SetName(name);
 
-    mleft2.Follow(left); 
-    mright2.Follow(right); 
+    mLeft.SetInverted(true);
+    mleft2.SetInverted(true);
+    mright2.SetInverted(false);
+    mRight.SetInverted(false);
+
+    mleft2.Follow(mLeft); 
+    mright2.Follow(mRight); 
 }
 
 // This method will be called once per scheduler run
