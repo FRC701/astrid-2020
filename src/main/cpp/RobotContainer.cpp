@@ -8,6 +8,7 @@
 #include "RobotContainer.h"
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "commands/TankDrive.h"
+#include "commands/Spin.h"
 
 RobotContainer::RobotContainer()
 {
@@ -26,6 +27,7 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
 
+  // Configure the button bindings
   ConfigureButtonBindings();
 }
 
