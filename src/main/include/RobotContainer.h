@@ -17,6 +17,7 @@
 #include "subsystems/Intake.h"
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
+#include "subsystems/DooHickey.h"
 
 #include "commands/TelescopeRise.h"
 #include "commands/Shoot.h"
@@ -73,6 +74,13 @@ class RobotContainer {
   // Intake Components
   WPI_TalonFX mIntakeRoller{2};
   Intake mIntake{"Intake", mIntakeRoller};
+
+  //DooHickey Components
+  WPI_TalonFX mDooHickeySpinner{0};
+  frc::DoubleSolenoid mUpPushyThang{0,7};
+  DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};
+
+
 
   void ConfigureButtonBindings();
 };

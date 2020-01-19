@@ -19,6 +19,7 @@
 #include "commands/LatchEngage.h"
 #include "commands/LimeLightsOff.h"
 #include "commands/LimeLightsOn.h"
+#include "commands/Spin.h"
 
 RobotContainer::RobotContainer()
 {
