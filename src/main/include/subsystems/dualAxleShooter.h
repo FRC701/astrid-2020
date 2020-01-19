@@ -24,6 +24,7 @@ class dualAxleShooter : public frc2::SubsystemBase {
   void Periodic();
 
   double shoot(double speed);
+  void IdleShoot();
   void SetPID();
   double FlyWheelTopRPM();
   double FlyWheelBottomRPM();

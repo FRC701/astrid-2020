@@ -8,7 +8,6 @@
 #include "RobotContainer.h"
 #include "commands/Launch.h"
 
-
 RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem)
 {
   frc::SmartDashboard::PutData(&mDualAxleShooter);
@@ -25,6 +24,8 @@ RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem)
   frc::SmartDashboard::PutData("Launch 90%", new Launch(&mDualAxleShooter, 0.9));
   frc::SmartDashboard::PutData("Launch 100%", new Launch(&mDualAxleShooter, 1.0));
   frc::SmartDashboard::PutData("Launch 5%", new Launch(&mDualAxleShooter, .05));
+  frc::SmartDashboard::PutData("Launch rpm", new Launch(&mDualAxleShooter, 13312));//6826 10240 20480 
+
 
 
 

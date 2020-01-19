@@ -29,7 +29,7 @@ void Launch::Execute() {
 
 // Called once the command ends or is interrupted.
 void Launch::End(bool interrupted) {
-  mDualAxleShooter->shoot(0.0);
+  mDualAxleShooter->IdleShoot();
   std::cout << "Launch::End" << std::endl;
 
 }
