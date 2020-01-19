@@ -6,9 +6,20 @@
 /*----------------------------------------------------------------------------*/
 
 #include "RobotContainer.h"
+#include "commands/TankDrive.h"
 
-RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem) {
+RobotContainer::RobotContainer()
+{
+  using JoystickHand = frc::GenericHID::JoystickHand;
+
   // Initialize all of your commands and subsystems here
+  mChassis.SetDefaultCommand(
+    TankDrive(
+      [this] { return driver.GetY(JoystickHand::kLeftHand); },
+      [this] { return driver.GetY(JoystickHand::kRightHand); },
+      mChassis
+    )
+  );
 
   // Configure the button bindings
   ConfigureButtonBindings();
@@ -20,5 +31,5 @@ void RobotContainer::ConfigureButtonBindings() {
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  return &m_autonomousCommand;
+  return nullptr;
 }

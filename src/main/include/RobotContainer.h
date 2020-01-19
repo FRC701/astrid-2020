@@ -7,10 +7,12 @@
 
 #pragma once
 
+
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
-#include "commands/ExampleCommand.h"
-#include "subsystems/ExampleSubsystem.h"
+#include "subsystems/Chassis.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -21,14 +23,20 @@
  */
 class RobotContainer {
  public:
+  using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+
   RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
 
  private:
+  frc::XboxController driver{0};
+
   // The robot's subsystems and commands are defined here...
-  ExampleSubsystem m_subsystem;
-  ExampleCommand m_autonomousCommand;
+  // Chassis Components
+  WPI_TalonFX mChassisLeft{0};
+  WPI_TalonFX mChassisRight{1};  
+  Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
 
   void ConfigureButtonBindings();
 };

@@ -5,7 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ExampleCommand.h"
+#include "subsystems/Chassis.h"
 
-ExampleCommand::ExampleCommand(ExampleSubsystem* subsystem)
-    : m_subsystem{subsystem} {}
+Chassis::Chassis(
+    const wpi::Twine& name,
+    WPI_TalonFX& left,
+    WPI_TalonFX& right)
+: mLeft{left}
+, mRight{right}
+, mDrive{mLeft, mRight}
+{
+    SetName(name);
+}
+
+// This method will be called once per scheduler run
+void Chassis::Periodic() 
+{
+
+}
+
+void Chassis::TankDrive(double left, double right)
+{
+    mDrive.TankDrive(left, right);
+}
