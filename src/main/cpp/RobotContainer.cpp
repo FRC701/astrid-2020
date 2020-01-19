@@ -6,15 +6,29 @@
 /*----------------------------------------------------------------------------*/
 
 #include "RobotContainer.h"
-#include "commands/Shoot.h"
+#include "commands/TankDrive.h"
+#include "commands/ConveyerOn.h"
+#include "commands/IntakeOn.h"
 
-RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem),
+std::shared_ptr<RobotContainer> RobotContainer::self;
+
+std::shared_ptr<RobotContainer> RobotContainer::getInstance() {
+  if (! self) {
+    self = std::make_shared<RobotContainer>();
+  }
+  return self;
+}
+
+RobotContainer::RobotContainer() : 
 driver(0),
 dA(0,1),
 dB(0,2),
 dX(0,3),
-dY(0,4)
- {
+dY(0,4),
+m_autonomousCommand(&m_subsystem),
+mConveyor(),
+mIntake()
+{
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings
@@ -22,8 +36,11 @@ dY(0,4)
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-  dA.WhenPressed(new Shoot());
+  dA.WhenPressed(new TankDrive());
   // Configure your button bindings here
+
+  frc::SmartDashboard::PutData("Conveyor On", new ConveyerOn(&mConveyor));
+  frc::SmartDashboard::PutData("Intake On", new IntakeOn(&mIntake));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

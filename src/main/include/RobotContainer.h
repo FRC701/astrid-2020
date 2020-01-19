@@ -14,6 +14,8 @@
 #include "frc/WPILib.h"
 #include "ctre/Phoenix.h"
 #include "frc2/command/button/JoystickButton.h"
+#include "subsystems/Conveyer.h"
+#include "subsystems/Intake.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -28,6 +30,11 @@ class RobotContainer {
 
   frc2::Command* GetAutonomousCommand();
 
+  static std::shared_ptr<RobotContainer> getInstance();
+
+  double getDriverLeftYAxis();
+  double getDriverRightYAxis();
+
  private:
   frc::Joystick driver;
   frc2::JoystickButton dA;
@@ -37,9 +44,11 @@ class RobotContainer {
   // The robot's subsystems and commands are defined here...
   ExampleSubsystem m_subsystem;
   ExampleCommand m_autonomousCommand;
+  Conveyer mConveyor;
+  Intake mIntake;
 
   void ConfigureButtonBindings();
 
-  double getDriverLeftYAxis();
-  double getDriverRightYAxis();
+  static std::shared_ptr<RobotContainer> self;
+
 };
