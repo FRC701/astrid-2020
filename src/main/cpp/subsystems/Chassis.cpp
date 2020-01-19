@@ -13,6 +13,7 @@ Chassis::Chassis(
     WPI_TalonFX& right)
 : mLeft{left}
 , mRight{right}
+, mDrive{mLeft, mRight}
 {
     SetName(name);
 }
@@ -21,4 +22,9 @@ Chassis::Chassis(
 void Chassis::Periodic() 
 {
 
+}
+
+void Chassis::TankDrive(double left, double right)
+{
+    mDrive.TankDrive(left, right);
 }

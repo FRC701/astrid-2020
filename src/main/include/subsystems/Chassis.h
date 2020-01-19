@@ -7,8 +7,10 @@
 
 #pragma once
 
-#include <frc2/command/SubsystemBase.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <frc/drive/DifferentialDrive.h>
+#include <frc2/command/SubsystemBase.h>
+
 
 class Chassis : public frc2::SubsystemBase {
  public:
@@ -23,9 +25,13 @@ class Chassis : public frc2::SubsystemBase {
    */
   void Periodic();
 
+  void TankDrive(double left, double right);
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   WPI_TalonFX& mLeft;
   WPI_TalonFX& mRight;
+
+  frc::DifferentialDrive mDrive;
 };
