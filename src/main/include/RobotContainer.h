@@ -13,6 +13,7 @@
 #include <frc2/command/Command.h>
 
 #include "subsystems/Chassis.h"
+#include "subsystems/DooHickey.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -37,6 +38,13 @@ class RobotContainer {
   WPI_TalonFX mChassisLeft{0};
   WPI_TalonFX mChassisRight{1};  
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
+
+  //DooHickey Components
+  WPI_TalonFX mDooHickeySpinner{0};
+  frc::DoubleSolenoid mUpPushyThang{0,7};
+  DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};
+
+
 
   void ConfigureButtonBindings();
 };

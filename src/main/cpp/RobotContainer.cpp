@@ -7,6 +7,7 @@
 
 #include "RobotContainer.h"
 #include "commands/TankDrive.h"
+#include "commands/Spin.h"
 
 RobotContainer::RobotContainer()
 {
@@ -20,6 +21,7 @@ RobotContainer::RobotContainer()
       mChassis
     )
   );
+
 
   // Configure the button bindings
   ConfigureButtonBindings();
