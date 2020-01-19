@@ -35,8 +35,11 @@ class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // Chassis Components
   WPI_TalonFX mChassisLeft{0};
-  WPI_TalonFX mChassisRight{1};  
-  Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
+  WPI_TalonFX mChassisRight{1}; 
+  WPI_TalonFX mChassisBackLeft{2};
+  WPI_TalonFX mChassisBackRight{3};
+
+  Chassis mChassis{"Chassis", mChassisLeft, mChassisRight, mChassisBackLeft, mChassisBackRight};
 
   void ConfigureButtonBindings();
 };
