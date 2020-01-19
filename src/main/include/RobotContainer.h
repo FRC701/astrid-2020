@@ -8,6 +8,7 @@
 #pragma once
 
 #include <frc2/command/Command.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 
 #include "subsystems/Chassis.h"
 
@@ -20,13 +21,18 @@
  */
 class RobotContainer {
  public:
+  using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+
   RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
 
  private:
   // The robot's subsystems and commands are defined here...
-  Chassis mChassis;
+  // Chassis Components
+  WPI_TalonFX mChassisLeft{0};
+  WPI_TalonFX mChassisRight{1};  
+  Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
 
   void ConfigureButtonBindings();
 };

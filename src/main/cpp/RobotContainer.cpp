@@ -8,7 +8,6 @@
 #include "RobotContainer.h"
 
 RobotContainer::RobotContainer()
-: mChassis("Chassis")
 {
   // Initialize all of your commands and subsystems here
 

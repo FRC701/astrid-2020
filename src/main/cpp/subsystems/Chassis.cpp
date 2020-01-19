@@ -7,7 +7,12 @@
 
 #include "subsystems/Chassis.h"
 
-Chassis::Chassis(const wpi::Twine& name)
+Chassis::Chassis(
+    const wpi::Twine& name,
+    WPI_TalonFX& left,
+    WPI_TalonFX& right)
+: mLeft{left}
+, mRight{right}
 {
     SetName(name);
 }

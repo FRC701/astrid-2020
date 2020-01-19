@@ -8,10 +8,15 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 
 class Chassis : public frc2::SubsystemBase {
  public:
-  Chassis(const wpi::Twine& name);
+  using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+
+  Chassis(const wpi::Twine& name,
+        WPI_TalonFX& left,
+        WPI_TalonFX& right);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -21,4 +26,6 @@ class Chassis : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+  WPI_TalonFX& mLeft;
+  WPI_TalonFX& mRight;
 };
