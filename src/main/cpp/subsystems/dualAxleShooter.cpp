@@ -27,7 +27,7 @@ void dualAxleShooter::SetPID() {
 }
 
 double dualAxleShooter::shoot(double speed){  
-  shooter1.Set(ControlMode::Velocity, speed);
+  shooter1.Set(ControlMode::Velocity, RPMToTPM(speed));
   return speed;
 }
 void dualAxleShooter::IdleShoot() {
@@ -71,6 +71,14 @@ double dualAxleShooter::MotorBottomRPM(){
   double RPMMotorBottom = (SpeedTP100msTop/TPR)*hundredMSPS*secondsPMin;
   return RPMMotorBottom;
 }
+
+  double dualAxleShooter::RPMToTPM(double RPM){
+  constexpr double TPR {2048};
+  constexpr double hundredMSPS {10};
+  constexpr double secondsPMin {60};
+  double TPM = RPM*TPR/secondsPMin/hundredMSPS;
+  return TPM;
+  }
 
 // This method will be called once per scheduler run
 void dualAxleShooter::Periodic() {

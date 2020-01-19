@@ -8,6 +8,8 @@
 #include "commands/Launch.h"
 
 Launch::Launch(dualAxleShooter* DualAxleShooter, double speed) : mDualAxleShooter(DualAxleShooter), mSpeed(speed) {
+
+
   SetName("Launch");
   AddRequirements({mDualAxleShooter});
   std::cout << "Launch::Launch" << std::endl;

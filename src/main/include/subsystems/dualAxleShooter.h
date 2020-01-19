@@ -30,6 +30,7 @@ class dualAxleShooter : public frc2::SubsystemBase {
   double FlyWheelBottomRPM();
   double MotorTopRPM();
   double MotorBottomRPM();
+  double RPMToTPM(double RPM);
 
  private:
   WPI_TalonFX shooter1;
