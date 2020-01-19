@@ -6,10 +6,20 @@
 /*----------------------------------------------------------------------------*/
 
 #include "RobotContainer.h"
+#include "commands/TankDrive.h"
 
 RobotContainer::RobotContainer()
 {
+  using JoystickHand = frc::GenericHID::JoystickHand;
+
   // Initialize all of your commands and subsystems here
+  mChassis.SetDefaultCommand(
+    TankDrive(
+      [this] { return driver.GetY(JoystickHand::kLeftHand); },
+      [this] { return driver.GetY(JoystickHand::kRightHand); },
+      mChassis
+    )
+  );
 
   // Configure the button bindings
   ConfigureButtonBindings();

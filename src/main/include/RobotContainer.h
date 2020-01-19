@@ -7,8 +7,10 @@
 
 #pragma once
 
-#include <frc2/command/Command.h>
+
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <frc/XboxController.h>
+#include <frc2/command/Command.h>
 
 #include "subsystems/Chassis.h"
 
@@ -28,6 +30,8 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
+  frc::XboxController driver{0};
+
   // The robot's subsystems and commands are defined here...
   // Chassis Components
   WPI_TalonFX mChassisLeft{0};
