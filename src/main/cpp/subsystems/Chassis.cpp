@@ -28,3 +28,19 @@ void Chassis::TankDrive(double left, double right)
 {
     mDrive.TankDrive(left, right);
 }
+
+bool Chassis::intakeBallVisible()
+{
+    return mLeft.IsFwdLimitSwitchClosed();
+}
+
+void Chassis::ballIntakeIncoming()
+{
+    ++mBallIntake;
+}
+
+void Chassis::ballIntakeExiting()
+{
+    --mBallIntake;
+}
+

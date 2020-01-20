@@ -27,6 +27,10 @@ class Chassis : public frc2::SubsystemBase {
 
   void TankDrive(double left, double right);
 
+  bool intakeBallVisible();
+  void ballIntakeIncoming();
+  void ballIntakeExiting();
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -34,4 +38,6 @@ class Chassis : public frc2::SubsystemBase {
   WPI_TalonFX& mRight;
 
   frc::DifferentialDrive mDrive;
+
+  int mBallIntake{0};
 };
