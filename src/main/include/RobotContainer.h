@@ -11,7 +11,7 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
-
+#include <subsystems/Shooter.h>
 #include "subsystems/Chassis.h"
 
 /**
@@ -37,6 +37,13 @@ class RobotContainer {
   WPI_TalonFX mChassisLeft{0};
   WPI_TalonFX mChassisRight{1};  
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
+
+
+
+  //Shooter Components
+  WPI_TalonFX mshooter1{4};
+  WPI_TalonFX mshooter2{5};
+  Shooter mShooter{"Shooter", mshooter1, mshooter2};
 
   void ConfigureButtonBindings();
 };
