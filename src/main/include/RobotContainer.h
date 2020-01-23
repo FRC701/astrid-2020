@@ -11,7 +11,7 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
-
+#include <subsystems/Shooter.h>
 #include "subsystems/Chassis.h"
 #include <subsystems/Conveyor.h>
 #include "subsystems/Telescope.h"
@@ -61,6 +61,10 @@ class RobotContainer {
   WPI_TalonFX mConveyorMotor{5};
   Conveyor mConveyor{"Conveyor", mConveyorMotor};
   // The robot's subsystems and commands are defined here...
+  //Shooter Components
+  WPI_TalonFX mshooter1{4};
+  WPI_TalonFX mshooter2{5};
+  Shooter mShooter{"Shooter", mshooter1, mshooter2};
 
   // Intake Components
   WPI_TalonFX mIntakeRoller{2};
