@@ -10,7 +10,7 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
-
+#include <subsystems/Shooter.h>
 #include "subsystems/Chassis.h"
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
@@ -51,6 +51,10 @@ class RobotContainer {
   Winch mWinch{"Winch", mWinchComponents};
 
   // The robot's subsystems and commands are defined here...
+  //Shooter Components
+  WPI_TalonFX mshooter1{4};
+  WPI_TalonFX mshooter2{5};
+  Shooter mShooter{"Shooter", mshooter1, mshooter2};
 
   void ConfigureButtonBindings();
 };
