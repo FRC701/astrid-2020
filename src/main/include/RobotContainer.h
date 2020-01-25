@@ -56,7 +56,7 @@ class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   // Intake Components
-  WPI_TalonSRX mIntakeRoller{2};
+  WPI_TalonFX mIntakeRoller{2};
   Intake mIntake{"Intake", mIntakeRoller};
 
   void ConfigureButtonBindings();

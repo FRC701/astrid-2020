@@ -9,7 +9,7 @@
 
 Intake::Intake(
     const wpi::Twine& name,
-    WPI_TalonSRX& roller)
+    WPI_TalonFX& roller)
 : mRoller{roller}
 {
     SetName(name);
