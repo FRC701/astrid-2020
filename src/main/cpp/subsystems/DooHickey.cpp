@@ -17,8 +17,8 @@ DooHickey::DooHickey(
     const wpi::Twine& name,
     WPI_TalonFX& spinner,
     frc::DoubleSolenoid& UpPushyThang)
-  : spinner(0)
-  ,UpPushyThang(0,7)
+  : mSpinner(spinner)
+  ,mUpPushyThang(UpPushyThang)
   ,mLogfile("/home/lvuser/test.txt", std::ios_base::out)   
   ,mMotorSpeed{0}
   ,mTargetPos{0}
@@ -30,25 +30,25 @@ DooHickey::DooHickey(
 void DooHickey::SetUpMotionMagic() {
 
     /* Set relevant frame periods to be at least as fast as periodic rate */
-    spinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_13_Base_PIDF0, 10, 10);
-    spinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, 10);
+    mSpinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_13_Base_PIDF0, 10, 10);
+    mSpinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, 10);
 
      /* Set the peak and nominal outputs */
-    spinner.ConfigNominalOutputForward(0, 10);
-    spinner.ConfigNominalOutputReverse(0, 10);
-    spinner.ConfigPeakOutputForward(1.0, 10);
-    spinner.ConfigPeakOutputReverse(-1.0, 10);
+    mSpinner.ConfigNominalOutputForward(0, 10);
+    mSpinner.ConfigNominalOutputReverse(0, 10);
+    mSpinner.ConfigPeakOutputForward(1.0, 10);
+    mSpinner.ConfigPeakOutputReverse(-1.0, 10);
 
     /* Set Motion Magic gains in slot0 - see documentation */
-    spinner.SelectProfileSlot(0, 0);
-    spinner.Config_kF(0, 0.3, 10);
-    spinner.Config_kP(0, 0.1, 10);
-    spinner.Config_kI(0, 0.0, 10);
-    spinner.Config_kD(0, 0.0, 10);
+    mSpinner.SelectProfileSlot(0, 0);
+    mSpinner.Config_kF(0, 0.3, 10);
+    mSpinner.Config_kP(0, 0.1, 10);
+    mSpinner.Config_kI(0, 0.0, 10);
+    mSpinner.Config_kD(0, 0.0, 10);
     
      /* Set acceleration and vcruise velocity - see documentation */
-    spinner.ConfigMotionCruiseVelocity(1024, 10);
-    spinner.ConfigMotionAcceleration(1024, 10);
+    mSpinner.ConfigMotionCruiseVelocity(1024, 10);
+    mSpinner.ConfigMotionAcceleration(1024, 10);
 
 }
 
@@ -72,19 +72,19 @@ void DooHickey::SetHickeyPosition(double position){
 }
 
 void DooHickey::UpdateSpeed() {
-  spinner.Set(ControlMode::Velocity, mMotorSpeed);
+  mSpinner.Set(ControlMode::Velocity, mMotorSpeed);
 }
 
 void DooHickey::UpdatePos() {
-  spinner.Set(ControlMode::MotionMagic, mTargetPos);
+  mSpinner.Set(ControlMode::MotionMagic, mTargetPos);
 }
 
 void DooHickey::PushThang() {
-  UpPushyThang.Set(kHickeyEngage);
+  mUpPushyThang.Set(kHickeyEngage);
 }
 
 void DooHickey::RetractThang() {
-  UpPushyThang.Set(kHickeyDisengage);
+  mUpPushyThang.Set(kHickeyDisengage);
 }
 
 void DooHickey::Periodic() {
