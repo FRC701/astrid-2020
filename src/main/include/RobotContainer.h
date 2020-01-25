@@ -7,12 +7,19 @@
 
 #pragma once
 
-
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
 #include "subsystems/Chassis.h"
+#include "subsystems/ExampleSubsystem.h"
+#include "subsystems/Telescope.h"
+#include "subsystems/Winch.h"
+
+#include <frc2/command/Command.h>
+#include "commands/ExampleCommand.h"
+#include "commands/TelescopeRise.h"
+#include "commands/WinchHook.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -36,7 +43,13 @@ class RobotContainer {
   // Chassis Components
   WPI_TalonFX mChassisLeft{0};
   WPI_TalonFX mChassisRight{1};  
+  WPI_TalonFX mTelescopeMotor{2};
+  WPI_TalonFX mWinchMotor{3};
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
+  Telescope mTelescope{"Telescope", mTelescopeMotor};
+  Winch mWinch{"Winch", mWinchMotor};
+
+  // The robot's subsystems and commands are defined here...
 
   void ConfigureButtonBindings();
 };
