@@ -5,23 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/Telescope.h"
+#include "subsystems/Winch.h"
 
-Telescope::Telescope(
-    const wpi::Twine& name,
-    WPI_TalonFX& telescopemotor)
-: mTelescopeMotor{telescopemotor}
+Winch::Winch(const wpi::Twine& name,
+            WPI_TalonFX& winchmotor)
+: mWinchMotor{winchmotor}
 {
     SetName(name);
 }
 
 // This method will be called once per scheduler run
-void Telescope::Periodic() 
+void Winch::Periodic() 
 {
 
 }
 
-void Telescope::TelescopeRise(double percentoutput) 
+void Winch::WinchHook(double percentoutput)
 {
-    mTelescopeMotor.Set(percentoutput);
+    mWinchMotor.Set(percentoutput);
 }

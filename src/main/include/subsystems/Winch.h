@@ -7,26 +7,25 @@
 
 #pragma once
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
-#include <ctre/Phoenix.h>
 #include <frc2/command/SubsystemBase.h>
 
-class Telescope : public frc2::SubsystemBase {
+class Winch : public frc2::SubsystemBase {
  public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
 
-  Telescope(const wpi::Twine& name,
-          WPI_TalonFX& telescopemotor);
+  Winch(const wpi::Twine& name,
+        WPI_TalonFX& winchmotor);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic();
 
-  void TelescopeRise(double percentoutput);
+  void WinchHook(double percentoutput);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  WPI_TalonFX& mTelescopeMotor;
+  WPI_TalonFX& mWinchMotor;
 
 };
