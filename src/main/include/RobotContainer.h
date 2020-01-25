@@ -12,7 +12,8 @@
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
-#include "subsystems/Chassis.h"
+#include <subsystems/Chassis.h>
+#include <subsystems/Conveyor.h>
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -37,6 +38,10 @@ class RobotContainer {
   WPI_TalonFX mChassisLeft{0};
   WPI_TalonFX mChassisRight{1};  
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
+
+  // Conveyor Components
+  WPI_TalonFX mConveyorMotor{5};
+  Conveyor mConveyor{"Conveyor", mConveyorMotor};
 
   void ConfigureButtonBindings();
 };
