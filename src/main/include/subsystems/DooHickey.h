@@ -57,8 +57,8 @@ public:
 
  private:
  
-  WPI_TalonFX& spinner;
-  frc::DoubleSolenoid& UpPushyThang;
+  WPI_TalonFX& mSpinner;
+  frc::DoubleSolenoid& mUpPushyThang;
 
   std::ofstream mLogfile;
   time_point mPreviousTime;  

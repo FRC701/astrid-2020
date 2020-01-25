@@ -9,6 +9,9 @@
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "commands/TankDrive.h"
 #include "commands/Spin.h"
+#include "commands/SetHickeyPos.h"
+#include "commands/HickeyDisengage.h"
+#include "commands/HickeyEngage.h"
 
 RobotContainer::RobotContainer()
 {
@@ -24,8 +27,15 @@ RobotContainer::RobotContainer()
       [this] { return driver.GetY(JoystickHand::kRightHand); }
     )
   );
+  double radiusCW = 16; //16in radius 
+  double radiusDW = 2;  //change this later
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
+  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
+  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404));
+  frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(&mDooHickey, (4*(radiusCW/radiusDW)) * 2048));
+  frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage());
+  frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage());
 
   // Configure the button bindings
   ConfigureButtonBindings();

@@ -7,13 +7,12 @@
 
 #include "commands/Spin.h"
 
-Spin::Spin(std::function<double()> spinner
-                   ,DooHickey& mDooHickey
-                   ,double speed)
-: mSpinner(spinner), mDooHickey(DooHickey), mSpeed(speed) 
+Spin::Spin(DooHickey& DooHickey
+          ,double speed)
+: mDooHickey(DooHickey), mSpeed(speed) 
 {
   SetName("Spin");
-  AddRequirements({&mDooHickey});
+  AddRequirements(&mDooHickey);
 }
 
 // Called just before this Command runs the first time
@@ -29,8 +28,7 @@ void Spin::Execute()
 bool Spin::IsFinished() { return false; }
 
 // Called once after isFinished returns true
-void Spin::End(bool interrupted) {}
+void Spin::End(bool interrupted) 
+{
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
-void Spin::Interrupted() {}
+}
