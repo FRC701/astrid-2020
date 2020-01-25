@@ -9,10 +9,12 @@
 
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
 #include "subsystems/Chassis.h"
+#include "subsystems/Intake.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -24,6 +26,7 @@
 class RobotContainer {
  public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
 
   RobotContainer();
 
@@ -37,6 +40,10 @@ class RobotContainer {
   WPI_TalonFX mChassisLeft{0};
   WPI_TalonFX mChassisRight{1};  
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
+
+  // Intake Components
+  WPI_TalonSRX mIntakeRoller{2};
+  Intake mIntake{"Intake", mIntakeRoller};
 
   void ConfigureButtonBindings();
 };
