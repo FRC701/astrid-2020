@@ -5,23 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/Telescope.h"
+#include "subsystems/ExampleSubsystem.h"
 
-Telescope::Telescope(
-    const wpi::Twine& name,
-    WPI_TalonFX& telescopemotor)
-: mTelescopeMotor{telescopemotor}
-{
-    SetName(name);
+ExampleSubsystem::ExampleSubsystem() {
+  // Implementation of subsystem constructor goes here.
 }
 
-// This method will be called once per scheduler run
-void Telescope::Periodic() 
-{
-
-}
-
-void Telescope::TelescopeRise(double percentoutput) 
-{
-    mTelescopeMotor.Set(percentoutput);
+void ExampleSubsystem::Periodic() {
+  // Implementation of subsystem periodic method goes here.
 }
