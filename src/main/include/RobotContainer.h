@@ -12,6 +12,7 @@
 #include <frc2/command/Command.h>
 
 #include "subsystems/Chassis.h"
+#include <subsystems/Conveyor.h>
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
 
@@ -50,6 +51,9 @@ class RobotContainer {
   Winch::Components mWinchComponents{3,4};  
   Winch mWinch{"Winch", mWinchComponents};
 
+  // Conveyor Components
+  WPI_TalonFX mConveyorMotor{5};
+  Conveyor mConveyor{"Conveyor", mConveyorMotor};
   // The robot's subsystems and commands are defined here...
 
   void ConfigureButtonBindings();
