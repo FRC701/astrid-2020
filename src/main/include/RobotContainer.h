@@ -19,6 +19,7 @@
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
 #include "subsystems/DooHickey.h"
+#include <commands/Shoot.h>
 
 #include "commands/TelescopeRise.h"
 #include "commands/Shoot.h"
