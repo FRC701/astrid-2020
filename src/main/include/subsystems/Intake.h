@@ -8,15 +8,15 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
 
-using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
+using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
 
   Intake(const wpi::Twine& name,
-        WPI_TalonSRX& roller);
+        WPI_TalonFX& roller);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -27,7 +27,7 @@ using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
 
  private:
 
-  WPI_TalonSRX& mRoller;
+  WPI_TalonFX& mRoller;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

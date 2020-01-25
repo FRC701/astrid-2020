@@ -42,7 +42,7 @@ class RobotContainer {
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
 
   // Intake Components
-  WPI_TalonSRX mIntakeRoller{2};
+  WPI_TalonFX mIntakeRoller{2};
   Intake mIntake{"Intake", mIntakeRoller};
 
   void ConfigureButtonBindings();
