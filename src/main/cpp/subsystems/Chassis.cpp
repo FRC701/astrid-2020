@@ -6,7 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Chassis.h"
-#include "RobotContainer.h"
+
+#include <cmath>
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Chassis::Chassis(
@@ -37,6 +38,8 @@ void Chassis::Periodic()
 {
     frc::SmartDashboard::PutNumber("left velocity", GetLeftVelocity());
     frc::SmartDashboard::PutNumber("right velocity", GetRightVelocity());
+    frc::SmartDashboard::PutNumber("Target Offset", TargetOffset());
+    frc::SmartDashboard::PutNumber("Target Distance", TargetDistance());
 }
 
 void Chassis::TankDrive(double left, double right)
@@ -52,4 +55,19 @@ double Chassis::GetLeftVelocity()
 double Chassis::GetRightVelocity()
 {
     return mRight.GetSelectedSensorVelocity();
+}
+
+double Chassis::TargetOffset() 
+{
+    std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+    return mTable->GetNumber("ty",0.0);
+}
+
+double Chassis::TargetDistance()
+{
+    constexpr double TargetHeightInch {84};
+    constexpr double CameraHeightInch {18};
+    constexpr double CameraAngleOffGroundDegrees {15};
+    double distanceInch = (TargetHeightInch - CameraHeightInch) / tan(CameraAngleOffGroundDegrees + TargetOffset());
+    return distanceInch;
 }

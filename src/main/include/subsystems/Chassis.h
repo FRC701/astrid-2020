@@ -10,6 +10,8 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <frc2/command/SubsystemBase.h>
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
 
 
 class Chassis : public frc2::SubsystemBase {
@@ -31,6 +33,9 @@ class Chassis : public frc2::SubsystemBase {
   double GetLeftVelocity();
   double GetRightVelocity();
 
+  double TargetOffset();
+  double TargetDistance();
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -40,4 +45,5 @@ class Chassis : public frc2::SubsystemBase {
   WPI_TalonFX& mright2;
 
   frc::DifferentialDrive mDrive;
+  
 };
