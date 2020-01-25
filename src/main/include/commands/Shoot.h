@@ -21,11 +21,7 @@
 class Shoot
     : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
  public:
-  Shoot(  
-   std::function<double()> shooter1
-,  std::function<double()> shooter2
-,  Shooter& mShooter
-,  double speed);
+  Shoot(Shooter& mShooter,  double speed);
 
   void Initialize() override;
 

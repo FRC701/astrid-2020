@@ -13,6 +13,7 @@
 #include <frc2/command/Command.h>
 #include <subsystems/Shooter.h>
 #include "subsystems/Chassis.h"
+#include <commands/Shoot.h>
 
 /**
  * This class is where the bulk of the robot should be declared.  Since

@@ -7,13 +7,9 @@
 
 #include "commands/Shoot.h"
 
-Shoot::Shoot( 
-   std::function<double()> shooter1
-,  std::function<double()> shooter2
-,  Shooter& mShooter
-,  double speed)
-: mshooter1(shooter1)
-, mshooter2(shooter2)
+Shoot::Shoot(Shooter& mShooter,  double speed)
+: mshooter1(mshooter1)
+, mshooter2(mshooter2)
 , mShooter(mShooter)
 , mSpeed(speed)
 {
