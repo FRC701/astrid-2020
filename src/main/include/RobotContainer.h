@@ -8,12 +8,14 @@
 #pragma once
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
 #include "subsystems/Chassis.h"
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
+#include "subsystems/Intake.h"
 
 #include "commands/TelescopeRise.h"
 #include "commands/WinchHook.h"
@@ -28,6 +30,7 @@
 class RobotContainer {
  public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
 
   RobotContainer();
 
@@ -51,6 +54,10 @@ class RobotContainer {
   Winch mWinch{"Winch", mWinchComponents};
 
   // The robot's subsystems and commands are defined here...
+
+  // Intake Components
+  WPI_TalonSRX mIntakeRoller{2};
+  Intake mIntake{"Intake", mIntakeRoller};
 
   void ConfigureButtonBindings();
 };
