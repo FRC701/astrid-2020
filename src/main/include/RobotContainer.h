@@ -14,11 +14,12 @@
 #include <subsystems/Shooter.h>
 #include "subsystems/Chassis.h"
 #include <subsystems/Conveyor.h>
+#include "subsystems/Intake.h"
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
-#include "subsystems/Intake.h"
 
 #include "commands/TelescopeRise.h"
+#include "commands/Shoot.h"
 #include "commands/WinchHook.h"
 
 /**
