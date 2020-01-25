@@ -5,23 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/Telescope.h"
+#pragma once
 
-Telescope::Telescope(
-    const wpi::Twine& name,
-    WPI_TalonFX& telescopemotor)
-: mTelescopeMotor{telescopemotor}
-{
-    SetName(name);
-}
+#include <frc2/command/SubsystemBase.h>
 
-// This method will be called once per scheduler run
-void Telescope::Periodic() 
-{
+class ExampleSubsystem : public frc2::SubsystemBase {
+ public:
+  ExampleSubsystem();
 
-}
+  /**
+   * Will be called periodically whenever the CommandScheduler runs.
+   */
+  void Periodic() override;
 
-void Telescope::TelescopeRise(double percentoutput) 
-{
-    mTelescopeMotor.Set(percentoutput);
-}
+ private:
+  // Components (e.g. motor controllers and sensors) should generally be
+  // declared private and exposed only through public methods.
+};
