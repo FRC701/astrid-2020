@@ -14,6 +14,7 @@
 #include "subsystems/Chassis.h"
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
+#include <commands/Shoot.h>
 
 #include "commands/TelescopeRise.h"
 #include "commands/WinchHook.h"
