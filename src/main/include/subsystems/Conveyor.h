@@ -26,8 +26,9 @@ class Conveyor : public frc2::SubsystemBase {
   bool IsBallExiting();
   void BallIntakeIncoming();
   void BallIntakeExiting();
-  void SetConveyor();
+  void SetConveyor(double speed);
   int BallCount();
+  bool IsShooting();
 
 
  private:

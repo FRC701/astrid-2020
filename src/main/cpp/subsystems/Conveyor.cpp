@@ -37,20 +37,17 @@ void Conveyor::BallIntakeExiting()
 {
     --mBallCount;
 }
-void Conveyor::SetConveyor()
+void Conveyor::SetConveyor(double speed)
 {
-    if((IsBallComing() && BallCount() < 5) /* TODO: add in here: || (BallCount() > 0 && IsShooting()) */ )
-    {
-        mConveyorMotor.Set(0.2);
-    }
-    else
-    {
-        mConveyorMotor.Set(0.0);
-    }
-        
+    mConveyorMotor.Set(speed);
 }
 
 int Conveyor::BallCount()
 {
     return mBallCount;
+}
+
+bool Conveyor::IsShooting()
+{
+    return false; // TODO: Make this real later
 }
