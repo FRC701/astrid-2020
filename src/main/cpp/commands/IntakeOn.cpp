@@ -7,7 +7,7 @@
 
 #include "commands/IntakeOn.h"
 
-IntakeOn::IntakeOn(double speed, Intake& intake)
+IntakeOn::IntakeOn( Intake& intake, double speed)
 : mSpeed{speed}
 , mIntake{intake}
 {
