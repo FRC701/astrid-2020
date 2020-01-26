@@ -27,6 +27,8 @@
 #include "commands/ResetBallConveyor.h"
 #include <commands/HoodRetract.h>
 #include <commands/HoodOutFull.h>
+#include <commands/LatchDisengage.h>
+#include <commands/LatchEngage.h>
 
 
 namespace {
@@ -116,6 +118,8 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull());
   frc::SmartDashboard::PutData("Close Hatch", new HoodRetract());
+  frc::SmartDashboard::PutData("Engage Latch", new LatchEngage());
+  frc::SmartDashboard::PutData("Disengage Latch", new LatchDisengage());
 
   // Configure the button bindings
 
