@@ -25,8 +25,24 @@ Shooter::Shooter(
 , mlatch{latch}
 {
     SetName(name);
+    shooterleft.SetInverted(false);
+    shooterright.SetInverted(false);
+    shooterright.Follow(shooterleft);
+    SetPID();
 }
 
+void Shooter::SetPID()
+{
+  mshooterleft.Config_kP(0, p, 10);
+  mshooterleft.Config_kI(0, i, 10);
+  mshooterleft.Config_kD(0, d, 10);
+  mshooterleft.Config_kF(0, f, 10);
+}
+
+void Shooter::IdleShoot() 
+{
+  mshooterleft.Set(ControlMode::PercentOutput, 0.0);
+}
 
 double Shooter::MotorTopRPM()
 {
