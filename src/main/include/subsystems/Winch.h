@@ -7,14 +7,20 @@
 
 #pragma once
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <frc/SpeedControllerGroup.h>
 #include <frc2/command/SubsystemBase.h>
 
 class Winch : public frc2::SubsystemBase {
  public:
-  using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+ struct Components
+ {
+       WPI_TalonFX left;
+       WPI_TalonFX right;
+ };
 
   Winch(const wpi::Twine& name,
-        WPI_TalonFX& winchmotor);
+        Components& components);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -26,6 +32,6 @@ class Winch : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  WPI_TalonFX& mWinchMotor;
-
+  Components& mComponents;
+  frc::SpeedControllerGroup mMotors;
 };

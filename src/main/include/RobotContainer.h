@@ -47,6 +47,9 @@ class RobotContainer {
   Telescope::Components mTelescopeComponents{2};
   Telescope mTelescope{"Telescope", mTelescopeComponents};
 
+  Winch::Components mWinchComponents{3,4};  
+  Winch mWinch{"Winch", mWinchComponents};
+
   // The robot's subsystems and commands are defined here...
 
   void ConfigureButtonBindings();

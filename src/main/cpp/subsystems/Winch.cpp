@@ -8,8 +8,9 @@
 #include "subsystems/Winch.h"
 
 Winch::Winch(const wpi::Twine& name,
-            WPI_TalonFX& winchmotor)
-: mWinchMotor{winchmotor}
+            Components& components)
+: mComponents{components}
+, mMotors{components.left, components.right}
 {
     SetName(name);
 }
@@ -22,5 +23,5 @@ void Winch::Periodic()
 
 void Winch::WinchHook(double percentoutput)
 {
-    mWinchMotor.Set(percentoutput);
+    mMotors.Set(percentoutput);
 }
