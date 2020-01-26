@@ -38,6 +38,7 @@ class DooHickey : public frc2::SubsystemBase {
   
 public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  bool IsRotationControlFinished = false;
   
   DooHickey(const wpi::Twine& name
         ,WPI_TalonFX& spinner
