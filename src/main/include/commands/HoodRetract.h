@@ -7,32 +7,18 @@
 
 #pragma once
 
-#include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc2/command/InstantCommand.h>
 #include <subsystems/Shooter.h>
 
-/**
- * An example command.
- *
- * <p>Note that this extends CommandHelper, rather extending CommandBase
- * directly; this is crucially important, or else the decorator functions in
- * Command will *not* work!
- */
-class Shoot
-    : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
+class HoodRetract
+    : public frc2::CommandHelper<frc2::InstantCommand,
+                                 HoodRetract> {
  public:
-  Shoot(Shooter& mShooter,  double speed);
+  HoodRetract();
 
   void Initialize() override;
 
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
-
   private:
-
-  Shooter& mShooter;
-  double mSpeed;
+  Shooter* mShooter;
 };

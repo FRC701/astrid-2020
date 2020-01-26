@@ -5,35 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/Shoot.h"
+#include "commands/HoodRetract.h"
 
-Shoot::Shoot(Shooter& mShooter,  double speed)
-: mShooter(mShooter)
-, mSpeed(speed)
-{
-  AddRequirements(&mShooter);
+// NOTE:  Consider using this command inline, rather than writing a subclass.
+// For more information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+HoodRetract::HoodRetract() {
+  SetName("HoodRetract");
+  AddRequirements(mShooter);
+  std::cout << "HoodRetract::HoodRetract"  << std::endl;
+  // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void Shoot::Initialize() 
+void HoodRetract::Initialize() 
 {
-
-}
-
-// Called repeatedly when this Command is scheduled to run
-void Shoot::Execute() 
-{
-  mShooter.Shoot(mSpeed);
-}
-
-// Called once the command ends or is interrupted.
-void Shoot::End(bool interrupted) 
-{
-  mShooter.Shoot(0.0);
-}
-
-// Returns true when the command should end.
-bool Shoot::IsFinished() 
-{ 
-  return false; 
+  mShooter->RetractHood();
 }
