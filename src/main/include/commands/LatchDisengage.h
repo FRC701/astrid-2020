@@ -15,10 +15,10 @@ class LatchDisengage
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  LatchDisengage> {
  public:
-  LatchDisengage();
+  LatchDisengage(Shooter& shooter);
 
   void Initialize() override;
 
   private:
-  Shooter* mShooter;
+  Shooter& mShooter;
 };

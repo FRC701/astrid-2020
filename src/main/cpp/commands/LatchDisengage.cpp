@@ -10,9 +10,10 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-LatchDisengage::LatchDisengage() {
+LatchDisengage::LatchDisengage(Shooter& shooter)
+: mShooter(shooter) {
   SetName("LatchDisengage");
-  AddRequirements(mShooter);
+  AddRequirements(&mShooter);
   std::cout << "LatchDisengage::LatchDisengage"  << std::endl;
 
   // Use addRequirements() here to declare subsystem dependencies.
@@ -21,5 +22,5 @@ LatchDisengage::LatchDisengage() {
 // Called when the command is initially scheduled.
 void LatchDisengage::Initialize() 
 {
-  mShooter->DisengageLatch();
+  mShooter.DisengageLatch();
 }

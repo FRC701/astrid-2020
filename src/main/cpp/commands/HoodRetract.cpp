@@ -10,9 +10,11 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-HoodRetract::HoodRetract() {
+HoodRetract::HoodRetract(Shooter& shooter)
+: mShooter(shooter)
+ {
   SetName("HoodRetract");
-  AddRequirements(mShooter);
+  AddRequirements(&mShooter);
   std::cout << "HoodRetract::HoodRetract"  << std::endl;
   // Use addRequirements() here to declare subsystem dependencies.
 }
@@ -20,5 +22,5 @@ HoodRetract::HoodRetract() {
 // Called when the command is initially scheduled.
 void HoodRetract::Initialize() 
 {
-  mShooter->RetractHood();
+  mShooter.RetractHood();
 }

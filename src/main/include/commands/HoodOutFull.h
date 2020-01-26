@@ -15,10 +15,10 @@ class HoodOutFull
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  HoodOutFull> {
  public:
-  HoodOutFull();
+  HoodOutFull(Shooter& shooter);
 
   void Initialize() override;
 
   private:
-  Shooter* mShooter;
+  Shooter& mShooter;
 };
