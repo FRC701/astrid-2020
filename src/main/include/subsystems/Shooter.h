@@ -27,6 +27,8 @@ class Shooter : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic();
+  void SetPID();
+  void IdleShoot();
   double MotorTopRPM();
   double MotorBottomRPM();
   double Shoot(double speed);
@@ -44,4 +46,6 @@ class Shooter : public frc2::SubsystemBase {
 
   frc::DoubleSolenoid& mhood;
   frc::DoubleSolenoid& mlatch;
+
+  double p, i, d, f;
 };
