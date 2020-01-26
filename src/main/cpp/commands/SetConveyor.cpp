@@ -7,8 +7,9 @@
 
 #include "commands/SetConveyor.h"
 
-SetConveyor::SetConveyor(Conveyor& conveyor) 
+SetConveyor::SetConveyor(Conveyor& conveyor, double speed) 
 : mConveyor{conveyor}
+, mSpeed(speed)
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(&mConveyor);
@@ -20,7 +21,14 @@ void SetConveyor::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void SetConveyor::Execute() 
 {
-  mConveyor.SetConveyor();
+ if((mConveyor.IsBallComing() && mConveyor.BallCount() < 5) || (mConveyor.BallCount() > 0 && mConveyor.IsShooting()))
+    {
+        mConveyor.SetConveyor(mSpeed);
+    }
+    else
+    {
+        mConveyor.SetConveyor(0.0);
+    }
 }
 
 // Called once the command ends or is interrupted.
