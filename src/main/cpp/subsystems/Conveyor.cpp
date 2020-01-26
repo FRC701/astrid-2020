@@ -26,7 +26,7 @@ bool Conveyor::IsBallComing()
 
 bool Conveyor::IsBallExiting()
 {
-    return !mConveyorMotor.IsRevLimitSwitchClosed();
+    return mConveyorMotor.IsRevLimitSwitchClosed();
 }
 
 void Conveyor::BallIntakeIncoming()
@@ -39,22 +39,18 @@ void Conveyor::BallIntakeExiting()
 }
 void Conveyor::SetConveyor()
 {
-    if(CurrentBallCount() == 0 && !IsBallComing() && IsBallExiting())
+    if((IsBallComing() && BallCount() < 5) /* TODO: add in here: || (BallCount() > 0 && IsShooting()) */ )
     {
-        mConveyorMotor.Set(0);
-    }
-    else if(CurrentBallCount() != 0 && !IsBallExiting() && !IsBallComing())
-    {
-        mConveyorMotor.Set(0);
+        mConveyorMotor.Set(0.2);
     }
     else
     {
-        mConveyorMotor.Set(0.3);
+        mConveyorMotor.Set(0.0);
     }
-    
+        
 }
 
-int Conveyor::CurrentBallCount()
+int Conveyor::BallCount()
 {
     return mBallCount;
 }
