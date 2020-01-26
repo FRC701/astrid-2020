@@ -15,10 +15,10 @@ class HoodRetract
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  HoodRetract> {
  public:
-  HoodRetract();
+  HoodRetract(Shooter& shooter);
 
   void Initialize() override;
 
   private:
-  Shooter* mShooter;
+  Shooter& mShooter;
 };
