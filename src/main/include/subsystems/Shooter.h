@@ -32,6 +32,8 @@ class Shooter : public frc2::SubsystemBase {
   double Shoot(double speed);
   void PushHood();
   void RetractHood();
+  void EngageLatch();
+  void DisengageLatch();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
