@@ -23,16 +23,16 @@ RobotContainer::RobotContainer()
     )
   );
 
-  frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(0.1, mIntake));
-  frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(0.2, mIntake));
-  frc::SmartDashboard::PutData("Intake 30 percent", new IntakeOn(0.3, mIntake));
-  frc::SmartDashboard::PutData("Intake 40 percent", new IntakeOn(0.4, mIntake));
-  frc::SmartDashboard::PutData("Intake 50 percent", new IntakeOn(0.5, mIntake));
-  frc::SmartDashboard::PutData("Intake 60 percent", new IntakeOn(0.6, mIntake));
-  frc::SmartDashboard::PutData("Intake 70 percent", new IntakeOn(0.7, mIntake));
-  frc::SmartDashboard::PutData("Intake 80 percent", new IntakeOn(0.8, mIntake));
-  frc::SmartDashboard::PutData("Intake 90 percent", new IntakeOn(0.9, mIntake));
-  frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(1.0, mIntake));
+  frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, 0.1));
+  frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, 0.2));
+  frc::SmartDashboard::PutData("Intake 30 percent", new IntakeOn(mIntake, 0.3));
+  frc::SmartDashboard::PutData("Intake 40 percent", new IntakeOn(mIntake, 0.4));
+  frc::SmartDashboard::PutData("Intake 50 percent", new IntakeOn(mIntake, 0.5));
+  frc::SmartDashboard::PutData("Intake 60 percent", new IntakeOn(mIntake, 0.6));
+  frc::SmartDashboard::PutData("Intake 70 percent", new IntakeOn(mIntake, 0.7));
+  frc::SmartDashboard::PutData("Intake 80 percent", new IntakeOn(mIntake, 0.8));
+  frc::SmartDashboard::PutData("Intake 90 percent", new IntakeOn(mIntake, 0.9));
+  frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(mIntake, 1.0));
 
   // Configure the button bindings
   ConfigureButtonBindings();
