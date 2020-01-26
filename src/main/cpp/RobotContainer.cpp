@@ -25,7 +25,7 @@ RobotContainer::RobotContainer()
     )
   );
 
-  mConveyor.SetDefaultCommand(SetConveyor(mConveyor));
+  mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
 
