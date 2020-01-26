@@ -9,6 +9,8 @@
 
 constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kForward};
 constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kReverse};
+constexpr frc::DoubleSolenoid::Value kLatchEngage {frc::DoubleSolenoid::kForward};
+constexpr frc::DoubleSolenoid::Value kLatchDisengage {frc::DoubleSolenoid::kReverse};
 
 
 Shooter::Shooter(    
@@ -53,7 +55,7 @@ double Shooter::Shoot(double speed)
     return speed;
 }
 
-
+//Start of Pistons
 void Shooter::PushHood()
 {
   mhood.Set(kHoodOutFull);
@@ -64,6 +66,15 @@ void Shooter::RetractHood()
   mhood.Set(kHoodRetract);
 }
 
+void Shooter::EngageLatch()
+{
+  mlatch.Set(kLatchEngage);
+}
+
+void Shooter::DisengageLatch()
+{
+  mlatch.Set(kLatchDisengage);
+}
 
 
 // This method will be called once per scheduler run
