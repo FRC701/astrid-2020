@@ -7,6 +7,8 @@
 
 #include "RobotContainer.h"
 #include "commands/TankDrive.h"
+#include <commands/HoodRetract.h>
+#include <commands/HoodOutFull.h>
 
 RobotContainer::RobotContainer()
 {
@@ -27,6 +29,9 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Shoot 50%", new Shoot(mShooter, .50));
   frc::SmartDashboard::PutData("Shoot 25%", new Shoot(mShooter, .25));
   frc::SmartDashboard::PutData("Shoot 10%", new Shoot(mShooter, .10));
+
+  frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull());
+  frc::SmartDashboard::PutData("Close Hatch", new HoodRetract());
 
 
   // Configure the button bindings
