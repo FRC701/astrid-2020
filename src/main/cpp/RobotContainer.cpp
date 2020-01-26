@@ -25,6 +25,8 @@
 #include "commands/HickeyEngage.h"
 #include "commands/RunConveyor.h"
 #include "commands/ResetBallConveyor.h"
+#include <commands/HoodRetract.h>
+#include <commands/HoodOutFull.h>
 
 
 namespace {
@@ -111,6 +113,9 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("run conveyor 20", new RunConveyor(mConveyor, 0.2));
 
   frc::SmartDashboard::PutData("reset balls in conveyor", new ResetBallConveyor(mConveyor));
+
+  frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull());
+  frc::SmartDashboard::PutData("Close Hatch", new HoodRetract());
 
   // Configure the button bindings
 
