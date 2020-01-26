@@ -40,8 +40,8 @@ RobotContainer::RobotContainer()
       [this] { return driver.GetY(JoystickHand::kRightHand); }
     )
   );
-  double radiusCW = 16; //16in radius 
-  double radiusDW = 2;  //change this later
+  double radiusCW = 16; //16" radius of Control panel 
+  double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
 
   frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, 0.1));
   frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, 0.2));

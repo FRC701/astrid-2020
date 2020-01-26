@@ -6,10 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
-
+#include <frc/DriverStation.h>
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
-
+#include <subsystems/DooHickey.h>
 #include "RobotContainer.h"
 
 class Robot : public frc::TimedRobot {
