@@ -9,10 +9,14 @@
 
 Shooter::Shooter(    
     const wpi::Twine& name,
-    WPI_TalonFX& shooter1,
-    WPI_TalonFX& shooter2)
-: mshooter1{shooter1}
-, mshooter2{shooter2}
+    WPI_TalonFX& shooterleft,
+    WPI_TalonFX& shooterright,
+    frc::DoubleSolenoid& hood,
+    frc::DoubleSolenoid& latch)
+: mshooterleft{shooterleft}
+, mshooterright{shooterright}
+, mhood{hood}
+, mlatch{latch}
 {
     SetName(name);
 }
@@ -23,7 +27,7 @@ double Shooter::MotorTopRPM()
   constexpr double TPR {2048};
   constexpr double hundredMSPS {10};
   constexpr double secondsPMin {60};
-  double SpeedTP100msTop = mshooter1.GetSelectedSensorVelocity();
+  double SpeedTP100msTop = mshooterleft.GetSelectedSensorVelocity();
   double RPMMotorTop = (SpeedTP100msTop/TPR)*hundredMSPS*secondsPMin;
   return RPMMotorTop;
 }
@@ -33,15 +37,15 @@ double Shooter::MotorBottomRPM()
   constexpr double TPR {2048};
   constexpr double hundredMSPS {10};
   constexpr double secondsPMin {60};
-  double SpeedTP100msTop = mshooter2.GetSelectedSensorVelocity();
+  double SpeedTP100msTop = mshooterright.GetSelectedSensorVelocity();
   double RPMMotorBottom = (SpeedTP100msTop/TPR)*hundredMSPS*secondsPMin;
   return RPMMotorBottom;
 }
 
 double Shooter::Shoot(double speed)
 {
-    mshooter2.Set(speed);
-    mshooter1.Set(speed);
+    mshooterright.Set(speed);
+    mshooterleft.Set(speed);
     return speed;
 }
 
