@@ -27,7 +27,7 @@ class Conveyor : public frc2::SubsystemBase {
   void BallIntakeIncoming();
   void BallIntakeExiting();
   void SetConveyor();
-  int CurrentBallCount();
+  int BallCount();
 
 
  private:
