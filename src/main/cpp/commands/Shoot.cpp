@@ -29,7 +29,7 @@ void Shoot::Execute()
 // Called once the command ends or is interrupted.
 void Shoot::End(bool interrupted) 
 {
-  mShooter.Shoot(0.0);
+  mShooter.IdleShoot();
 }
 
 // Returns true when the command should end.
