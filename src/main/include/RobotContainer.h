@@ -43,11 +43,12 @@ class RobotContainer {
   // Chassis Components
   WPI_TalonFX mChassisLeft{0};
   WPI_TalonFX mChassisRight{1};  
-  WPI_TalonFX mTelescopeMotor{2};
-  WPI_TalonFX mWinchMotor{3};
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
-  Telescope mTelescope{"Telescope", mTelescopeMotor};
-  Winch mWinch{"Winch", mWinchMotor};
+
+  // TODO: Aggregate initialization appears to not be supported
+  // Sadness. There must be a better way.
+  Telescope::Components mTelescopeComponents{2};
+  Telescope mTelescope{"Telescope", mTelescopeComponents};
 
   // The robot's subsystems and commands are defined here...
 

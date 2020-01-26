@@ -12,10 +12,15 @@
 
 class Telescope : public frc2::SubsystemBase {
  public:
-  using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+ using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+
+ struct Components
+ {
+         WPI_TalonSRX telescopeMotor;
+ };
 
   Telescope(const wpi::Twine& name,
-          WPI_TalonFX& telescopemotor);
+          Components& components);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -27,6 +32,5 @@ class Telescope : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  WPI_TalonFX& mTelescopeMotor;
-
+  Components& mComponents;
 };

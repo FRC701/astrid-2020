@@ -9,8 +9,8 @@
 
 Telescope::Telescope(
     const wpi::Twine& name,
-    WPI_TalonFX& telescopemotor)
-: mTelescopeMotor{telescopemotor}
+    Components& components)
+: mComponents{components}
 {
     SetName(name);
 }
@@ -23,5 +23,5 @@ void Telescope::Periodic()
 
 void Telescope::TelescopeRise(double percentoutput) 
 {
-    mTelescopeMotor.Set(percentoutput);
+    mComponents.telescopeMotor.Set(percentoutput);
 }
