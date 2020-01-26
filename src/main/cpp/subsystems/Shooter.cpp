@@ -7,6 +7,10 @@
 
 #include "subsystems/Shooter.h"
 
+constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kForward};
+constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kReverse};
+
+
 Shooter::Shooter(    
     const wpi::Twine& name,
     WPI_TalonFX& shooterleft,
@@ -48,6 +52,18 @@ double Shooter::Shoot(double speed)
     mshooterleft.Set(speed);
     return speed;
 }
+
+
+void Shooter::PushHood()
+{
+  mhood.Set(kHoodOutFull);
+}
+
+void Shooter::RetractHood()
+{
+  mhood.Set(kHoodRetract);
+}
+
 
 
 // This method will be called once per scheduler run

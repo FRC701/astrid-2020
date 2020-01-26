@@ -13,8 +13,10 @@
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
 #include "commands/Aim.h"
-#include "commands/LimeLightsOn.h"
+#include "commands/HoodOutFull.h"
+#include "commands/HoodRetract.h"
 #include "commands/LimeLightsOff.h"
+#include "commands/LimeLightsOn.h"
 
 RobotContainer::RobotContainer()
 {
@@ -58,6 +60,10 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Shoot 25%", new Shoot(mShooter, .25));
   frc::SmartDashboard::PutData("Shoot 10%", new Shoot(mShooter, .10));
 
+  frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull());
+  frc::SmartDashboard::PutData("Close Hatch", new HoodRetract());
+
+  // Configure the button bindings
   ConfigureButtonBindings();
 }
 
