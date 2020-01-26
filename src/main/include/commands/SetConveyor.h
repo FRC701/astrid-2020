@@ -21,7 +21,7 @@
 class SetConveyor
     : public frc2::CommandHelper<frc2::CommandBase, SetConveyor> {
  public:
-  SetConveyor(Conveyor& conveyor);
+  SetConveyor(Conveyor& conveyor, double speed);
 
   void Initialize() override;
 
@@ -32,4 +32,5 @@ class SetConveyor
   bool IsFinished() override;
 private: 
   Conveyor& mConveyor;
+  double mSpeed;
 };
