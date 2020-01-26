@@ -104,12 +104,17 @@ void DooHickey::Periodic() {
     mPreviousTime = std::chrono::system_clock::now();
     frc::Color detectedColor = m_colorSensor.GetColor();
     
+    int colorCounter = 0;
+    std::string gameData;
     std::string colorString;
+    std::string assignedColorString;
     double confidence = 0.0;
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
 
+    //Code for finding out the detected Color 
     if (matchedColor == kBlueTarget) {
       colorString = "Blue";
+      colorCounter++;
     } else if (matchedColor == kRedTarget) {
       colorString = "Red";
     } else if (matchedColor == kGreenTarget) {
@@ -119,6 +124,68 @@ void DooHickey::Periodic() {
     } else {
       colorString = "Unknown";
     } 
+
+    /*Tracks the number of times a specific color is detected (in this case blue), so that we can 
+    * know when rotation control is over. We should see each color 2 times a rotation and the goal is 3
+    * rotations.
+    */ 
+    if (colorCounter >= 6) {
+      IsRotationControlFinished = true;
+    }
+
+    //Code for stopping the motor after Rotation Control is finished AND the specified Color is reached.
+    gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+    if(gameData.length() > 0)
+    {
+    switch (gameData[0])
+    {
+    case 'B' :
+      /*If the matched color is blue when the assigned color is blue and rotation control is finished
+      *then stop the motor
+      */
+      assignedColorString = "Blue";
+      if(matchedColor == kBlueTarget && IsRotationControlFinished == true) 
+      {
+        mMotorSpeed = 0;
+      }
+      break;
+    case 'G' :
+      /*If the matched color is green when the assigned color is green and rotation control is finished
+      *then stop the motor
+      */
+      assignedColorString = "Green";
+      if(matchedColor == kGreenTarget && IsRotationControlFinished == true) 
+      {
+        mMotorSpeed = 0;
+      }
+      break;
+    case 'R' :
+      /*If the matched color is red when the assigned color is red and rotation control is finished
+      *then stop the motor
+      */
+      assignedColorString = "Red";
+      if(matchedColor == kRedTarget && IsRotationControlFinished == true) 
+      {
+        mMotorSpeed = 0;
+      }
+      break;
+    case 'Y' :
+      /*If the matched color is yellow when the assigned color is yellow and rotation control is finished
+      *then stop the motor
+      */
+      assignedColorString = "Yellow";
+      if(matchedColor == kYellowTarget && IsRotationControlFinished == true) 
+      {
+        mMotorSpeed = 0;
+      }
+      break;
+    default :
+      //This is corrupt data
+      break;
+    }
+    } else {
+      //Code for no data received yet
+    }
 
     time_point now = std::chrono::system_clock::now();
 
@@ -131,6 +198,9 @@ void DooHickey::Periodic() {
     frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
     frc::SmartDashboard::PutNumber("Confidence", confidence);
     frc::SmartDashboard::PutString("Detected Color", colorString);
+    frc::SmartDashboard::PutNumber("Rotation Control Finished", IsRotationControlFinished);
+    frc::SmartDashboard::PutString("Assigned Color", assignedColorString);
+
 
     std::chrono::duration<double> elapsed = now - mPreviousTime;
     std::time_t end_time = std::chrono::system_clock::to_time_t(now);

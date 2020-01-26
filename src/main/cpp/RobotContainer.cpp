@@ -27,8 +27,8 @@ RobotContainer::RobotContainer()
       [this] { return driver.GetY(JoystickHand::kRightHand); }
     )
   );
-  double radiusCW = 16; //16in radius 
-  double radiusDW = 2;  //change this later
+  double radiusCW = 16; //16" radius of Control panel 
+  double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
   frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
