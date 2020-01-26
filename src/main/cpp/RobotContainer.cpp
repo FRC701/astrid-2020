@@ -37,10 +37,10 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Shoot 25%", new Shoot(mShooter, .25));
   frc::SmartDashboard::PutData("Shoot 10%", new Shoot(mShooter, .10));
 
-  frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull());
-  frc::SmartDashboard::PutData("Close Hatch", new HoodRetract());
-  frc::SmartDashboard::PutData("Engage Latch", new LatchEngage());
-  frc::SmartDashboard::PutData("Disengage Latch", new LatchDisengage());
+  frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull(mShooter));
+  frc::SmartDashboard::PutData("Close Hatch", new HoodRetract(mShooter));
+  frc::SmartDashboard::PutData("Engage Latch", new LatchEngage(mShooter));
+  frc::SmartDashboard::PutData("Disengage Latch", new LatchDisengage(mShooter));
 
   // Configure the button bindings
   ConfigureButtonBindings();

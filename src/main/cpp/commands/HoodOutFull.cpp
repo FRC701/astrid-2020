@@ -10,9 +10,11 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-HoodOutFull::HoodOutFull() {
+HoodOutFull::HoodOutFull(Shooter& shooter)
+: mShooter(shooter)
+ {
   SetName("HoodOutFull");
-  AddRequirements(mShooter);
+  AddRequirements(&mShooter);
   std::cout << "HoodOutFull::HoodOutFull" << std::endl;
   // Use addRequirements() here to declare subsystem dependencies.
 }
@@ -20,6 +22,6 @@ HoodOutFull::HoodOutFull() {
 // Called when the command is initially scheduled.
 void HoodOutFull::Initialize() 
 {
-  mShooter->PushHood();
+  mShooter.PushHood();
 }
 

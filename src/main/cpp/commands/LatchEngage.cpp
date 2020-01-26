@@ -10,9 +10,11 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-LatchEngage::LatchEngage() {
+LatchEngage::LatchEngage(Shooter& shooter)
+: mShooter(shooter)
+ {
   SetName("LatchEngage");
-  AddRequirements(mShooter);
+  AddRequirements(&mShooter);
   std::cout << "LatchEngage::LatchEngage"  << std::endl;
 
   // Use addRequirements() here to declare subsystem dependencies.
@@ -21,5 +23,5 @@ LatchEngage::LatchEngage() {
 // Called when the command is initially scheduled.
 void LatchEngage::Initialize() 
 {
-  mShooter->EngageLatch();
+  mShooter.EngageLatch();
 }
