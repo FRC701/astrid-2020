@@ -7,10 +7,19 @@
 
 #include "subsystems/Shooter.h"
 
+namespace{
+
+constexpr double kP{0.0};
+constexpr double kI{0.0};
+constexpr double kD{0.0};
+constexpr double kF{0.0};
+
 constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kForward};
 constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kReverse};
 constexpr frc::DoubleSolenoid::Value kLatchEngage {frc::DoubleSolenoid::kForward};
 constexpr frc::DoubleSolenoid::Value kLatchDisengage {frc::DoubleSolenoid::kReverse};
+
+}
 
 
 Shooter::Shooter(    
@@ -23,7 +32,6 @@ Shooter::Shooter(
 , mshooterright{shooterright}
 , mhood{hood}
 , mlatch{latch}
-, p(0), i(0), d(0), f(0)
 {
     SetName(name);
     shooterleft.SetInverted(false);
@@ -34,10 +42,10 @@ Shooter::Shooter(
 
 void Shooter::SetPID()
 {
-  mshooterleft.Config_kP(0, p, 10);
-  mshooterleft.Config_kI(0, i, 10);
-  mshooterleft.Config_kD(0, d, 10);
-  mshooterleft.Config_kF(0, f, 10);
+  mshooterleft.Config_kP(0, kP, 10);
+  mshooterleft.Config_kI(0, kI, 10);
+  mshooterleft.Config_kD(0, kD, 10);
+  mshooterleft.Config_kF(0, kF, 10);
 }
 
 void Shooter::IdleShoot() 
@@ -47,21 +55,21 @@ void Shooter::IdleShoot()
 
 double Shooter::MotorTopRPM()
 {
-  constexpr double TPR {2048};
+  constexpr double TicksPerRotation {2048};
   constexpr double hundredMSPS {10};
   constexpr double secondsPMin {60};
   double SpeedTP100msTop = mshooterleft.GetSelectedSensorVelocity();
-  double RPMMotorTop = (SpeedTP100msTop/TPR)*hundredMSPS*secondsPMin;
+  double RPMMotorTop = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
   return RPMMotorTop;
 }
 
 double Shooter::MotorBottomRPM()
 {
-  constexpr double TPR {2048};
+  constexpr double TicksPerRotation {2048};
   constexpr double hundredMSPS {10};
   constexpr double secondsPMin {60};
   double SpeedTP100msTop = mshooterright.GetSelectedSensorVelocity();
-  double RPMMotorBottom = (SpeedTP100msTop/TPR)*hundredMSPS*secondsPMin;
+  double RPMMotorBottom = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
   return RPMMotorBottom;
 }
 
