@@ -6,12 +6,17 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/DooHickey.h"
-#include <ctime>
-#include <fstream>
 #include <sstream>
 
-constexpr frc::DoubleSolenoid::Value kHickeyEngage {frc::DoubleSolenoid::kForward};
-constexpr frc::DoubleSolenoid::Value kHickeyDisengage {frc::DoubleSolenoid::kReverse};
+namespace
+{
+  constexpr double kF{0.3};
+  constexpr double kP{0.1};
+  constexpr double kI{0.0};
+  constexpr double kD{0.0};
+  constexpr frc::DoubleSolenoid::Value kHickeyEngage {frc::DoubleSolenoid::kForward};
+  constexpr frc::DoubleSolenoid::Value kHickeyDisengage {frc::DoubleSolenoid::kReverse};
+}
 
 DooHickey::DooHickey(
     const wpi::Twine& name,
@@ -19,7 +24,6 @@ DooHickey::DooHickey(
     frc::DoubleSolenoid& UpPushyThang)
   : mSpinner(spinner)
   ,mUpPushyThang(UpPushyThang)
-  ,mLogfile("/home/lvuser/test.txt", std::ios_base::out)   
   ,mMotorSpeed{0}
   ,mTargetPos{0}
 {
@@ -41,10 +45,10 @@ void DooHickey::SetUpMotionMagic() {
 
     /* Set Motion Magic gains in slot0 - see documentation */
     mSpinner.SelectProfileSlot(0, 0);
-    mSpinner.Config_kF(0, 0.3, 10);
-    mSpinner.Config_kP(0, 0.1, 10);
-    mSpinner.Config_kI(0, 0.0, 10);
-    mSpinner.Config_kD(0, 0.0, 10);
+    mSpinner.Config_kF(0, kF, 10);
+    mSpinner.Config_kP(0, kP, 10);
+    mSpinner.Config_kI(0, kI, 10);
+    mSpinner.Config_kD(0, kD, 10);
     
      /* Set acceleration and vcruise velocity - see documentation */
     mSpinner.ConfigMotionCruiseVelocity(1024, 10);
@@ -59,10 +63,10 @@ void DooHickey::Init() {
     m_colorMatcher.AddColorMatch(kRedTarget);
     m_colorMatcher.AddColorMatch(kYellowTarget);
 
-    mPreviousTime = std::chrono::system_clock::now();
 }
 void DooHickey::MoveSpinner(double speed) {
-  mMotorSpeed = speed;
+  double setSpeedTP100ms = speed * 2048 * 60 * 10;
+  mMotorSpeed = setSpeedTP100ms;
   UpdateSpeed();
 }
 
@@ -101,7 +105,6 @@ void DooHickey::Periodic() {
      * an object is the more light from the surroundings will bleed into the 
      * measurements and make it difficult to accurately determine its color.
      */
-    mPreviousTime = std::chrono::system_clock::now();
     frc::Color detectedColor = m_colorSensor.GetColor();
     
     int colorCounter = 0;
@@ -187,8 +190,6 @@ void DooHickey::Periodic() {
       //Code for no data received yet
     }
 
-    time_point now = std::chrono::system_clock::now();
-
     /**
      * Open Smart Dashboard or Shuffleboard to see the color detected by the 
      * sensor.
@@ -201,17 +202,6 @@ void DooHickey::Periodic() {
     frc::SmartDashboard::PutNumber("Rotation Control Finished", IsRotationControlFinished);
     frc::SmartDashboard::PutString("Assigned Color", assignedColorString);
 
-
-    std::chrono::duration<double> elapsed = now - mPreviousTime;
-    std::time_t end_time = std::chrono::system_clock::to_time_t(now);
-
-    mLogfile << std::ctime(&end_time) << "," 
-            << elapsed.count() << "," 
-            << detectedColor.red << "," 
-            << detectedColor.green << ","
-            << detectedColor.blue << std::endl;
-  
-    mPreviousTime = now;
   }
 
 

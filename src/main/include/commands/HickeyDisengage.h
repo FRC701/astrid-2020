@@ -15,10 +15,10 @@ class HickeyDisengage
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  HickeyDisengage> {
  public:
-  HickeyDisengage();
+  HickeyDisengage(DooHickey& dooHickey);
 
   void Initialize() override;
  private:
-  DooHickey* mDooHickey;
+  DooHickey& mDooHickey;
 
 };

@@ -40,8 +40,9 @@ RobotContainer::RobotContainer()
       [this] { return driver.GetY(JoystickHand::kRightHand); }
     )
   );
-  double radiusCW = 16; //16" radius of Control panel 
-  double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
+  constexpr double radiusCW = 16; //16" radius of Control panel 
+  constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
+  constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
 
   frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, 0.1));
   frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, 0.2));
@@ -64,9 +65,9 @@ RobotContainer::RobotContainer()
   
   frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
   frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404));
-  frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(&mDooHickey, (4*(radiusCW/radiusDW)) * 2048));
-  frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage());
-  frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage());
+  frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
+  frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
+  frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
 
   frc::SmartDashboard::PutData(&mShooter);
   frc::SmartDashboard::PutData("Shoot 100%", new Shoot(mShooter, 1.0));

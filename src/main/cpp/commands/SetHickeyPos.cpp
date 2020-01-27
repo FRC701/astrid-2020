@@ -7,15 +7,15 @@
 
 #include "commands/SetHickeyPos.h"
 
-SetHickeyPos::SetHickeyPos(DooHickey* dooHickey, double position) : mDooHickey(dooHickey), mPosition(position) {
+SetHickeyPos::SetHickeyPos(DooHickey& dooHickey, double position) : mDooHickey(dooHickey), mPosition(position) {
   SetName("SetHickeyPos");
-  AddRequirements(mDooHickey);
+  AddRequirements(&mDooHickey);
   std::cout << "Spin::Spin" << std::endl;
 
 }
 
 // Called when the command is initially scheduled.
 void SetHickeyPos::Initialize() {
-    mDooHickey->SetHickeyPosition(mPosition);
+    mDooHickey.SetHickeyPosition(mPosition);
 
 }

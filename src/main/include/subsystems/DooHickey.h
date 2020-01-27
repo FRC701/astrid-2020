@@ -9,20 +9,19 @@
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc2/command/SubsystemBase.h>
-#include <chrono>
-#include <fstream>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/util/color.h>
-#include <frc/WPILib.h>
-#include "ctre/Phoenix.h"
 #include <frc/DoubleSolenoid.h>
+#include <frc/DriverStation.h>
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include "ctre/phoenix/motorcontrol/ControlMode.h"
+#include "ctre/phoenix/motorcontrol/StatusFrame.h"
+
 
 class DooHickey : public frc2::SubsystemBase {
 
- using time_point = std::chrono::time_point<std::chrono::system_clock>;
   static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
 
   rev::ColorSensorV3 m_colorSensor{i2cPort};
@@ -38,6 +37,9 @@ class DooHickey : public frc2::SubsystemBase {
   
 public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+  using StatusFrameEnhanced = ctre::phoenix::motorcontrol::StatusFrameEnhanced;
+
   bool IsRotationControlFinished = false;
   
   DooHickey(const wpi::Twine& name
@@ -60,7 +62,5 @@ public:
  
   WPI_TalonFX& mSpinner;
   frc::DoubleSolenoid& mUpPushyThang;
-
-  std::ofstream mLogfile;
-  time_point mPreviousTime;  
+  
 };
