@@ -7,9 +7,9 @@
 
 #include "commands/TelescopeRise.h"
 
-TelescopeRise::TelescopeRise(double speed,
-                              Telescope& telescope)
-: mSpeed(speed), mTelescope(telescope) {
+TelescopeRise::TelescopeRise(Telescope& telescope,
+                            double speed)
+: mTelescope(telescope), mSpeed(speed) {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(&mTelescope);
 }

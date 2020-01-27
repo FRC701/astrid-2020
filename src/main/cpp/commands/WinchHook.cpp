@@ -7,9 +7,9 @@
 
 #include "commands/WinchHook.h"
 
-WinchHook::WinchHook(std::function<double()> percentoutput,
-                      Winch& winch)
-: mWinchMotor(percentoutput), mWinch(winch)
+WinchHook::WinchHook(Winch& winch,
+                    std::function<double()> percentoutput)
+: mWinch(winch), mWinchMotor(percentoutput)
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(&mWinch);
