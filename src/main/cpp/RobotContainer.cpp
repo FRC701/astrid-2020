@@ -18,9 +18,9 @@ RobotContainer::RobotContainer()
   (
     TankDrive
     (
+      mChassis,
       [this] { return driver.GetY(JoystickHand::kLeftHand); },
-      [this] { return driver.GetY(JoystickHand::kRightHand); },
-      mChassis
+      [this] { return driver.GetY(JoystickHand::kRightHand); }
     )
   );
 
