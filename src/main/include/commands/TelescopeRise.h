@@ -21,7 +21,7 @@
 class TelescopeRise
     : public frc2::CommandHelper<frc2::CommandBase, TelescopeRise> {
  public:
-  TelescopeRise(double speed, Telescope& telescope);
+  TelescopeRise(Telescope& telescope, double speed);
 
   void Initialize() override;
 
