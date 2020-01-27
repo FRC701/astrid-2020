@@ -7,10 +7,10 @@
 
 #include "commands/TankDrive.h"
 
-TankDrive::TankDrive(std::function<double()> left,
-                     std::function<double()> right, 
-                     Chassis& chassis)
-: mLeft(left), mRight(right), mChassis(chassis) 
+TankDrive::TankDrive(Chassis& chassis,
+                    std::function<double()> left,
+                    std::function<double()> right)
+: mChassis(chassis), mLeft(left), mRight(right) 
 {
   AddRequirements(&mChassis);
 }
