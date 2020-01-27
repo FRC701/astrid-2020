@@ -5,27 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/WinchHook.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
+WinchHook::WinchHook(Winch& winch,
+                    std::function<double()> percentoutput)
+: mWinch(winch), mWinchMotor(percentoutput)
 {
-  AddRequirements(&mChassis);
+  // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements(&mWinch);
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize() {}
+void WinchHook::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
+void WinchHook::Execute() 
 {
-  mChassis.TankDrive(mLeft(), mRight());
+  mWinch.WinchHook(mWinchMotor());
 }
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void WinchHook::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool WinchHook::IsFinished() { return false; }

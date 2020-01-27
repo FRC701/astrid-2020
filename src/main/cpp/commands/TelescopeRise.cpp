@@ -5,27 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/TelescopeRise.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
-{
-  AddRequirements(&mChassis);
+TelescopeRise::TelescopeRise(Telescope& telescope,
+                            double speed)
+: mTelescope(telescope), mSpeed(speed) {
+  // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements(&mTelescope);
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize() {}
+void TelescopeRise::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
+void TelescopeRise::Execute() 
 {
-  mChassis.TankDrive(mLeft(), mRight());
+  mTelescope.TelescopeRise(mSpeed);
 }
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void TelescopeRise::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool TelescopeRise::IsFinished() { return false; }

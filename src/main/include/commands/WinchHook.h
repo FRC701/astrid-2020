@@ -9,19 +9,19 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/Chassis.h>
+#include <subsystems/Winch.h>
 
 /**
- * TankDrive command.
+ * An example command.
  *
  * <p>Note that this extends CommandHelper, rather extending CommandBase
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class TankDrive
-    : public frc2::CommandHelper<frc2::CommandBase, TankDrive> {
+class WinchHook
+    : public frc2::CommandHelper<frc2::CommandBase, WinchHook> {
  public:
-  TankDrive(Chassis& chassis, std::function<double()> left, std::function<double()> right);
+  WinchHook(Winch& winch, std::function<double()> winchmotor);
 
   void Initialize() override;
 
@@ -30,8 +30,8 @@ class TankDrive
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
 private:
-  std::function<double()> mLeft;
-  std::function<double()> mRight;
-  Chassis& mChassis;
+Winch& mWinch;
+std::function<double()> mWinchMotor;
 };

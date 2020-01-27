@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "RobotContainer.h"
+#include "frc/smartdashboard/SmartDashboard.h"
 #include "commands/TankDrive.h"
 
 RobotContainer::RobotContainer()
@@ -13,15 +14,18 @@ RobotContainer::RobotContainer()
   using JoystickHand = frc::GenericHID::JoystickHand;
 
   // Initialize all of your commands and subsystems here
-  mChassis.SetDefaultCommand(
-    TankDrive(
+  mChassis.SetDefaultCommand
+  (
+    TankDrive
+    (
+      mChassis,
       [this] { return driver.GetY(JoystickHand::kLeftHand); },
-      [this] { return driver.GetY(JoystickHand::kRightHand); },
-      mChassis
+      [this] { return driver.GetY(JoystickHand::kRightHand); }
     )
   );
 
-  // Configure the button bindings
+  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
+
   ConfigureButtonBindings();
 }
 
