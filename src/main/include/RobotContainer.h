@@ -20,6 +20,7 @@
 #include "subsystems/Winch.h"
 #include "subsystems/DooHickey.h"
 #include <commands/Shoot.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "commands/TelescopeRise.h"
 #include "commands/Shoot.h"

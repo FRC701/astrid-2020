@@ -32,7 +32,6 @@ Shooter::Shooter(
 , mshooterright{shooterright}
 , mhood{hood}
 , mlatch{latch}
-, p(0), i(0), d(0), f(0)
 {
     SetName(name);
     shooterleft.SetInverted(false);
