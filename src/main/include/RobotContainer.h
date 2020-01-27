@@ -15,6 +15,7 @@
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
 #include <commands/Shoot.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "commands/TelescopeRise.h"
 #include "commands/WinchHook.h"
