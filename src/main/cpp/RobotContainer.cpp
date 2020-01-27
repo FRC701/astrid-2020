@@ -24,14 +24,15 @@ RobotContainer::RobotContainer()
       mChassis
     )
   );
-  double radiusCW = 16; //16" radius of Control panel 
-  double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
+  constexpr double radiusCW = 16; //16" radius of Control panel 
+  constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
+  constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
 
-  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
-  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404));
-  frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(&mDooHickey, (4*(radiusCW/radiusDW)) * 2048));
-  frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage());
-  frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage());
+  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1)); //random numbers
+  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404)); // random numbers
+  frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
+  frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
+  frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
 
   // Configure the button bindings
   ConfigureButtonBindings();
