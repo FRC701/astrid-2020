@@ -7,15 +7,16 @@
 
 #pragma once
 
-#include <frc2/command/SubsystemBase.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
-#include "frc/WPILib.h"
-#include "ctre/Phoenix.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/SubsystemBase.h>
+#include <ctre/phoenix/motorcontrol/ControlMode.h>
 #include "frc/DoubleSolenoid.h"
-
 
 class Shooter : public frc2::SubsystemBase {
  public:
+  using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
   Shooter(
     const wpi::Twine& name,
     WPI_TalonFX& shooterleft,
@@ -27,11 +28,11 @@ class Shooter : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic();
-  void SetPID();
   void IdleShoot();
   double MotorTopRPM();
   double MotorBottomRPM();
   double Shoot(double speed);
+  void SetPID();
   void PushHood();
   void RetractHood();
   void EngageLatch();
@@ -46,6 +47,4 @@ class Shooter : public frc2::SubsystemBase {
 
   frc::DoubleSolenoid& mhood;
   frc::DoubleSolenoid& mlatch;
-
-  double p, i, d, f;
 };

@@ -14,7 +14,7 @@
 #include <subsystems/Shooter.h>
 #include "subsystems/Chassis.h"
 #include <commands/Shoot.h>
-
+#include <frc/smartdashboard/SmartDashboard.h>
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
