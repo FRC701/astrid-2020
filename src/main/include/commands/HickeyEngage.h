@@ -15,9 +15,9 @@ class HickeyEngage
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  HickeyEngage> {
  public:
-  HickeyEngage();
+  HickeyEngage(DooHickey& dooHickey);
 
   void Initialize() override;
  private:
-  DooHickey* mDooHickey;
+  DooHickey& mDooHickey;
 };

@@ -15,10 +15,10 @@ class SetHickeyPos
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  SetHickeyPos> {
  public:
-  SetHickeyPos(DooHickey* dooHickey, double position);
+  SetHickeyPos(DooHickey& dooHickey, double position);
 
   void Initialize() override;
  private:
-  DooHickey* mDooHickey;
+  DooHickey& mDooHickey;
    double mPosition;
 };

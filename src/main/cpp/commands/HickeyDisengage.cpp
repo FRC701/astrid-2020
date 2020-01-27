@@ -10,13 +10,15 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-HickeyDisengage::HickeyDisengage() {
+HickeyDisengage::HickeyDisengage(DooHickey& dooHickey)
+: mDooHickey(dooHickey)
+{
   SetName("HickeyDisengage");
-  AddRequirements(mDooHickey);
+  AddRequirements(&mDooHickey);
   std::cout << "HickeyDisengage::HickeyDisengage" << std::endl;
 }
 
 // Called when the command is initially scheduled.
 void HickeyDisengage::Initialize() {
-    mDooHickey->RetractThang();
+    mDooHickey.RetractThang();
 }
