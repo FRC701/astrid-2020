@@ -24,7 +24,7 @@ RobotContainer::RobotContainer()
     )
   );
 
-  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(0.1, mTelescope));
+  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
 
   ConfigureButtonBindings();
 }

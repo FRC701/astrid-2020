@@ -32,6 +32,6 @@ class TelescopeRise
   bool IsFinished() override;
 
 private:
-  double mSpeed;
   Telescope& mTelescope;
+  double mSpeed;
 };

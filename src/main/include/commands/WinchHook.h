@@ -32,6 +32,6 @@ class WinchHook
   bool IsFinished() override;
 
 private:
-std::function<double()> mWinchMotor;
 Winch& mWinch;
+std::function<double()> mWinchMotor;
 };
