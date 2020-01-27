@@ -21,7 +21,7 @@
 class TankDrive
     : public frc2::CommandHelper<frc2::CommandBase, TankDrive> {
  public:
-  TankDrive(std::function<double()> left, std::function<double()> right, Chassis& chassis);
+  TankDrive(Chassis& chassis, std::function<double()> left, std::function<double()> right);
 
   void Initialize() override;
 
