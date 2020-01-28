@@ -12,6 +12,8 @@
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
+#include "commands/Aim.h"
+#include "frc/smartdashboard/SmartDashboard.h"
 
 RobotContainer::RobotContainer()
 {
@@ -44,7 +46,7 @@ RobotContainer::RobotContainer()
   mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
-
+  frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   ConfigureButtonBindings();
 }
 

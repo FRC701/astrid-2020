@@ -30,12 +30,16 @@ class Chassis : public frc2::SubsystemBase {
   void Periodic();
 
   void TankDrive(double left, double right);
+  void ArcadeDrive(double speed, double rotation);
+
   double GetLeftVelocity();
   double GetRightVelocity();
 
   double TargetOffset();
   double TargetDistance();
 
+  void SetDriverCam();
+  void SetVisionCam();
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

@@ -10,6 +10,8 @@
 #include <cmath>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+
 Chassis::Chassis(
     const wpi::Twine& name,
     WPI_TalonFX& left,
@@ -57,17 +59,31 @@ double Chassis::GetRightVelocity()
     return mRight.GetSelectedSensorVelocity();
 }
 
-double Chassis::TargetOffset() 
+void Chassis::ArcadeDrive(double speed, double rotation)
 {
-    std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
-    return mTable->GetNumber("ty",0.0);
+    mDrive.ArcadeDrive(speed, rotation);
 }
 
-double Chassis::TargetDistance()
+double Chassis::TargetOffset()
+{
+    return mTable->GetNumber("tx",0.0);
+}
+
+double Chassis::TargetDistance() //this doesn't work
 {
     constexpr double TargetHeightInch {84};
     constexpr double CameraHeightInch {18};
     constexpr double CameraAngleOffGroundDegrees {15};
     double distanceInch = (TargetHeightInch - CameraHeightInch) / tan(CameraAngleOffGroundDegrees + TargetOffset());
     return distanceInch;
+}
+
+void Chassis::SetDriverCam()
+{
+    mTable->PutNumber("camMode", 1);
+}
+
+void Chassis::SetVisionCam()
+{
+    mTable->PutNumber("camMode", 0);
 }
