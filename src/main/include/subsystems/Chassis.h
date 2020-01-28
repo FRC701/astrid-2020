@@ -40,6 +40,9 @@ class Chassis : public frc2::SubsystemBase {
 
   void SetDriverCam();
   void SetVisionCam();
+  void limeLightLightsOn();
+  void limeLightLightsOff();
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

@@ -13,6 +13,8 @@
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
 #include "commands/Aim.h"
+#include "commands/LimeLightsOn.h"
+#include "commands/LimeLightsOff.h"
 #include "frc/smartdashboard/SmartDashboard.h"
 
 RobotContainer::RobotContainer()
@@ -47,6 +49,8 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
+  frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
+  frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
   ConfigureButtonBindings();
 }
 
