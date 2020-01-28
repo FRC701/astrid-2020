@@ -24,7 +24,7 @@ void Aim::Initialize()
 void Aim::Execute() 
 {
   double pCoefficient {50};
-  double rotation = mChassis.TargetOffset / pCoefficient;
+  double rotation = mChassis.TargetOffset() / pCoefficient;
   mChassis.ArcadeDrive(0, rotation);
 }
 
