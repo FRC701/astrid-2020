@@ -27,6 +27,10 @@
 #include "commands/ResetBallConveyor.h"
 
 
+namespace {
+  constexpr double kWinchPercentOutput = 0.2;
+}
+
 RobotContainer::RobotContainer()
 {
   using JoystickHand = frc::GenericHID::JoystickHand;
@@ -117,9 +121,7 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button dB {[this]{return driver.GetRawButton(2);}};
 
   
-  dA.WhenPressed(new WinchHook(mWinchComponents, 0.1));
-  dB.WhenPressed(new WinchHook(mWinchComponents, -0.1));
-
+  dA.WhileHeld(new WinchHook(mWinch, kWinchPercentOutput));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
