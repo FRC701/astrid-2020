@@ -18,7 +18,9 @@ class Chassis : public frc2::SubsystemBase {
 
   Chassis(const wpi::Twine& name,
         WPI_TalonFX& left,
-        WPI_TalonFX& right);
+        WPI_TalonFX& right,
+        WPI_TalonFX& left2,
+        WPI_TalonFX& right2);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -26,12 +28,16 @@ class Chassis : public frc2::SubsystemBase {
   void Periodic();
 
   void TankDrive(double left, double right);
+  double GetLeftVelocity();
+  double GetRightVelocity();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   WPI_TalonFX& mLeft;
   WPI_TalonFX& mRight;
+  WPI_TalonFX& mleft2;
+  WPI_TalonFX& mright2;
 
   frc::DifferentialDrive mDrive;
 };
