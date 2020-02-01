@@ -28,6 +28,8 @@ class Chassis : public frc2::SubsystemBase {
   void Periodic();
 
   void TankDrive(double left, double right);
+  double GetLeftVelocity();
+  double GetRightVelocity();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

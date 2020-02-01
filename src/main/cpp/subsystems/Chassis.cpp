@@ -7,6 +7,7 @@
 
 #include "subsystems/Chassis.h"
 #include "RobotContainer.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 Chassis::Chassis(
     const wpi::Twine& name,
@@ -34,10 +35,21 @@ Chassis::Chassis(
 // This method will be called once per scheduler run
 void Chassis::Periodic() 
 {
-
+    frc::SmartDashboard::PutNumber("left velocity", GetLeftVelocity());
+    frc::SmartDashboard::PutNumber("right velocity", GetRightVelocity());
 }
 
 void Chassis::TankDrive(double left, double right)
 {
     mDrive.TankDrive(left, right);
+}
+
+double Chassis::GetLeftVelocity()
+{
+    return mLeft.GetSelectedSensorVelocity();
+}
+
+double Chassis::GetRightVelocity()
+{
+    return mRight.GetSelectedSensorVelocity();
 }
