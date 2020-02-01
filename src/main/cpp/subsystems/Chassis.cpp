@@ -6,8 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Chassis.h"
-#include "RobotContainer.h"
+
+#include <cmath>
 #include <frc/smartdashboard/SmartDashboard.h>
+
+std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 Chassis::Chassis(
     const wpi::Twine& name,
@@ -37,6 +40,8 @@ void Chassis::Periodic()
 {
     frc::SmartDashboard::PutNumber("left velocity", GetLeftVelocity());
     frc::SmartDashboard::PutNumber("right velocity", GetRightVelocity());
+    frc::SmartDashboard::PutNumber("Target Offset", TargetOffset());
+    frc::SmartDashboard::PutNumber("Target Distance", TargetDistance());
 }
 
 void Chassis::TankDrive(double left, double right)
@@ -52,4 +57,43 @@ double Chassis::GetLeftVelocity()
 double Chassis::GetRightVelocity()
 {
     return mRight.GetSelectedSensorVelocity();
+}
+
+void Chassis::ArcadeDrive(double speed, double rotation)
+{
+    mDrive.ArcadeDrive(speed, rotation);
+}
+
+double Chassis::TargetOffset()
+{
+    return mTable->GetNumber("tx",0.0);
+}
+
+double Chassis::TargetDistance() //this doesn't work
+{
+    constexpr double TargetHeightInch {84};
+    constexpr double CameraHeightInch {18};
+    constexpr double CameraAngleOffGroundDegrees {15};
+    double distanceInch = (TargetHeightInch - CameraHeightInch) / tan(CameraAngleOffGroundDegrees + TargetOffset());
+    return distanceInch;
+}
+
+void Chassis::SetDriverCam()
+{
+    mTable->PutNumber("camMode", 1);
+}
+
+void Chassis::SetVisionCam()
+{
+    mTable->PutNumber("camMode", 0);
+}
+
+void Chassis::limeLightLightsOn()
+{
+    mTable->PutNumber("ledMode", 1);
+}
+
+void Chassis::limeLightLightsOff()
+{
+    mTable->PutNumber("ledMode", 0);
 }

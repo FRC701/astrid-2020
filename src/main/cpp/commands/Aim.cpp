@@ -5,30 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/Aim.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
+Aim::Aim(Chassis& chassis)
+: mChassis(chassis)
 {
   AddRequirements(&mChassis);
+  // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize()
+void Aim::Initialize() 
 {
-  mChassis.SetDriverCam();
+  mChassis.SetVisionCam();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
+void Aim::Execute() 
 {
-  mChassis.TankDrive(mLeft(), mRight());
+  double pCoefficient {50};
+  double rotation = mChassis.TargetOffset() / pCoefficient;
+  mChassis.ArcadeDrive(0, rotation);
 }
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void Aim::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool Aim::IsFinished() { return false; }

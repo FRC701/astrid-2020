@@ -10,6 +10,8 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <frc2/command/SubsystemBase.h>
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
 
 
 class Chassis : public frc2::SubsystemBase {
@@ -28,8 +30,18 @@ class Chassis : public frc2::SubsystemBase {
   void Periodic();
 
   void TankDrive(double left, double right);
+  void ArcadeDrive(double speed, double rotation);
+
   double GetLeftVelocity();
   double GetRightVelocity();
+
+  double TargetOffset();
+  double TargetDistance();
+
+  void SetDriverCam();
+  void SetVisionCam();
+  void limeLightLightsOn();
+  void limeLightLightsOff();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -40,4 +52,5 @@ class Chassis : public frc2::SubsystemBase {
   WPI_TalonFX& mright2;
 
   frc::DifferentialDrive mDrive;
+  
 };

@@ -7,31 +7,17 @@
 
 #pragma once
 
-#include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc2/command/InstantCommand.h>
 #include <subsystems/Chassis.h>
 
-/**
- * TankDrive command.
- *
- * <p>Note that this extends CommandHelper, rather extending CommandBase
- * directly; this is crucially important, or else the decorator functions in
- * Command will *not* work!
- */
-class TankDrive
-    : public frc2::CommandHelper<frc2::CommandBase, TankDrive> {
+class LimeLightsOn
+    : public frc2::CommandHelper<frc2::InstantCommand,
+                                 LimeLightsOn> {
  public:
-  TankDrive(Chassis& chassis, std::function<double()> left, std::function<double()> right);
+  LimeLightsOn(Chassis& chassis);
 
   void Initialize() override;
-
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
-private:
+ private:
   Chassis& mChassis;
-  std::function<double()> mLeft;
-  std::function<double()> mRight;
 };
