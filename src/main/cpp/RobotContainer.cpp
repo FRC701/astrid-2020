@@ -13,8 +13,12 @@
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
 #include "commands/Aim.h"
-#include "commands/LimeLightsOn.h"
+#include "commands/HoodOutFull.h"
+#include "commands/HoodRetract.h"
+#include "commands/LatchDisengage.h"
+#include "commands/LatchEngage.h"
 #include "commands/LimeLightsOff.h"
+#include "commands/LimeLightsOn.h"
 
 RobotContainer::RobotContainer()
 {
@@ -50,6 +54,20 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
   frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
+
+  frc::SmartDashboard::PutData(&mShooter);
+  frc::SmartDashboard::PutData("Shoot 100%", new Shoot(mShooter, 1.0));
+  frc::SmartDashboard::PutData("Shoot 75%", new Shoot(mShooter, .75));
+  frc::SmartDashboard::PutData("Shoot 50%", new Shoot(mShooter, .50));
+  frc::SmartDashboard::PutData("Shoot 25%", new Shoot(mShooter, .25));
+  frc::SmartDashboard::PutData("Shoot 10%", new Shoot(mShooter, .10));
+
+  frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull(mShooter));
+  frc::SmartDashboard::PutData("Close Hatch", new HoodRetract(mShooter));
+  frc::SmartDashboard::PutData("Engage Latch", new LatchEngage(mShooter));
+  frc::SmartDashboard::PutData("Disengage Latch", new LatchDisengage(mShooter));
+
+  // Configure the button bindings
   ConfigureButtonBindings();
 }
 
