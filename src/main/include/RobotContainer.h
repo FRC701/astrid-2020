@@ -35,6 +35,31 @@ class RobotContainer {
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
   using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
 
+  // Speed Controller IDs (must be unique)
+  static constexpr int kChassisFrontLeft{0};
+  static constexpr int kChassisFrontRight{1};
+  static constexpr int kChassisRearLeft{2};
+  static constexpr int kChassisRearRight{3};
+  static constexpr int kTelescope{4};
+  static constexpr int kWinchLeft{5};
+  static constexpr int kWinchRight{6};
+  static constexpr int kConveyor{7};
+  static constexpr int kShooterLeft{8};
+  static constexpr int kShooterRight{9};
+  static constexpr int kIntake{10};
+  static constexpr int kDoohickey{11};
+
+  // Solenoid IDs (must be unique)
+  static constexpr int kLatchSolenoidFoward{0};
+  static constexpr int kLatchSolenoidReverse{7};
+  static constexpr int kHoodSolenoidFoward{1};
+  static constexpr int kHoodSolenoidReverse{6};
+  static constexpr int kDoohickeyPushyThangSolenoidFoward{2};
+  static constexpr int kDoohickeyPushyThangSolenoidReverse{5};
+  static constexpr int kUnusedSolenoidFoward{3};
+  static constexpr int kUnusedSolenoidReverse{4};
+
+
   RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
@@ -42,45 +67,43 @@ class RobotContainer {
  private:
   frc::XboxController driver{0};
 
-  // The robot's subsystems and commands are defined here...
   // Chassis Components
-  WPI_TalonFX mChassisLeft{0};
-  WPI_TalonFX mChassisRight{1}; 
-  WPI_TalonFX mChassisBackLeft{2};
-  WPI_TalonFX mChassisBackRight{3};
+  WPI_TalonFX mChassisLeft{kChassisFrontLeft};
+  WPI_TalonFX mChassisRight{kChassisFrontRight}; 
+  WPI_TalonFX mChassisBackLeft{kChassisRearLeft};
+  WPI_TalonFX mChassisBackRight{kChassisRearRight};
 
   Chassis mChassis{"Chassis", mChassisLeft, mChassisRight, mChassisBackLeft, mChassisBackRight};
 
   // TODO: Aggregate initialization appears to not be supported
   // Sadness. There must be a better way.
-  Telescope::Components mTelescopeComponents{2};
+  Telescope::Components mTelescopeComponents{kTelescope};
   Telescope mTelescope{"Telescope", mTelescopeComponents};
 
-  Winch::Components mWinchComponents{3,4};  
+  Winch::Components mWinchComponents{kWinchLeft, kWinchRight};  
   Winch mWinch{"Winch", mWinchComponents};
 
   // Conveyor Components
-  WPI_TalonFX mConveyorMotor{5};
+  WPI_TalonFX mConveyorMotor{kConveyor};
   Conveyor mConveyor{"Conveyor", mConveyorMotor};
-  // The robot's subsystems and commands are defined here...
-  //Shooter Components
-  WPI_TalonFX mshooterleft{4};
-  WPI_TalonFX mshooterright{5};
 
-  frc::DoubleSolenoid mhood{2,5};
-  frc::DoubleSolenoid mlatch{1,6};
+  //Shooter Components
+  WPI_TalonFX mshooterleft{kShooterLeft};
+  WPI_TalonFX mshooterright{kShooterRight};
+
+  frc::DoubleSolenoid mhood{kHoodSolenoidFoward, kHoodSolenoidReverse};
+  frc::DoubleSolenoid mlatch{kLatchSolenoidFoward, kLatchSolenoidReverse};
   Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
 
   // Intake Components
-  WPI_TalonFX mIntakeRoller{2};
+  WPI_TalonFX mIntakeRoller{kIntake};
   Intake mIntake{"Intake", mIntakeRoller};
 
   //DooHickey Components
-  WPI_TalonFX mDooHickeySpinner{0};
-  frc::DoubleSolenoid mUpPushyThang{0,7};
+  WPI_TalonFX mDooHickeySpinner{kDoohickey};
+  frc::DoubleSolenoid mUpPushyThang{kDoohickeyPushyThangSolenoidFoward, 
+                                    kDoohickeyPushyThangSolenoidReverse};
   DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};
-
-
 
   void ConfigureButtonBindings();
 };
