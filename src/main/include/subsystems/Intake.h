@@ -25,6 +25,8 @@ using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
 
   void SetIntake(double speed);
 
+  double GetVelocity();
+
  private:
 
   WPI_TalonFX& mRoller;

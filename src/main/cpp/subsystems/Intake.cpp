@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Intake.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 Intake::Intake(
     const wpi::Twine& name,
@@ -18,10 +19,15 @@ Intake::Intake(
 // This method will be called once per scheduler run
 void Intake::Periodic()
 {
-    
+    frc::SmartDashboard::PutNumber("Intake velocity", GetVelocity());
 }
 
 void Intake::SetIntake(double speed)
 {
     mRoller.Set(speed);
+}
+
+double Intake::GetVelocity()
+{
+    return mRoller.GetSelectedSensorPosition();
 }

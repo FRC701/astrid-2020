@@ -23,6 +23,9 @@
 #include "commands/SetHickeyPos.h"
 #include "commands/HickeyDisengage.h"
 #include "commands/HickeyEngage.h"
+#include "commands/RunConveyor.h"
+#include "commands/ResetBallConveyor.h"
+
 
 RobotContainer::RobotContainer()
 {
@@ -80,6 +83,16 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Close Hatch", new HoodRetract(mShooter));
   frc::SmartDashboard::PutData("Engage Latch", new LatchEngage(mShooter));
   frc::SmartDashboard::PutData("Disengage Latch", new LatchDisengage(mShooter));
+
+  frc::SmartDashboard::PutData("run conveyor", new RunConveyor(mConveyor, 1.0));
+  frc::SmartDashboard::PutData("run conveyor", new RunConveyor(mConveyor, 0.8));
+  frc::SmartDashboard::PutData("run conveyor", new RunConveyor(mConveyor, 0.6));
+  frc::SmartDashboard::PutData("run conveyor", new RunConveyor(mConveyor, 0.5));
+  frc::SmartDashboard::PutData("run conveyor", new RunConveyor(mConveyor, 0.4));
+  frc::SmartDashboard::PutData("run conveyor", new RunConveyor(mConveyor, 0.3));
+  frc::SmartDashboard::PutData("run conveyor", new RunConveyor(mConveyor, 0.2));
+
+  frc::SmartDashboard::PutData("reset balls in conveyor", new ResetBallConveyor(mConveyor));
 
   // Configure the button bindings
   ConfigureButtonBindings();
