@@ -29,7 +29,7 @@ class Conveyor : public frc2::SubsystemBase {
   void SetConveyor(double speed);
   int BallCount();
   bool IsShooting();
-
+  double GetVelocity();
 
  private:
  WPI_TalonFX& mConveyorMotor;

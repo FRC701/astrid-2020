@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Conveyor.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX& conveyorMotor) 
 : mConveyorMotor{conveyorMotor}
@@ -16,7 +17,7 @@ Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX& conveyorMotor)
 // This method will be called once per scheduler run
 void Conveyor::Periodic()
 {
-
+    frc::SmartDashboard::PutNumber("conveyor velocity", GetVelocity());
 }
 
 bool Conveyor::IsBallComing()
@@ -50,4 +51,9 @@ int Conveyor::BallCount()
 bool Conveyor::IsShooting()
 {
     return false; // TODO: Make this real later
+}
+
+double Conveyor::GetVelocity()
+{
+    return mConveyorMotor.GetSelectedSensorVelocity();
 }
