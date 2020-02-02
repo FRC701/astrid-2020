@@ -58,7 +58,7 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Intake 90 percent", new IntakeOn(mIntake, 0.9));
   frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(mIntake, 1.0));
 
-  mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
+  //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
   
