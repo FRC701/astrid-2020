@@ -22,10 +22,10 @@ DooHickey::DooHickey(
     const wpi::Twine& name,
     WPI_TalonFX& spinner,
     frc::DoubleSolenoid& UpPushyThang)
-  : mSpinner(spinner)
-  ,mUpPushyThang(UpPushyThang)
-  ,mMotorSpeed{0}
+  :mMotorSpeed{0}
   ,mTargetPos{0}
+  ,mSpinner(spinner)
+  ,mUpPushyThang(UpPushyThang)
 {
   SetName(name);
   SetUpMotionMagic();
