@@ -67,7 +67,7 @@ class RobotContainer {
   WPI_TalonFX mshooterleft{4};
   WPI_TalonFX mshooterright{5};
 
-  frc::DoubleSolenoid mhood{2,5};
+  frc::DoubleSolenoid mhood{0,7};
   frc::DoubleSolenoid mlatch{1,6};
   Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
 
@@ -77,7 +77,7 @@ class RobotContainer {
 
   //DooHickey Components
   WPI_TalonFX mDooHickeySpinner{0};
-  frc::DoubleSolenoid mUpPushyThang{0,7};
+  frc::DoubleSolenoid mUpPushyThang{2,5};
   DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};
 
 
