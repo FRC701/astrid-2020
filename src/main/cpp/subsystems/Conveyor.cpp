@@ -18,6 +18,7 @@ Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX& conveyorMotor)
 void Conveyor::Periodic()
 {
     frc::SmartDashboard::PutNumber("conveyor velocity", GetVelocity());
+    frc::SmartDashboard::PutNumber("Balls:", BallCount());
 }
 
 bool Conveyor::IsBallComing()
@@ -56,4 +57,9 @@ bool Conveyor::IsShooting()
 double Conveyor::GetVelocity()
 {
     return mConveyorMotor.GetSelectedSensorVelocity();
+}
+
+void Conveyor::ResetBalls()
+{
+    mBallCount = 0;
 }
