@@ -93,8 +93,6 @@ void DooHickey::RetractThang() {
 
 void DooHickey::Periodic() {
    
-
-     frc2::CommandScheduler::GetInstance().Run(); 
     /**
      * The method GetColor() returns a normalized color value from the sensor and can be
      * useful if outputting the color to an RGB LED or similar. To

@@ -12,6 +12,7 @@
 #include "commands/SetHickeyPos.h"
 #include "commands/HickeyDisengage.h"
 #include "commands/HickeyEngage.h"
+#include "commands/RotateHickey.h"
 
 RobotContainer::RobotContainer()
 {
@@ -37,6 +38,7 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
+  frc::SmartDashboard::PutData("Rotate Command Sequence", new RotateHickey(mDooHickey));
 
   // Configure the button bindings
   ConfigureButtonBindings();
