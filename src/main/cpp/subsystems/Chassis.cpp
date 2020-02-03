@@ -7,24 +7,93 @@
 
 #include "subsystems/Chassis.h"
 
+#include <cmath>
+#include <frc/smartdashboard/SmartDashboard.h>
+
+std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+
 Chassis::Chassis(
     const wpi::Twine& name,
     WPI_TalonFX& left,
-    WPI_TalonFX& right)
+    WPI_TalonFX& right,
+    WPI_TalonFX& left2,
+    WPI_TalonFX& right2)
 : mLeft{left}
 , mRight{right}
+, mleft2{left2}
+, mright2{right2}
 , mDrive{mLeft, mRight}
 {
     SetName(name);
+
+    mLeft.SetInverted(true);
+    mleft2.SetInverted(true);
+    mright2.SetInverted(false);
+    mRight.SetInverted(false);
+
+    mleft2.Follow(mLeft); 
+    mright2.Follow(mRight); 
 }
 
 // This method will be called once per scheduler run
 void Chassis::Periodic() 
 {
-
+    frc::SmartDashboard::PutNumber("left velocity", GetLeftVelocity());
+    frc::SmartDashboard::PutNumber("right velocity", GetRightVelocity());
+    frc::SmartDashboard::PutNumber("Target Offset", TargetOffset());
+    frc::SmartDashboard::PutNumber("Target Distance", TargetDistance());
 }
 
 void Chassis::TankDrive(double left, double right)
 {
     mDrive.TankDrive(left, right);
+}
+
+double Chassis::GetLeftVelocity()
+{
+    return mLeft.GetSelectedSensorVelocity();
+}
+
+double Chassis::GetRightVelocity()
+{
+    return mRight.GetSelectedSensorVelocity();
+}
+
+void Chassis::ArcadeDrive(double speed, double rotation)
+{
+    mDrive.ArcadeDrive(speed, rotation);
+}
+
+double Chassis::TargetOffset()
+{
+    return mTable->GetNumber("tx",0.0);
+}
+
+double Chassis::TargetDistance() //this doesn't work
+{
+    constexpr double TargetHeightInch {84};
+    constexpr double CameraHeightInch {18};
+    constexpr double CameraAngleOffGroundDegrees {15};
+    double distanceInch = (TargetHeightInch - CameraHeightInch) / tan(CameraAngleOffGroundDegrees + TargetOffset());
+    return distanceInch;
+}
+
+void Chassis::SetDriverCam()
+{
+    mTable->PutNumber("camMode", 1);
+}
+
+void Chassis::SetVisionCam()
+{
+    mTable->PutNumber("camMode", 0);
+}
+
+void Chassis::limeLightLightsOn()
+{
+    mTable->PutNumber("ledMode", 1);
+}
+
+void Chassis::limeLightLightsOff()
+{
+    mTable->PutNumber("ledMode", 0);
 }

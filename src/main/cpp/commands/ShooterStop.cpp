@@ -5,30 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/ShooterStop.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
+ShooterStop::ShooterStop(Shooter& shooter)
+: mShooter{shooter}
 {
-  AddRequirements(&mChassis);
+  SetName("ShooterStop");
+  AddRequirements(&mShooter);
+  std::cout << "ShooterStop::ShooterStop" << std::endl; 
+
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize()
+void ShooterStop::Initialize()
 {
-  mChassis.SetDriverCam();
+  mShooter.DisengageLatch();
+  mShooter.RetractHood();
+  mShooter.Shoot(0.0);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
-{
-  mChassis.TankDrive(mLeft(), mRight());
-}
+void ShooterStop::Execute() {}
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void ShooterStop::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool ShooterStop::IsFinished() { return false; }

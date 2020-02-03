@@ -12,16 +12,16 @@
 #include <subsystems/Chassis.h>
 
 /**
- * TankDrive command.
+ * An example command.
  *
  * <p>Note that this extends CommandHelper, rather extending CommandBase
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class TankDrive
-    : public frc2::CommandHelper<frc2::CommandBase, TankDrive> {
+class Aim
+    : public frc2::CommandHelper<frc2::CommandBase, Aim> {
  public:
-  TankDrive(Chassis& chassis, std::function<double()> left, std::function<double()> right);
+  Aim(Chassis& chassis);
 
   void Initialize() override;
 
@@ -30,8 +30,7 @@ class TankDrive
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-private:
+
+ private:
   Chassis& mChassis;
-  std::function<double()> mLeft;
-  std::function<double()> mRight;
 };

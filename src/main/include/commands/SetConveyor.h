@@ -9,19 +9,19 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/Chassis.h>
+#include <subsystems/Conveyor.h>
 
 /**
- * TankDrive command.
+ * An example command.
  *
  * <p>Note that this extends CommandHelper, rather extending CommandBase
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class TankDrive
-    : public frc2::CommandHelper<frc2::CommandBase, TankDrive> {
+class SetConveyor
+    : public frc2::CommandHelper<frc2::CommandBase, SetConveyor> {
  public:
-  TankDrive(Chassis& chassis, std::function<double()> left, std::function<double()> right);
+  SetConveyor(Conveyor& conveyor, double speed);
 
   void Initialize() override;
 
@@ -30,8 +30,7 @@ class TankDrive
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-private:
-  Chassis& mChassis;
-  std::function<double()> mLeft;
-  std::function<double()> mRight;
+private: 
+  Conveyor& mConveyor;
+  double mSpeed;
 };

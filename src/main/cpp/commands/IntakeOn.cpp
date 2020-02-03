@@ -5,30 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/IntakeOn.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
+IntakeOn::IntakeOn( Intake& intake, double speed)
+: mSpeed{speed}
+, mIntake{intake}
 {
-  AddRequirements(&mChassis);
+  AddRequirements(&mIntake);
+  // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize()
-{
-  mChassis.SetDriverCam();
-}
+void IntakeOn::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
+void IntakeOn::Execute()
 {
-  mChassis.TankDrive(mLeft(), mRight());
+  mIntake.SetIntake(mSpeed);
 }
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void IntakeOn::End(bool interrupted)
+{
+  mIntake.SetIntake(0);
+}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool IntakeOn::IsFinished() { return false; }

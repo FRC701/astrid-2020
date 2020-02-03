@@ -8,16 +8,21 @@
 #pragma once
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 #include <subsystems/Shooter.h>
 #include "subsystems/Chassis.h"
+#include <subsystems/Conveyor.h>
+#include "subsystems/Intake.h"
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
 #include <commands/Shoot.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include "subsystems/DooHickey.h"
 
 #include "commands/TelescopeRise.h"
+#include "commands/Shoot.h"
 #include "commands/WinchHook.h"
 
 /**
@@ -30,6 +35,7 @@
 class RobotContainer {
  public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
 
   RobotContainer();
 
@@ -41,8 +47,11 @@ class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // Chassis Components
   WPI_TalonFX mChassisLeft{0};
-  WPI_TalonFX mChassisRight{1};  
-  Chassis mChassis{"Chassis", mChassisLeft, mChassisRight};
+  WPI_TalonFX mChassisRight{1}; 
+  WPI_TalonFX mChassisBackLeft{2};
+  WPI_TalonFX mChassisBackRight{3};
+
+  Chassis mChassis{"Chassis", mChassisLeft, mChassisRight, mChassisBackLeft, mChassisBackRight};
 
   // TODO: Aggregate initialization appears to not be supported
   // Sadness. There must be a better way.
@@ -52,6 +61,9 @@ class RobotContainer {
   Winch::Components mWinchComponents{3,4};  
   Winch mWinch{"Winch", mWinchComponents};
 
+  // Conveyor Components
+  WPI_TalonFX mConveyorMotor{5};
+  Conveyor mConveyor{"Conveyor", mConveyorMotor};
   // The robot's subsystems and commands are defined here...
   //Shooter Components
   WPI_TalonFX mshooterleft{4};
@@ -60,6 +72,21 @@ class RobotContainer {
   frc::DoubleSolenoid mhood{2,5};
   frc::DoubleSolenoid mlatch{1,6};
   Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
+
+  frc::DoubleSolenoid mhood{0,7};
+  frc::DoubleSolenoid mlatch{1,6};
+  Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
+
+  // Intake Components
+  WPI_TalonFX mIntakeRoller{2};
+  Intake mIntake{"Intake", mIntakeRoller};
+
+  //DooHickey Components
+  WPI_TalonFX mDooHickeySpinner{0};
+  frc::DoubleSolenoid mUpPushyThang{2,5};
+  DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};
+
+
 
   void ConfigureButtonBindings();
 };

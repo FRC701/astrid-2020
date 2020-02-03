@@ -5,30 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/ShooterCloseShot.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
+ShooterCloseShot::ShooterCloseShot(Shooter& shooter)
+: mShooter{shooter}
 {
-  AddRequirements(&mChassis);
+  SetName("ShooterCloseShot");
+  AddRequirements(&mShooter);
+  std::cout << "ShooterCloseShot::ShooterCloseShot" << std::endl; 
+  // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize()
+void ShooterCloseShot::Initialize() 
 {
-  mChassis.SetDriverCam();
+  mShooter.EngageLatch();
+  mShooter.PushHood();
+  mShooter.Shoot(.20);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
-{
-  mChassis.TankDrive(mLeft(), mRight());
-}
+void ShooterCloseShot::Execute() {}
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void ShooterCloseShot::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool ShooterCloseShot::IsFinished() { return false; }

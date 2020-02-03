@@ -5,30 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/SetConveyor.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
+SetConveyor::SetConveyor(Conveyor& conveyor, double speed) 
+: mConveyor{conveyor}
+, mSpeed(speed)
 {
-  AddRequirements(&mChassis);
+  // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements(&mConveyor);
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize()
-{
-  mChassis.SetDriverCam();
-}
+void SetConveyor::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
+void SetConveyor::Execute() 
 {
-  mChassis.TankDrive(mLeft(), mRight());
+ if((mConveyor.IsBallComing() && mConveyor.BallCount() < 5) || (mConveyor.BallCount() > 0 && mConveyor.IsShooting()))
+    {
+        mConveyor.SetConveyor(mSpeed);
+    }
+    else
+    {
+        mConveyor.SetConveyor(0.0);
+    }
 }
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void SetConveyor::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool SetConveyor::IsFinished() { return false; }
