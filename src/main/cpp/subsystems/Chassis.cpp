@@ -12,27 +12,24 @@
 
 std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
-Chassis::Chassis(
-    const wpi::Twine& name,
-    WPI_TalonFX& left,
-    WPI_TalonFX& right,
-    WPI_TalonFX& left2,
-    WPI_TalonFX& right2)
-: mLeft{left}
-, mRight{right}
-, mleft2{left2}
-, mright2{right2}
-, mDrive{mLeft, mRight}
+Chassis::Chassis(const wpi::Twine& name,
+    Components& components)
+
+:mComponents(components)
+, mDrive{mComponents.frontLeft, mComponents.frontRight}
 {
     SetName(name);
+    // TODO: SetSensorPhase does not seem to be having an effect
+    // The velocity is still going in reverse to the direction of travel.
+    mComponents.frontLeft.SetSensorPhase(true);
+    mComponents.backLeft.SetSensorPhase(true);
+    mComponents.frontLeft.SetInverted(false);
+    mComponents.backLeft.SetInverted(false);
+    mComponents.frontRight.SetInverted(false);
+    mComponents.backRight.SetInverted(false);
 
-    mLeft.SetInverted(true);
-    mleft2.SetInverted(true);
-    mright2.SetInverted(false);
-    mRight.SetInverted(false);
-
-    mleft2.Follow(mLeft); 
-    mright2.Follow(mRight); 
+     mComponents.backLeft.Follow(mComponents.frontLeft); 
+     mComponents.backRight.Follow(mComponents.frontRight); 
 }
 
 // This method will be called once per scheduler run
@@ -51,12 +48,12 @@ void Chassis::TankDrive(double left, double right)
 
 double Chassis::GetLeftVelocity()
 {
-    return mLeft.GetSelectedSensorVelocity();
+    return mComponents.frontLeft.GetSelectedSensorVelocity();
 }
 
 double Chassis::GetRightVelocity()
 {
-    return mRight.GetSelectedSensorVelocity();
+    return mComponents.frontRight.GetSelectedSensorVelocity();
 }
 
 void Chassis::ArcadeDrive(double speed, double rotation)

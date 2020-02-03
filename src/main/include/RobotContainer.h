@@ -68,12 +68,9 @@ class RobotContainer {
   frc::XboxController driver{0};
 
   // Chassis Components
-  WPI_TalonFX mChassisLeft{kChassisFrontLeft};
-  WPI_TalonFX mChassisRight{kChassisFrontRight}; 
-  WPI_TalonFX mChassisBackLeft{kChassisRearLeft};
-  WPI_TalonFX mChassisBackRight{kChassisRearRight};
-
-  Chassis mChassis{"Chassis", mChassisLeft, mChassisRight, mChassisBackLeft, mChassisBackRight};
+  Chassis::Components mChassisComponents{kChassisFrontLeft, kChassisFrontRight,kChassisRearLeft,kChassisRearRight};  
+  Chassis mChassis{"Chassis", mChassisComponents};
+  
 
   // TODO: Aggregate initialization appears to not be supported
   // Sadness. There must be a better way.
