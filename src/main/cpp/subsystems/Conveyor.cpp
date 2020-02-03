@@ -12,6 +12,8 @@ Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX& conveyorMotor)
 : mConveyorMotor{conveyorMotor}
 {
     SetName(name);
+
+    mConveyorMotor.SetInverted(true);
 }
 
 // This method will be called once per scheduler run
