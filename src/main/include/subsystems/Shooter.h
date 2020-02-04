@@ -17,12 +17,17 @@ class Shooter : public frc2::SubsystemBase {
  public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
   using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
-  Shooter(
-    const wpi::Twine& name,
-    WPI_TalonFX& shooterleft,
-    WPI_TalonFX& shooterright,
-    frc::DoubleSolenoid& hood,
-    frc::DoubleSolenoid& latch);
+
+
+  struct Components
+{
+  WPI_TalonFX shooterleft;
+  WPI_TalonFX shooterright;
+  frc::DoubleSolenoid hood;
+  frc::DoubleSolenoid latch;
+}; 
+
+  Shooter(const wpi::Twine& name, Components& components);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -41,10 +46,11 @@ class Shooter : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-
+/*
   WPI_TalonFX& mshooterleft;
   WPI_TalonFX& mshooterright;
-
   frc::DoubleSolenoid& mhood;
   frc::DoubleSolenoid& mlatch;
+*/
+  Components& mComponents;
 };
