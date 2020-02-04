@@ -21,36 +21,27 @@ constexpr frc::DoubleSolenoid::Value kLatchDisengage {frc::DoubleSolenoid::kReve
 
 }
 
-
-Shooter::Shooter(    
-    const wpi::Twine& name,
-    WPI_TalonFX& shooterleft,
-    WPI_TalonFX& shooterright,
-    frc::DoubleSolenoid& hood,
-    frc::DoubleSolenoid& latch)
-: mshooterleft{shooterleft}
-, mshooterright{shooterright}
-, mhood{hood}
-, mlatch{latch}
+Shooter::Shooter(const wpi::Twine& name, Components& components)
+: mComponents(components)
 {
     SetName(name);
-    shooterleft.SetInverted(false);
-    shooterright.SetInverted(false);
-    shooterright.Follow(shooterleft);
+    mComponents.shooterleft.SetInverted(false);
+    mComponents.shooterright.SetInverted(false);
+    mComponents.shooterright.Follow(mComponents.shooterleft);
     SetPID();
 }
 
 void Shooter::SetPID()
 {
-  mshooterleft.Config_kP(0, kP, 10);
-  mshooterleft.Config_kI(0, kI, 10);
-  mshooterleft.Config_kD(0, kD, 10);
-  mshooterleft.Config_kF(0, kF, 10);
+  mComponents.shooterleft.Config_kP(0, kP, 10);
+  mComponents.shooterleft.Config_kI(0, kI, 10);
+  mComponents.shooterleft.Config_kD(0, kD, 10);
+  mComponents.shooterleft.Config_kF(0, kF, 10);
 }
 
 void Shooter::IdleShoot() 
 {
-  mshooterleft.Set(ControlMode::PercentOutput, 0.0);
+  mComponents.shooterleft.Set(ControlMode::PercentOutput, 0.0);
 }
 
 double Shooter::MotorTopRPM()
@@ -58,7 +49,7 @@ double Shooter::MotorTopRPM()
   constexpr double TicksPerRotation {2048};
   constexpr double hundredMSPS {10};
   constexpr double secondsPMin {60};
-  double SpeedTP100msTop = mshooterleft.GetSelectedSensorVelocity();
+  double SpeedTP100msTop = mComponents.shooterleft.GetSelectedSensorVelocity();
   double RPMMotorTop = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
   return RPMMotorTop;
 }
@@ -68,37 +59,37 @@ double Shooter::MotorBottomRPM()
   constexpr double TicksPerRotation {2048};
   constexpr double hundredMSPS {10};
   constexpr double secondsPMin {60};
-  double SpeedTP100msTop = mshooterright.GetSelectedSensorVelocity();
+  double SpeedTP100msTop = mComponents.shooterright.GetSelectedSensorVelocity();
   double RPMMotorBottom = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
   return RPMMotorBottom;
 }
 
 double Shooter::Shoot(double speed)
 {
-    mshooterright.Set(speed);
-    mshooterleft.Set(speed);
+    mComponents.shooterright.Set(speed);
+    mComponents.shooterleft.Set(speed);
     return speed;
 }
 
 //Start of Pistons
 void Shooter::PushHood()
 {
-  mhood.Set(kHoodOutFull);
+  mComponents.hood.Set(kHoodOutFull);
 }
 
 void Shooter::RetractHood()
 {
-  mhood.Set(kHoodRetract);
+  mComponents.hood.Set(kHoodRetract);
 }
 
 void Shooter::EngageLatch()
 {
-  mlatch.Set(kLatchEngage);
+  mComponents.latch.Set(kLatchEngage);
 }
 
 void Shooter::DisengageLatch()
 {
-  mlatch.Set(kLatchDisengage);
+  mComponents.latch.Set(kLatchDisengage);
 }
 
 

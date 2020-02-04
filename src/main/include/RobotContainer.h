@@ -46,6 +46,7 @@ class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   // Chassis Components
+  
   WPI_TalonFX mChassisLeft{0};
   WPI_TalonFX mChassisRight{1}; 
   WPI_TalonFX mChassisBackLeft{2};
@@ -64,18 +65,15 @@ class RobotContainer {
   // Conveyor Components
   WPI_TalonFX mConveyorMotor{5};
   Conveyor mConveyor{"Conveyor", mConveyorMotor};
-  // The robot's subsystems and commands are defined here...
-  //Shooter Components
-  WPI_TalonFX mshooterleft{4};
-  WPI_TalonFX mshooterright{5};
+    
+  Shooter::Components mShooterComponents{
+    WPI_TalonFX{1},
+    WPI_TalonFX{2},
+    frc::DoubleSolenoid{2,5},
+    frc::DoubleSolenoid{1,6}
+  };
+  Shooter mShooter{"Shooter", mShooterComponents};
 
-  frc::DoubleSolenoid mhood{2,5};
-  frc::DoubleSolenoid mlatch{1,6};
-  Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
-
-  frc::DoubleSolenoid mhood{0,7};
-  frc::DoubleSolenoid mlatch{1,6};
-  Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
 
   // Intake Components
   WPI_TalonFX mIntakeRoller{2};
