@@ -14,15 +14,20 @@
 #include <networktables/NetworkTableInstance.h>
 
 
+
 class Chassis : public frc2::SubsystemBase {
  public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
 
+  struct Components 
+  {
+      WPI_TalonFX frontLeft;
+      WPI_TalonFX frontRight;
+      WPI_TalonFX backLeft;
+      WPI_TalonFX backRight;
+  };
   Chassis(const wpi::Twine& name,
-        WPI_TalonFX& left,
-        WPI_TalonFX& right,
-        WPI_TalonFX& left2,
-        WPI_TalonFX& right2);
+        Components& components);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -46,10 +51,7 @@ class Chassis : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  WPI_TalonFX& mLeft;
-  WPI_TalonFX& mRight;
-  WPI_TalonFX& mleft2;
-  WPI_TalonFX& mright2;
+  Components& mComponents;
 
   frc::DifferentialDrive mDrive;
   
