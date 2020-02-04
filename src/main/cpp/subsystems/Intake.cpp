@@ -9,8 +9,10 @@
 
 Intake::Intake(
     const wpi::Twine& name,
-    WPI_TalonFX& roller)
-: mRoller{roller}
+    WPI_TalonFX& roller,
+    frc::DoubleSolenoid intakeEngagement)
+: mRoller{roller},
+, mIntakeEngagement(intakeEngagement)
 {
     SetName(name);
 }
@@ -24,4 +26,13 @@ void Intake::Periodic()
 void Intake::SetIntake(double speed)
 {
     mRoller.Set(speed);
+}
+void Intake::Engage()
+{
+    mIntakeEngagement.Set(frc::DoubleSolenoid::kForward);
+}
+
+void Intake::Disengage()
+{
+    mIntakeEngagement.Set(frc::DoubleSolenoid::kReverse);
 }

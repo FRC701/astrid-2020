@@ -9,6 +9,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <frc2/DoubleSolenoid.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -16,7 +17,8 @@ class Intake : public frc2::SubsystemBase {
 using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
 
   Intake(const wpi::Twine& name,
-        WPI_TalonFX& roller);
+        WPI_TalonFX& roller
+        frc::DoubleSolenoid& intakeEngagement);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -25,9 +27,15 @@ using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
 
   void SetIntake(double speed);
 
- private:
+  void Engage();
+  void Disengage();
 
+
+
+ private:
   WPI_TalonFX& mRoller;
+  frc::DoubleSolenoid& mIntakeEngagement;
+
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };
