@@ -86,13 +86,17 @@ class RobotContainer {
   // Conveyor Components
   WPI_TalonFX mConveyorMotor{kConveyor};
   Conveyor mConveyor{"Conveyor", mConveyorMotor};
+    
+  Shooter::Components mShooterComponents{
+    WPI_TalonFX{1},
+    WPI_TalonFX{2},
+    frc::DoubleSolenoid{2,5},
+    frc::DoubleSolenoid{1,6}
+  };
+  Shooter mShooter{"Shooter", mShooterComponents};
 
-  //Shooter Components
-  WPI_TalonFX mshooterleft{kShooterLeft};
-  WPI_TalonFX mshooterright{kShooterRight};
-
-  frc::DoubleSolenoid mhood{kHoodSolenoidFoward, kHoodSolenoidReverse};
-  frc::DoubleSolenoid mlatch{kLatchSolenoidFoward, kLatchSolenoidReverse};
+  frc::DoubleSolenoid mhood{2,5};
+  frc::DoubleSolenoid mlatch{1,6};
   Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
 
   // Intake Components
