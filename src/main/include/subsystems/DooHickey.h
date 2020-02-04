@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/util/color.h>
@@ -27,24 +27,26 @@ class DooHickey : public frc2::SubsystemBase {
   rev::ColorSensorV3 m_colorSensor{i2cPort};
   rev::ColorMatch m_colorMatcher;
 
-  double mMotorSpeed;
-  double mTargetPos; 
-
   static constexpr frc::Color kBlueTarget = frc::Color(0.143, 0.427, 0.429);
   static constexpr frc::Color kGreenTarget = frc::Color(0.197, 0.561, 0.240);
   static constexpr frc::Color kRedTarget = frc::Color(0.561, 0.232, 0.114);
   static constexpr frc::Color kYellowTarget = frc::Color(0.361, 0.524, 0.113);
   
 public:
-  using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
   using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
   using StatusFrameEnhanced = ctre::phoenix::motorcontrol::StatusFrameEnhanced;
+
+struct Components
+{
+  WPI_TalonSRX spinner;
+  frc::DoubleSolenoid upPushyThang;
+};
 
   bool IsRotationControlFinished = false;
   
   DooHickey(const wpi::Twine& name
-        ,WPI_TalonFX& spinner
-        ,frc::DoubleSolenoid& UpPushyThang);
+        ,Components& components);
 
   void Init();
   void Periodic();
@@ -59,8 +61,7 @@ public:
 
 
  private:
- 
-  WPI_TalonFX& mSpinner;
-  frc::DoubleSolenoid& mUpPushyThang;
-  
+  Components& mComponents;
+  double mMotorSpeed;
+  double mTargetPos;
 };

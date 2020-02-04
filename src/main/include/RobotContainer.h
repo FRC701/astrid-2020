@@ -7,7 +7,9 @@
 
 #pragma once
 
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
@@ -28,7 +30,9 @@
  */
 class RobotContainer {
  public:
+  using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;\
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+
 
   RobotContainer();
 
@@ -51,12 +55,9 @@ class RobotContainer {
   Winch::Components mWinchComponents{3,4};  
   Winch mWinch{"Winch", mWinchComponents};
 
-  // The robot's subsystems and commands are defined here...
-
   //DooHickey Components
-  WPI_TalonFX mDooHickeySpinner{0};
-  frc::DoubleSolenoid mUpPushyThang{0,7};
-  DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};
+  DooHickey::Components mDooHickeyComponents{5,{6,7}};
+  DooHickey mDooHickey{"DooHickey", mDooHickeyComponents};
 
 
 

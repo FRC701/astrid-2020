@@ -20,10 +20,8 @@ namespace
 
 DooHickey::DooHickey(
     const wpi::Twine& name,
-    WPI_TalonFX& spinner,
-    frc::DoubleSolenoid& UpPushyThang)
-  : mSpinner(spinner)
-  ,mUpPushyThang(UpPushyThang)
+    Components& components)
+  : mComponents(components)
   ,mMotorSpeed{0}
   ,mTargetPos{0}
 {
@@ -34,25 +32,25 @@ DooHickey::DooHickey(
 void DooHickey::SetUpMotionMagic() {
 
     /* Set relevant frame periods to be at least as fast as periodic rate */
-    mSpinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_13_Base_PIDF0, 10, 10);
-    mSpinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, 10);
+    mComponents.spinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_13_Base_PIDF0, 10, 10);
+    mComponents.spinner.SetStatusFramePeriod(StatusFrameEnhanced::Status_10_MotionMagic, 10, 10);
 
      /* Set the peak and nominal outputs */
-    mSpinner.ConfigNominalOutputForward(0, 10);
-    mSpinner.ConfigNominalOutputReverse(0, 10);
-    mSpinner.ConfigPeakOutputForward(1.0, 10);
-    mSpinner.ConfigPeakOutputReverse(-1.0, 10);
+    mComponents.spinner.ConfigNominalOutputForward(0, 10);
+    mComponents.spinner.ConfigNominalOutputReverse(0, 10);
+    mComponents.spinner.ConfigPeakOutputForward(1.0, 10);
+    mComponents.spinner.ConfigPeakOutputReverse(-1.0, 10);
 
     /* Set Motion Magic gains in slot0 - see documentation */
-    mSpinner.SelectProfileSlot(0, 0);
-    mSpinner.Config_kF(0, kF, 10);
-    mSpinner.Config_kP(0, kP, 10);
-    mSpinner.Config_kI(0, kI, 10);
-    mSpinner.Config_kD(0, kD, 10);
+    mComponents.spinner.SelectProfileSlot(0, 0);
+    mComponents.spinner.Config_kF(0, kF, 10);
+    mComponents.spinner.Config_kP(0, kP, 10);
+    mComponents.spinner.Config_kI(0, kI, 10);
+    mComponents.spinner.Config_kD(0, kD, 10);
     
      /* Set acceleration and vcruise velocity - see documentation */
-    mSpinner.ConfigMotionCruiseVelocity(1024, 10);
-    mSpinner.ConfigMotionAcceleration(1024, 10);
+    mComponents.spinner.ConfigMotionCruiseVelocity(1024, 10);
+    mComponents.spinner.ConfigMotionAcceleration(1024, 10);
 
 }
 
@@ -76,19 +74,19 @@ void DooHickey::SetHickeyPosition(double position){
 }
 
 void DooHickey::UpdateSpeed() {
-  mSpinner.Set(ControlMode::Velocity, mMotorSpeed);
+  mComponents.spinner.Set(ControlMode::Velocity, mMotorSpeed);
 }
 
 void DooHickey::UpdatePos() {
-  mSpinner.Set(ControlMode::MotionMagic, mTargetPos);
+  mComponents.spinner.Set(ControlMode::MotionMagic, mTargetPos);
 }
 
 void DooHickey::PushThang() {
-  mUpPushyThang.Set(kHickeyEngage);
+  mComponents.upPushyThang.Set(kHickeyEngage);
 }
 
 void DooHickey::RetractThang() {
-  mUpPushyThang.Set(kHickeyDisengage);
+  mComponents.upPushyThang.Set(kHickeyDisengage);
 }
 
 void DooHickey::Periodic() {
@@ -134,51 +132,60 @@ void DooHickey::Periodic() {
       IsRotationControlFinished = true;
     }
 
-    //Code for stopping the motor after Rotation Control is finished AND the specified Color is reached.
+    struct colorStuff
+    {
+      frc::Color viewing;
+      frc::Color assigned;
+      int direction;
+    };
+
+    colorStuff Selector[] =
+    {
+      {kRedTarget, kRedTarget, -1}
+      ,{kRedTarget, kBlueTarget, 0}
+      ,{kRedTarget, kGreenTarget, -1}
+      ,{kRedTarget, kYellowTarget, 1}
+
+      ,{kGreenTarget, kRedTarget, 1}
+      ,{kGreenTarget, kBlueTarget, -1}
+      ,{kGreenTarget, kGreenTarget, -1}
+      ,{kGreenTarget, kYellowTarget, 0}
+
+      ,{kBlueTarget, kRedTarget, 0}
+      ,{kBlueTarget, kBlueTarget, -1}
+      ,{kBlueTarget, kGreenTarget, 1}
+      ,{kBlueTarget, kYellowTarget, -1}
+
+      ,{kYellowTarget, kRedTarget, -1}
+      ,{kYellowTarget, kBlueTarget, 1}
+      ,{kYellowTarget, kGreenTarget, 0}
+      ,{kYellowTarget, kYellowTarget, -1}
+    };
+
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     if(gameData.length() > 0)
     {
     switch (gameData[0])
     {
     case 'B' :
-      /*If the matched color is blue when the assigned color is blue and rotation control is finished
-      *then stop the motor
-      */
+     
       assignedColorString = "Blue";
-      if(matchedColor == kBlueTarget && IsRotationControlFinished == true) 
-      {
-        mMotorSpeed = 0;
-      }
+      
       break;
     case 'G' :
-      /*If the matched color is green when the assigned color is green and rotation control is finished
-      *then stop the motor
-      */
+   
       assignedColorString = "Green";
-      if(matchedColor == kGreenTarget && IsRotationControlFinished == true) 
-      {
-        mMotorSpeed = 0;
-      }
+      
       break;
     case 'R' :
-      /*If the matched color is red when the assigned color is red and rotation control is finished
-      *then stop the motor
-      */
+      
       assignedColorString = "Red";
-      if(matchedColor == kRedTarget && IsRotationControlFinished == true) 
-      {
-        mMotorSpeed = 0;
-      }
+      
       break;
     case 'Y' :
-      /*If the matched color is yellow when the assigned color is yellow and rotation control is finished
-      *then stop the motor
-      */
+     
       assignedColorString = "Yellow";
-      if(matchedColor == kYellowTarget && IsRotationControlFinished == true) 
-      {
-        mMotorSpeed = 0;
-      }
+      
       break;
     default :
       //This is corrupt data

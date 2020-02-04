@@ -33,9 +33,8 @@ RobotContainer::RobotContainer()
   constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
-  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
-  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404));
-  frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
+  frc::SmartDashboard::PutData("Spin 58.53 RPM", new Spin(mDooHickey, 18730));
+  frc::SmartDashboard::PutData("Rotation Control", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
   frc::SmartDashboard::PutData("Rotate Command Sequence", new RotateHickey(mDooHickey));
