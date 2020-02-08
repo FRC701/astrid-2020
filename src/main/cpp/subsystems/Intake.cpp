@@ -29,5 +29,5 @@ void Intake::SetIntake(double speed)
 
 double Intake::GetVelocity()
 {
-    return mRoller.GetSelectedSensorPosition();
+    return mRoller.GetSelectedSensorVelocity();
 }
