@@ -37,8 +37,8 @@ RobotContainer::RobotContainer()
     )
   );
 
-  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
-  frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, -0.1));
+  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this] {return 0.1;}));
+  frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, [this] {return -0.1;}));
 
 
   ConfigureButtonBindings();
@@ -46,11 +46,9 @@ RobotContainer::RobotContainer()
 
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
-  frc2::Button dA {[this]{return driver.GetRawButton(1);}};
-  frc2::Button dB {[this]{return driver.GetRawButton(2);}};
-
+  frc2::Button dA {[this]{return codriver.GetRawButton(1);}};
   
-  dA.WhileHeld(new WinchHook(mWinch, kWinchPercentOutput));
+  dA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
