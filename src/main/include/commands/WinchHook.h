@@ -21,7 +21,7 @@
 class WinchHook
     : public frc2::CommandHelper<frc2::CommandBase, WinchHook> {
  public:
-  WinchHook(Winch& winch, double winchmotor);
+  WinchHook(Winch& winch, double percentoutput);
 
   void Initialize() override;
 

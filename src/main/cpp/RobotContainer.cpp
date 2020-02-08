@@ -39,6 +39,7 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this] {return 0.1;}));
   frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, [this] {return -0.1;}));
+  frc::SmartDashboard::PutData("Start Winch", new WinchHook(mWinch, kWinchPercentOutput));
 
 
   ConfigureButtonBindings();
