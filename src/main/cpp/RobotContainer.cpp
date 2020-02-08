@@ -29,6 +29,8 @@
 #include <commands/HoodOutFull.h>
 #include <commands/LatchDisengage.h>
 #include <commands/LatchEngage.h>
+#include <commands/IntakeEngage.h>
+#include <commands/IntakeDisengage.h>
 
 
 namespace {
@@ -66,6 +68,9 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Intake 80 percent", new IntakeOn(mIntake, 0.8));
   frc::SmartDashboard::PutData("Intake 90 percent", new IntakeOn(mIntake, 0.9));
   frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(mIntake, 1.0));
+  frc::SmartDashboard::PutData("Intake Engage", new IntakeEngage(mIntake));
+  frc::SmartDashboard::PutData("Intake Disengage", new IntakeDisengage(mIntake));
+
 
   //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
 
