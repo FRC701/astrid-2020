@@ -19,6 +19,8 @@ void Conveyor::Periodic()
 {
     frc::SmartDashboard::PutNumber("conveyor velocity", GetVelocity());
     frc::SmartDashboard::PutNumber("Balls:", BallCount());
+    frc::SmartDashboard::PutNumber("Conveyor Enter Limit Switch", IsBallComing());
+    frc::SmartDashboard::PutNumber("Conveyor Exit Limit Switch", IsBallExiting());
 }
 
 bool Conveyor::IsBallComing()
