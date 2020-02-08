@@ -35,7 +35,7 @@ Shooter::Shooter(
 {
     SetName(name);
     shooterleft.SetInverted(false);
-    shooterright.SetInverted(false);
+    shooterright.SetInverted(true);
     shooterright.Follow(shooterleft);
     SetPID();
 }

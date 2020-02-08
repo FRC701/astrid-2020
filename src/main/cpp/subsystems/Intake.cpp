@@ -8,10 +8,17 @@
 #include "subsystems/Intake.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
+namespace{
+    constexpr frc::DoubleSolenoid::Value kIntakeEngage {frc::DoubleSolenoid::kForward};
+    constexpr frc::DoubleSolenoid::Value kIntakeDisengage {frc::DoubleSolenoid::kReverse};
+}
+
 Intake::Intake(
     const wpi::Twine& name,
-    WPI_TalonFX& roller)
+    WPI_TalonFX& roller
+   ,frc::DoubleSolenoid& IntakePiston)
 : mRoller{roller}
+, mIntakePiston{IntakePiston}
 {
     SetName(name);
 }
@@ -30,4 +37,14 @@ void Intake::SetIntake(double speed)
 double Intake::GetVelocity()
 {
     return mRoller.GetSelectedSensorVelocity();
+}
+
+void Intake::IntakeEngage()
+{
+    mIntakePiston.Set(kIntakeEngage);
+}
+
+void Intake::IntakeDisengage()
+{
+    mIntakePiston.Set(kIntakeDisengage);
 }
