@@ -73,8 +73,6 @@ RobotContainer::RobotContainer()
     )
   );
 
-  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
-  
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
   frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
@@ -84,7 +82,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
-  frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, -0.1));
+  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this] {return 0.1;}));
+  frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, [this] {return -0.1;}));
 
   frc::SmartDashboard::PutData(&mShooter);
   frc::SmartDashboard::PutData("Shoot 100%", new Shoot(mShooter, 1.0));
@@ -121,7 +120,7 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button dB {[this]{return driver.GetRawButton(2);}};
 
   
-  dA.WhileHeld(new WinchHook(mWinch, kWinchPercentOutput));
+  dA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
