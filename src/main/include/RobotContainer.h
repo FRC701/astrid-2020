@@ -98,7 +98,7 @@ class RobotContainer {
   Intake mIntake{"Intake", mIntakeRoller, mIntakePiston};
 
   //DooHickey Components
-  WPI_TalonFX mDooHickeySpinner{kDoohickey};
+  WPI_TalonSRX mDooHickeySpinner{kDoohickey};
   frc::DoubleSolenoid mUpPushyThang{kDoohickeyPushyThangSolenoidFoward, 
                                     kDoohickeyPushyThangSolenoidReverse};
   DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};

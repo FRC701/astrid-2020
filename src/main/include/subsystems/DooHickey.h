@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/util/color.h>
@@ -36,14 +36,14 @@ class DooHickey : public frc2::SubsystemBase {
   static constexpr frc::Color kYellowTarget = frc::Color(0.361, 0.524, 0.113);
   
 public:
-  using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
   using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
   using StatusFrameEnhanced = ctre::phoenix::motorcontrol::StatusFrameEnhanced;
 
   bool IsRotationControlFinished = false;
   
   DooHickey(const wpi::Twine& name
-        ,WPI_TalonFX& spinner
+        ,WPI_TalonSRX& spinner
         ,frc::DoubleSolenoid& UpPushyThang);
 
   void Init();
@@ -60,7 +60,7 @@ public:
 
  private:
  
-  WPI_TalonFX& mSpinner;
+  WPI_TalonSRX& mSpinner;
   frc::DoubleSolenoid& mUpPushyThang;
   
 };

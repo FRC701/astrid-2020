@@ -87,10 +87,10 @@ void Chassis::SetVisionCam()
 
 void Chassis::limeLightLightsOn()
 {
-    mTable->PutNumber("ledMode", 1);
+    mTable->PutNumber("ledMode", 0);
 }
 
 void Chassis::limeLightLightsOff()
 {
-    mTable->PutNumber("ledMode", 0);
+    mTable->PutNumber("ledMode", 1);
 }

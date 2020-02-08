@@ -14,10 +14,10 @@ constexpr double kI{0.0};
 constexpr double kD{0.0};
 constexpr double kF{0.0};
 
-constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kForward};
-constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kReverse};
-constexpr frc::DoubleSolenoid::Value kLatchEngage {frc::DoubleSolenoid::kForward};
-constexpr frc::DoubleSolenoid::Value kLatchDisengage {frc::DoubleSolenoid::kReverse};
+constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kReverse};
+constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kForward};
+constexpr frc::DoubleSolenoid::Value kLatchEngage {frc::DoubleSolenoid::kReverse};
+constexpr frc::DoubleSolenoid::Value kLatchDisengage {frc::DoubleSolenoid::kForward};
 
 }
 
