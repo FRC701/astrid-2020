@@ -14,13 +14,13 @@ namespace
   constexpr double kP{0.1};
   constexpr double kI{0.0};
   constexpr double kD{0.0};
-  constexpr frc::DoubleSolenoid::Value kHickeyEngage {frc::DoubleSolenoid::kForward};
-  constexpr frc::DoubleSolenoid::Value kHickeyDisengage {frc::DoubleSolenoid::kReverse};
+  constexpr frc::DoubleSolenoid::Value kHickeyEngage {frc::DoubleSolenoid::kReverse};
+  constexpr frc::DoubleSolenoid::Value kHickeyDisengage {frc::DoubleSolenoid::kForward};
 }
 
 DooHickey::DooHickey(
     const wpi::Twine& name,
-    WPI_TalonFX& spinner,
+    WPI_TalonSRX& spinner,
     frc::DoubleSolenoid& UpPushyThang)
   :mMotorSpeed{0}
   ,mTargetPos{0}
