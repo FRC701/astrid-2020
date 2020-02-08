@@ -21,7 +21,7 @@ void WinchHook::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void WinchHook::Execute() 
 {
-  mWinch.WinchHook->Set();
+  mWinch.WinchHook(mWinchMotor);
 }
 
 // Called once the command ends or is interrupted.
