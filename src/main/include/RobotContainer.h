@@ -8,8 +8,8 @@
 #pragma once
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
-#include <frc2/command/button/JoystickButton.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
+#include <frc2/command/button/JoystickButton.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 #include <subsystems/Shooter.h>
