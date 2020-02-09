@@ -64,9 +64,13 @@ double Shooter::MotorBottomRPM()
   return RPMMotorBottom;
 }
 
+double Shooter::GetVelocity()
+{
+  return mshooterleft.GetSelectedSensorVelocity();
+}
+
 double Shooter::Shoot(double speed)
 {
-    mComponents.shooterright.Set(speed);
     mComponents.shooterleft.Set(speed);
     return speed;
 }
