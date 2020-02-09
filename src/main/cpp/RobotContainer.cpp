@@ -7,6 +7,7 @@
 #include "RobotContainer.h"
 
 #include <frc2/command/button/Trigger.h>
+#include <frc2/command/button/JoystickButton.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
 #include "commands/IntakeOn.h"
@@ -27,6 +28,7 @@
 #include "commands/ResetBallConveyor.h"
 #include <commands/IntakeEngage.h>
 #include <commands/IntakeDisengage.h>
+#include "commands/EnableIntake.h"
 
 
 RobotContainer::RobotContainer()
@@ -61,6 +63,7 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(mIntake, 1.0));
   frc::SmartDashboard::PutData("Intake Engage", new IntakeEngage(mIntake));
   frc::SmartDashboard::PutData("Intake Disengage", new IntakeDisengage(mIntake));
+  frc::SmartDashboard::PutData("Enable Intake", new EnableIntake(mIntake, mConveyor));
 
 
   //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
@@ -106,7 +109,10 @@ RobotContainer::RobotContainer()
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
-  frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { mConveyor.BallIntakeExiting(); });
+  frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { if(mConveyor.IsBallExiting()) { mConveyor.BallIntakeExiting(); }});
+  frc2::Button coA {[this]{return coDriver.GetRawButton(1);}};
+
+  coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

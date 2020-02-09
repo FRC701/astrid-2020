@@ -67,7 +67,7 @@ class RobotContainer {
 
  private:
   frc::XboxController driver{0};
-  frc::XboxController codriver{1};
+  frc::XboxController coDriver{1};
 
   // Chassis Components
   Chassis::Components mChassisComponents{kChassisFrontLeft, kChassisFrontRight,kChassisRearLeft,kChassisRearRight};  
