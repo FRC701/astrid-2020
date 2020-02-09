@@ -14,6 +14,7 @@ Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX& conveyorMotor)
     SetName(name);
 
     mConveyorMotor.SetInverted(true);
+    mConveyorMotor.OverrideLimitSwitchesEnable(false);
 }
 
 // This method will be called once per scheduler run
@@ -37,11 +38,17 @@ bool Conveyor::IsBallExiting()
 
 void Conveyor::BallIntakeIncoming()
 {
-    ++mBallCount;
+    if(BallCount() < 5)
+    {
+        ++mBallCount;
+    }
 }
 void Conveyor::BallIntakeExiting()
 {
-    --mBallCount;
+    if(BallCount() > 0)
+    {
+        --mBallCount;
+    }
 }
 void Conveyor::SetConveyor(double speed)
 {

@@ -28,6 +28,7 @@ void IntakeOn::Execute()
 void IntakeOn::End(bool interrupted)
 {
   mIntake.SetIntake(0);
+  mIntake.IntakeDisengage();
 }
 
 // Returns true when the command should end.

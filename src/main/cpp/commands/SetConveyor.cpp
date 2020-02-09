@@ -21,9 +21,20 @@ void SetConveyor::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void SetConveyor::Execute() 
 {
- if((mConveyor.IsBallComing() && mConveyor.BallCount() < 5) || (mConveyor.BallCount() > 0 && mConveyor.IsShooting()))
+    if(mConveyor.IsBallComing() && mConveyor.IsBallExiting())
     {
-        mConveyor.SetConveyor(mSpeed);
+        while(mConveyor.IsBallComing())
+        {
+            mConveyor.SetConveyor(mSpeed);
+        }
+        while(!mConveyor.IsBallComing())
+        {
+            mConveyor.SetConveyor(-0.3);
+        }
+        while(mConveyor.IsBallComing())
+        {
+            mConveyor.SetConveyor(0.1);
+        }
     }
     else
     {
@@ -32,7 +43,17 @@ void SetConveyor::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void SetConveyor::End(bool interrupted) {}
+void SetConveyor::End(bool interrupted)
+{
+    while(!mConveyor.IsBallExiting())
+    {
+        mConveyor.SetConveyor(-0.2);
+    }
+    mConveyor.SetConveyor(0.0);
+}
 
 // Returns true when the command should end.
-bool SetConveyor::IsFinished() { return false; }
+bool SetConveyor::IsFinished()
+{
+    return !mConveyor.IsBallExiting();
+}
