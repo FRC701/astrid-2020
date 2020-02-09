@@ -102,10 +102,11 @@ class RobotContainer {
   Intake mIntake{"Intake", mIntakeRoller, mIntakePiston};
 
   //DooHickey Components
-  WPI_TalonSRX mDooHickeySpinner{kDoohickey};
-  frc::DoubleSolenoid mUpPushyThang{kDoohickeyPushyThangSolenoidFoward, 
-                                    kDoohickeyPushyThangSolenoidReverse};
-  DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};
+  DooHickey::Components mDooHickeyComponents{
+    WPI_TalonSRX{kDoohickey},
+    frc::DoubleSolenoid{kDoohickeyPushyThangSolenoidFoward,kDoohickeyPushyThangSolenoidReverse}
+  };
+  DooHickey mDooHickey{"DooHickey", mDooHickeyComponents};
 
   void ConfigureButtonBindings();
 };

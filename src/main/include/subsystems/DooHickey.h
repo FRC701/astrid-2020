@@ -41,10 +41,16 @@ public:
   using StatusFrameEnhanced = ctre::phoenix::motorcontrol::StatusFrameEnhanced;
 
   bool IsRotationControlFinished = false;
-  
-  DooHickey(const wpi::Twine& name
-        ,WPI_TalonSRX& spinner
-        ,frc::DoubleSolenoid& UpPushyThang);
+  struct Components
+    {
+      WPI_TalonSRX spinner;
+      frc::DoubleSolenoid UpPushyThang;
+    }; 
+
+  DooHickey(const wpi::Twine& name, Components& components);
+
+
+  DooHickey(const wpi::Twine& name);
 
   void Init();
   void Periodic();
@@ -60,7 +66,5 @@ public:
 
  private:
  
-  WPI_TalonSRX& mSpinner;
-  frc::DoubleSolenoid& mUpPushyThang;
-  
+   Components& mComponents; 
 };
