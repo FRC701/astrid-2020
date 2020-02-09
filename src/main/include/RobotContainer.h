@@ -8,6 +8,7 @@
 #pragma once
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <frc2/command/button/JoystickButton.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
@@ -66,6 +67,7 @@ class RobotContainer {
 
  private:
   frc::XboxController driver{0};
+  frc::XboxController codriver{1};
 
   // Chassis Components
   Chassis::Components mChassisComponents{kChassisFrontLeft, kChassisFrontRight,kChassisRearLeft,kChassisRearRight};  
