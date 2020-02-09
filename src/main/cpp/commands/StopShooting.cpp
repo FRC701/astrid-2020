@@ -5,34 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/Shoot.h"
+#include "commands/StopShooting.h"
 
-Shoot::Shoot(Shooter& mShooter,  double speed)
-: mShooter(mShooter)
-, mSpeed(speed)
-{
-  AddRequirements(&mShooter);
+StopShooting::StopShooting() {
+  // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void Shoot::Initialize() 
-{
-
-}
+void StopShooting::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void Shoot::Execute() 
-{
-  mShooter.Shoot(mSpeed);
-}
+void StopShooting::Execute() {}
 
 // Called once the command ends or is interrupted.
-void Shoot::End(bool interrupted) 
-{}
+void StopShooting::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool Shoot::IsFinished() 
-{ 
-  constexpr double range = 100;
-  return mShooter.GetVelocity() < range && mShooter.GetVelocity() > range * -1; 
-}
+bool StopShooting::IsFinished() { return false; }

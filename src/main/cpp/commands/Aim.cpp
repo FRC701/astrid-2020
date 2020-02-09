@@ -46,4 +46,7 @@ void Aim::Execute()
 void Aim::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool Aim::IsFinished() { return false; }
+bool Aim::IsFinished()
+{
+  return mChassis.TargetOffset < 1 && mChassis.TargetOffset > -1;
+}
