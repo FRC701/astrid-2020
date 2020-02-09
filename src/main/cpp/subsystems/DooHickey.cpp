@@ -131,6 +131,98 @@ void DooHickey::Periodic() {
       IsRotationControlFinished = true;
     }
 
+    struct colorstuff 
+    {
+      frc::Color viewing;
+      frc::Color assigned;
+    };
+    struct direction
+    {
+      int direction;
+    };
+    struct stoppingColor
+    {
+      frc::Color stopHere;
+    };
+    colorstuff Selector1[] = 
+    {
+       {kRedTarget, kRedTarget}
+      ,{kRedTarget, kGreenTarget}
+      ,{kRedTarget, kBlueTarget}
+      ,{kRedTarget, kYellowTarget}
+
+      ,{kGreenTarget, kRedTarget}
+      ,{kGreenTarget, kGreenTarget}
+      ,{kGreenTarget, kBlueTarget}
+      ,{kGreenTarget, kYellowTarget}
+
+      ,{kBlueTarget, kRedTarget}
+      ,{kBlueTarget, kGreenTarget}
+      ,{kBlueTarget, kBlueTarget}
+      ,{kBlueTarget, kYellowTarget}
+
+      ,{kYellowTarget, kRedTarget}
+      ,{kYellowTarget, kGreenTarget}
+      ,{kYellowTarget, kBlueTarget}
+      ,{kYellowTarget, kYellowTarget}
+    };
+    direction Selector2[] =
+    {
+       {-1}
+      ,{-1}
+      ,{ 0}
+      ,{ 1}
+
+      ,{ 1}
+      ,{-1}
+      ,{-1}
+      ,{ 0}
+
+      ,{ 0}
+      ,{ 1}
+      ,{-1}
+      ,{-1}
+
+      ,{-1}
+      ,{ 0}
+      ,{ 1}
+      ,{-1}
+    };
+    stoppingColor Selector3[] = 
+    {
+       {kBlueTarget}
+      ,{kYellowTarget}
+      ,{kRedTarget}
+      ,{kGreenTarget}
+      
+      ,{kBlueTarget}
+      ,{kYellowTarget}
+      ,{kRedTarget}
+      ,{kGreenTarget}
+
+      ,{kBlueTarget}
+      ,{kYellowTarget}
+      ,{kRedTarget}
+      ,{kGreenTarget}
+
+      ,{kBlueTarget}
+      ,{kYellowTarget}
+      ,{kRedTarget}
+      ,{kGreenTarget}
+    };
+/*
+    for(int i = 0; i < sizeof(Selector1); i++) 
+    {
+      if(matchedColor == Selector1[i].viewing && assignedColor == Selector1[i].assigned)
+      {
+        while(matchedColor != Selector3[i].stopHere)
+        {
+          MoveSpinner(Selector2[i].direction * 18730);
+        }
+      }
+    }
+*/
+
     //Code for stopping the motor after Rotation Control is finished AND the specified Color is reached.
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     if(gameData.length() > 0)
