@@ -111,6 +111,7 @@ void DooHickey::Periodic() {
     std::string assignedColorString;
     double confidence = 0.0;
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
+    frc::Color assignedColor;
 
     //Code for finding out the detected Color 
     if (matchedColor == kBlueTarget) {
@@ -141,44 +142,29 @@ void DooHickey::Periodic() {
     switch (gameData[0])
     {
     case 'B' :
-      /*If the matched color is blue when the assigned color is blue and rotation control is finished
-      *then stop the motor
-      */
+      
       assignedColorString = "Blue";
-      if(matchedColor == kBlueTarget && IsRotationControlFinished == true) 
-      {
-        mMotorSpeed = 0;
-      }
+      assignedColor = kBlueTarget;
+
       break;
     case 'G' :
-      /*If the matched color is green when the assigned color is green and rotation control is finished
-      *then stop the motor
-      */
+      
       assignedColorString = "Green";
-      if(matchedColor == kGreenTarget && IsRotationControlFinished == true) 
-      {
-        mMotorSpeed = 0;
-      }
+      assignedColor = kGreenTarget;
+      
       break;
     case 'R' :
-      /*If the matched color is red when the assigned color is red and rotation control is finished
-      *then stop the motor
-      */
+      
       assignedColorString = "Red";
-      if(matchedColor == kRedTarget && IsRotationControlFinished == true) 
-      {
-        mMotorSpeed = 0;
-      }
+      assignedColor = kRedTarget;
+     
       break;
     case 'Y' :
-      /*If the matched color is yellow when the assigned color is yellow and rotation control is finished
-      *then stop the motor
-      */
+      
       assignedColorString = "Yellow";
-      if(matchedColor == kYellowTarget && IsRotationControlFinished == true) 
-      {
-        mMotorSpeed = 0;
-      }
+      assignedColor = kYellowTarget;
+
+      
       break;
     default :
       //This is corrupt data
