@@ -9,15 +9,31 @@
 
 namespace{
 
-constexpr double kP{0.0};
-constexpr double kI{0.0};
-constexpr double kD{0.0};
-constexpr double kF{0.0};
-
 constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kReverse};
 constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kForward};
 constexpr frc::DoubleSolenoid::Value kLatchEngage {frc::DoubleSolenoid::kReverse};
 constexpr frc::DoubleSolenoid::Value kLatchDisengage {frc::DoubleSolenoid::kForward};
+
+constexpr double kTicksPerRotation {2048};
+constexpr double kHundredMillisPerSecond {10};
+constexpr double kSecondsPerMin {60};
+
+double ticksToRPM(double ticks)
+{
+  double rpm = (ticks / kTicksPerRotation) * kHundredMillisPerSecond * kSecondsPerMin;
+  return rpm;
+}
+
+double RPMToTicks(double rpm)
+{
+  double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
+  return ticks;
+}
+constexpr double kMaxVelocityError{4000-3000};
+constexpr double kP{(.05*1023)/kMaxVelocityError};
+constexpr double kI{0.0};
+constexpr double kD{0.0};
+double kF{(.95 * 1023)/ RPMToTicks(4000)};
 
 }
 
@@ -55,22 +71,14 @@ void Shooter::IdleShoot()
 
 double Shooter::MotorTopRPM()
 {
-  constexpr double TicksPerRotation {2048};
-  constexpr double hundredMSPS {10};
-  constexpr double secondsPMin {60};
   double SpeedTP100msTop = mshooterleft.GetSelectedSensorVelocity();
-  double RPMMotorTop = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
-  return RPMMotorTop;
+  return ticksToRPM(SpeedTP100msTop);
 }
 
 double Shooter::MotorBottomRPM()
 {
-  constexpr double TicksPerRotation {2048};
-  constexpr double hundredMSPS {10};
-  constexpr double secondsPMin {60};
   double SpeedTP100msTop = mshooterright.GetSelectedSensorVelocity();
-  double RPMMotorBottom = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
-  return RPMMotorBottom;
+  return ticksToRPM(SpeedTP100msTop);
 }
 
 double Shooter::GetVelocity()
@@ -78,10 +86,28 @@ double Shooter::GetVelocity()
   return mshooterleft.GetSelectedSensorVelocity();
 }
 
-double Shooter::Shoot(double speed)
+double Shooter::Shoot(double speedRPM)
 {
-    mshooterleft.Set(ControlMode::Velocity, speed);
-    return speed;
+  double speed = RPMToTicks(speedRPM);  
+  mshooterleft.Set(ControlMode::Velocity, speed);
+  return speed;
+}
+
+bool Shooter::IsInRange() const
+{
+  constexpr int kErrorThreshold = 10;
+  constexpr int kLoopsToSettle = 10;
+
+  int loopError = mshooterleft.GetClosedLoopError();
+  if (loopError < kErrorThreshold && loopError > -kErrorThreshold)
+  {
+    ++mThresholdLoops;
+  }
+  else
+  {
+    mThresholdLoops = 0;
+  }
+  return mThresholdLoops >= kLoopsToSettle;
 }
 
 //Start of Pistons
@@ -105,10 +131,10 @@ void Shooter::DisengageLatch()
   mlatch.Set(kLatchDisengage);
 }
 
-
 // This method will be called once per scheduler run
 void Shooter::Periodic() 
 {
   frc::SmartDashboard::PutNumber("Left Motor RPM", MotorBottomRPM());
   frc::SmartDashboard::PutNumber("Right Motor RPM", MotorTopRPM());
+  frc::SmartDashboard::PutBoolean("Shooter is in range", IsInRange());
 }

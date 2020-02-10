@@ -81,11 +81,11 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
 
   frc::SmartDashboard::PutData(&mShooter);
-  frc::SmartDashboard::PutData("Shoot 100%", new Shoot(mShooter, 1.0));
-  frc::SmartDashboard::PutData("Shoot 75%", new Shoot(mShooter, .75));
-  frc::SmartDashboard::PutData("Shoot 50%", new Shoot(mShooter, .50));
-  frc::SmartDashboard::PutData("Shoot 25%", new Shoot(mShooter, .25));
-  frc::SmartDashboard::PutData("Shoot 10%", new Shoot(mShooter, .10));
+  frc::SmartDashboard::PutData("Shoot 3000", new Shoot(mShooter, 3000.));
+  frc::SmartDashboard::PutData("Shoot 4000", new Shoot(mShooter, 4000.));
+  frc::SmartDashboard::PutData("Shoot 2000", new Shoot(mShooter, 2000.));
+  frc::SmartDashboard::PutData("Shoot 1000", new Shoot(mShooter, 1000.));
+  frc::SmartDashboard::PutData("Shoot 4500", new Shoot(mShooter, 4500.));
 
   frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull(mShooter));
   frc::SmartDashboard::PutData("Close Hatch", new HoodRetract(mShooter));

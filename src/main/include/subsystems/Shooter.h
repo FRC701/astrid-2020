@@ -38,6 +38,8 @@ class Shooter : public frc2::SubsystemBase {
   void EngageLatch();
   void DisengageLatch();
   double GetVelocity();
+  bool IsInRange() const;
+
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -48,4 +50,6 @@ class Shooter : public frc2::SubsystemBase {
 
   frc::DoubleSolenoid& mhood;
   frc::DoubleSolenoid& mlatch;
+
+  int mutable mThresholdLoops{0};
 };
