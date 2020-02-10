@@ -20,8 +20,11 @@
 #include "commands/LatchEngage.h"
 #include "commands/LimeLightsOff.h"
 #include "commands/LimeLightsOn.h"
+#include "commands/LongHood.h"
 #include "commands/Spin.h"
 #include "commands/SetHickeyPos.h"
+#include "commands/ShortHood.h"
+#include "commands/StowHood.h"
 #include "commands/HickeyDisengage.h"
 #include "commands/HickeyEngage.h"
 #include "commands/RunConveyor.h"
@@ -101,7 +104,12 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("run conveyor 20", new RunConveyor(mConveyor, 0.2));
 
   frc::SmartDashboard::PutData("reset balls in conveyor", new ResetBallConveyor(mConveyor));
+  
+  frc::SmartDashboard::PutData("Short Hood", new ShortHood(mShooter));
 
+  frc::SmartDashboard::PutData("Long Hood", new LongHood(mShooter));
+
+  frc::SmartDashboard::PutData("Stow Hood", new StowHood(mShooter));
   // Configure the button bindings
   ConfigureButtonBindings();
 }
