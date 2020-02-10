@@ -14,6 +14,7 @@
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
 #include "commands/Aim.h"
+#include "commands/EnableShoot.h"
 #include "commands/HoodOutFull.h"
 #include "commands/HoodRetract.h"
 #include "commands/LatchDisengage.h"
@@ -106,10 +107,11 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("reset balls in conveyor", new ResetBallConveyor(mConveyor));
   
   frc::SmartDashboard::PutData("Short Hood", new ShortHood(mShooter));
-
   frc::SmartDashboard::PutData("Long Hood", new LongHood(mShooter));
-
   frc::SmartDashboard::PutData("Stow Hood", new StowHood(mShooter));
+
+  frc::SmartDashboard::PutData("Enable Shooting", new EnableShoot(mChassis, mConveyor, mShooter));
+
   // Configure the button bindings
   ConfigureButtonBindings();
 }
