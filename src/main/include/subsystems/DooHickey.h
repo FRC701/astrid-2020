@@ -18,6 +18,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "ctre/phoenix/motorcontrol/ControlMode.h"
 #include "ctre/phoenix/motorcontrol/StatusFrame.h"
+#include <cmath>
 
 
 class DooHickey : public frc2::SubsystemBase {
@@ -62,9 +63,9 @@ public:
   void UpdateSpeed();
   void UpdatePos();
   void MoveSpinner(double speed);
-
+  bool IsInRange() const;
 
  private:
- 
+   int mutable kWithinThresholdLoops = {0};
    Components& mComponents; 
 };

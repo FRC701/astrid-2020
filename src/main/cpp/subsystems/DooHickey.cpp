@@ -10,12 +10,17 @@
 
 namespace
 {
-  constexpr double kF{0.3};
+  constexpr double kF{0.0};
   constexpr double kP{0.1};
   constexpr double kI{0.0};
   constexpr double kD{0.0};
-  constexpr frc::DoubleSolenoid::Value kHickeyEngage {frc::DoubleSolenoid::kReverse};
-  constexpr frc::DoubleSolenoid::Value kHickeyDisengage {frc::DoubleSolenoid::kForward};
+  constexpr double kNumberOfRotations{4};
+  constexpr double kTicksPerRotation{2048};
+  constexpr double radiusCW{16}; //16" radius of Control panel 
+  constexpr double radiusDW{1.5};  //1.5" radius of DooHickey wheel (3" diameter)
+  constexpr double TargetPos = (kNumberOfRotations*(radiusCW/radiusDW)) * kTicksPerRotation;
+  constexpr frc::DoubleSolenoid::Value kHickeyEngage {frc::DoubleSolenoid::kForward};
+  constexpr frc::DoubleSolenoid::Value kHickeyDisengage {frc::DoubleSolenoid::kReverse};
 }
 
 DooHickey::DooHickey(const wpi::Twine& name, Components& components)
@@ -61,7 +66,7 @@ void DooHickey::Init() {
 
 }
 void DooHickey::MoveSpinner(double speed) {
-  double setSpeedTP100ms = speed * 2048 * 60 * 10;
+  double setSpeedTP100ms = speed * 2048 / 60 / 10;
   mMotorSpeed = setSpeedTP100ms;
   UpdateSpeed();
 }
@@ -77,6 +82,22 @@ void DooHickey::UpdateSpeed() {
 
 void DooHickey::UpdatePos() {
   mComponents.spinner.Set(ControlMode::MotionMagic, mTargetPos);
+}
+
+bool DooHickey::IsInRange() const
+{
+  constexpr int kErrorThreshold = 10;
+  constexpr int kLoopsToSettle = 10;
+
+  if(abs(mComponents.spinner.GetActiveTrajectoryPosition() - TargetPos) < kErrorThreshold)
+  {
+    kWithinThresholdLoops++;
+  }
+  else {
+    kWithinThresholdLoops = 0;
+  }
+
+  return (kWithinThresholdLoops > kLoopsToSettle);
 }
 
 void DooHickey::PushThang() {
@@ -210,18 +231,18 @@ void DooHickey::Periodic() {
       ,{kRedTarget}
       ,{kGreenTarget}
     };
-/*
+
+
     for(int i = 0; i < sizeof(Selector1); i++) 
     {
       if(matchedColor == Selector1[i].viewing && assignedColor == Selector1[i].assigned)
       {
-        while(matchedColor != Selector3[i].stopHere)
+        while(!(matchedColor == Selector3[i].stopHere))
         {
           MoveSpinner(Selector2[i].direction * 18730);
         }
       }
     }
-*/
 
     //Code for stopping the motor after Rotation Control is finished AND the specified Color is reached.
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();

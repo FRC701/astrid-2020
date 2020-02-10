@@ -104,7 +104,7 @@ class RobotContainer {
   //DooHickey Components
   DooHickey::Components mDooHickeyComponents{
     WPI_TalonSRX{kDoohickey},
-    frc::DoubleSolenoid{kDoohickeyPushyThangSolenoidFoward,kDoohickeyPushyThangSolenoidReverse}
+    frc::DoubleSolenoid{kDoohickeyPushyThangSolenoidFoward, kDoohickeyPushyThangSolenoidReverse}
   };
   DooHickey mDooHickey{"DooHickey", mDooHickeyComponents};
 
