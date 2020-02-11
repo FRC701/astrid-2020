@@ -10,6 +10,8 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include <subsystems/Conveyor.h>
+#include <frc2/command/WaitCommand.h>
+#include <frc/Timer.h>
 
 /**
  * An example command.
@@ -21,7 +23,7 @@
 class SetConveyor
     : public frc2::CommandHelper<frc2::CommandBase, SetConveyor> {
  public:
-  SetConveyor(Conveyor& conveyor, double speed);
+  SetConveyor(Conveyor& conveyor, double speed, bool isIntake);
 
   void Initialize() override;
 
@@ -33,4 +35,6 @@ class SetConveyor
 private: 
   Conveyor& mConveyor;
   double mSpeed;
+  bool mIsIntake;
+  frc::Timer mTimer;
 };
