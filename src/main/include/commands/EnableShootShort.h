@@ -9,13 +9,18 @@
 
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/SequentialCommandGroup.h>
-
+#include "subsystems/Chassis.h"
 #include "subsystems/Conveyor.h"
 #include "subsystems/Shooter.h"
 
-class ShootBalls
+class EnableShootShort
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
-                                 ShootBalls> {
+                                 EnableShootShort> {
  public:
-  ShootBalls(Shooter& shooter, Conveyor& conveyor, double shooterRPM);
+  EnableShootShort(Chassis& chassis, Conveyor& conveyor, Shooter& shooter);
+
+ private:
+  Chassis& mChassis;
+  Conveyor& mConveyor;
+  Shooter& mShooter;
 };

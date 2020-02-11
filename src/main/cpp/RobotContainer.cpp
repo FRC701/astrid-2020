@@ -33,6 +33,7 @@
 #include <commands/IntakeEngage.h>
 #include <commands/IntakeDisengage.h>
 #include "commands/EnableIntake.h"
+#include "commands/EnableShootShort.h"
 
 
 RobotContainer::RobotContainer()
@@ -111,6 +112,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Stow Hood", new StowHood(mShooter));
 
   frc::SmartDashboard::PutData("Enable Shooting", new EnableShoot(mChassis, mConveyor, mShooter));
+  frc::SmartDashboard::PutData("Enable Short Shooting", new EnableShootShort(mChassis, mConveyor, mShooter));
+
 
   // Configure the button bindings
   ConfigureButtonBindings();

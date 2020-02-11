@@ -32,9 +32,9 @@ void Shoot::End(bool interrupted)
 
 // Returns true when the command should end.
 bool Shoot::IsFinished() 
-{ 
+{
+  return mShooter.MotorTopRPM() >= (mSpeed); 
   // What does this mean?
   //constexpr double range = 100;
  // return mShooter.GetVelocity() < range && mShooter.GetVelocity() > range * -1; 
- return false;
 }

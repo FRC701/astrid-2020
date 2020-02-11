@@ -5,16 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ShootBalls.h"
-#include "commands/Shoot.h"
+#include "commands/EnableShootShort.h"
+#include "commands/Aim.h"
+#include "commands/ShortHood.h"
 #include "commands/SetConveyor.h"
-#include "commands/StowHood.h"
-#include "commands/StopShooting.h"
+#include "commands/Shoot.h"
+#include "commands/ShootBalls.h"
+#include "commands/HoodRetract.h"
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-ShootBalls::ShootBalls(Shooter& shooter, Conveyor& conveyor, double shooterRPM) {
+EnableShootShort::EnableShootShort(Chassis& chassis, Conveyor& conveyor, Shooter& shooter)
+: mChassis(chassis), mConveyor(conveyor), mShooter(shooter)
+{
   // Add your commands here, e.g.
-  AddCommands(Shoot(shooter, shooterRPM), SetConveyor(conveyor, 0.8, false), StowHood(shooter), StopShooting(shooter));
+  // AddCommands(FooCommand(), BarCommand());
+  //
+  // What is this magic number? What is the calculation?
+  AddCommands(
+    ShortHood(shooter), 
+    /* Aim(mChassis), */
+    ShootBalls(shooter, conveyor, 2000), // 2000RPM for testing
+    HoodRetract(shooter));
 }
