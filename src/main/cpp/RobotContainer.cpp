@@ -124,25 +124,16 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button coB {[this]{return codriver.GetRawButton(2);}};
   frc2::Button coX {[this]{return codriver.GetRawButton(3);}};
   frc2::Button coY {[this]{return codriver.GetRawButton(4);}};
-  frc2::Button cor1 {[this]{return codriver.GetRawButton(5);}};
-  frc2::Button cor2 {[this]{return codriver.GetRawButton(6);}};
-  frc2::Button col1 {[this]{return codriver.GetRawButton(7);}};
-  frc2::Button col2 {[this]{return codriver.GetRawButton(8);}};
-  frc2::Button dA {[this]{return codriver.GetRawButton(9);}};
-
+  frc2::Button coBumperLeft {[this]{return codriver.GetRawButton(5);}};
+  frc2::Button coBumperRight {[this]{return codriver.GetRawButton(6);}};
 
   coA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
   coB.WhenPressed(new Spin(mDooHickey, 0.5));
   coX.WhenPressed(new IntakeOn(mIntake, 0.5));
   coY.WhenPressed(new Shoot(mShooter, 0.5));
 
-  col1.WhenPressed(new HickeyEngage(mDooHickey));
-  cor1.WhenPressed(new HickeyDisengage(mDooHickey));
-
-  col2.WhenPressed(new LatchEngage(mShooter));
-  cor2.WhenPressed(new LatchDisengage(mShooter));
-
-  dA.WhenPressed(new RunConveyor(mConveyor, 0.4));
+  coBumperLeft.WhenPressed(new HickeyEngage(mDooHickey));
+  coBumperRight.WhenPressed(new HickeyDisengage(mDooHickey));
 
 }
 
