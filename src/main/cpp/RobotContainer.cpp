@@ -47,6 +47,7 @@ RobotContainer::RobotContainer()
       [this] { return driver.GetY(JoystickHand::kRightHand); }
     )
   );
+
   constexpr double radiusCW = 16; //16" radius of Control panel 
   constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
   constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
@@ -82,8 +83,10 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
+
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this] {return 0.4;}));
   frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, [this] {return -0.4;}));
+  
   frc::SmartDashboard::PutData("Start Winch", new WinchHook(mWinch, kWinchPercentOutput));
 
   frc::SmartDashboard::PutData(&mShooter);
@@ -117,9 +120,21 @@ void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { mConveyor.BallIntakeExiting(); });
-  frc2::Button dA {[this]{return codriver.GetRawButton(1);}};
-  
-  dA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
+  frc2::Button coA {[this]{return codriver.GetRawButton(1);}};
+  frc2::Button coB {[this]{return codriver.GetRawButton(2);}};
+  frc2::Button coX {[this]{return codriver.GetRawButton(3);}};
+  frc2::Button coY {[this]{return codriver.GetRawButton(4);}};
+  frc2::Button coBumperLeft {[this]{return codriver.GetRawButton(5);}};
+  frc2::Button coBumperRight {[this]{return codriver.GetRawButton(6);}};
+
+  coA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
+  coB.WhenPressed(new Spin(mDooHickey, 0.5));
+  coX.WhenPressed(new IntakeOn(mIntake, 0.5));
+  coY.WhenPressed(new Shoot(mShooter, 0.5));
+
+  coBumperLeft.WhenPressed(new HickeyEngage(mDooHickey));
+  coBumperRight.WhenPressed(new HickeyDisengage(mDooHickey));
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
