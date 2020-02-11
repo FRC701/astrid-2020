@@ -117,9 +117,7 @@ void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { mConveyor.BallIntakeExiting(); });
-  frc2::Button dA {[this]{return driver.GetRawButton(1);}};
-  frc2::Button dB {[this]{return driver.GetRawButton(2);}};
-
+  frc2::Button dA {[this]{return codriver.GetRawButton(1);}};
   
   dA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
 }
