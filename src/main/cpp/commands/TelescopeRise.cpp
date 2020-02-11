@@ -8,8 +8,8 @@
 #include "commands/TelescopeRise.h"
 
 TelescopeRise::TelescopeRise(Telescope& telescope,
-                            std::function<double()> percentoutput)
-: mTelescope(telescope), mPercentOutput(percentoutput) {
+                            double speed)
+: mTelescope(telescope), mSpeed(speed) {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(&mTelescope);
 }
@@ -20,7 +20,7 @@ void TelescopeRise::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void TelescopeRise::Execute() 
 {
-  mTelescope.TelescopeRise(mPercentOutput());
+  mTelescope.TelescopeRise(mSpeed);
 }
 
 // Called once the command ends or is interrupted.

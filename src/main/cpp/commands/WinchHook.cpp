@@ -7,8 +7,8 @@
 
 #include "commands/WinchHook.h"
 
-
-WinchHook::WinchHook(Winch& winch, double percentoutput)
+WinchHook::WinchHook(Winch& winch,
+                    std::function<double()> percentoutput)
 : mWinch(winch), mWinchMotor(percentoutput)
 {
   // Use addRequirements() here to declare subsystem dependencies.
@@ -21,7 +21,7 @@ void WinchHook::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void WinchHook::Execute() 
 {
-  mWinch.WinchHook(mWinchMotor);
+  mWinch.WinchHook(mWinchMotor());
 }
 
 // Called once the command ends or is interrupted.

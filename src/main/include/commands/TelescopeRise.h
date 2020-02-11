@@ -21,7 +21,7 @@
 class TelescopeRise
     : public frc2::CommandHelper<frc2::CommandBase, TelescopeRise> {
  public:
-  TelescopeRise(Telescope& telescope, std::function<double()> percentoutput);
+  TelescopeRise(Telescope& telescope, double speed);
 
   void Initialize() override;
 
@@ -33,5 +33,5 @@ class TelescopeRise
 
 private:
   Telescope& mTelescope;
-  std::function<double()> mPercentOutput;
+  double mSpeed;
 };

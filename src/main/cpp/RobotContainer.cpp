@@ -27,10 +27,6 @@
 #include "commands/ResetBallConveyor.h"
 
 
-namespace {
-  constexpr double kWinchPercentOutput = 0.2;
-}
-
 RobotContainer::RobotContainer()
 {
   using JoystickHand = frc::GenericHID::JoystickHand;
@@ -64,15 +60,8 @@ RobotContainer::RobotContainer()
 
   //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
 
-  mTelescope.SetDefaultCommand
-  (
-    TelescopeRise
-    (
-      mTelescope,
-      [this] { return codriver.GetY(JoystickHand::kLeftHand); }
-    )
-  );
-
+  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
+  
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
   frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
@@ -82,9 +71,6 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
-  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this] {return 0.4;}));
-  frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, [this] {return -0.4;}));
-  frc::SmartDashboard::PutData("Start Winch", new WinchHook(mWinch, kWinchPercentOutput));
 
   frc::SmartDashboard::PutData(&mShooter);
   frc::SmartDashboard::PutData("Shoot 100%", new Shoot(mShooter, 1.0));
@@ -109,7 +95,6 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("reset balls in conveyor", new ResetBallConveyor(mConveyor));
 
   // Configure the button bindings
-
   ConfigureButtonBindings();
 }
 
@@ -117,9 +102,6 @@ void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { mConveyor.BallIntakeExiting(); });
-  frc2::Button dA {[this]{return codriver.GetRawButton(1);}};
-  
-  dA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

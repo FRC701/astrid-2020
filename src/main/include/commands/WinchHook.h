@@ -21,7 +21,7 @@
 class WinchHook
     : public frc2::CommandHelper<frc2::CommandBase, WinchHook> {
  public:
-  WinchHook(Winch& winch, double percentoutput);
+  WinchHook(Winch& winch, std::function<double()> winchmotor);
 
   void Initialize() override;
 
@@ -33,5 +33,5 @@ class WinchHook
 
 private:
 Winch& mWinch;
-double mWinchMotor;
+std::function<double()> mWinchMotor;
 };
