@@ -52,14 +52,13 @@ class RobotContainer {
 
   // Solenoid IDs (must be unique)
   static constexpr int kLatchSolenoidFoward{0};
-  static constexpr int kLatchSolenoidReverse{7};
   static constexpr int kHoodSolenoidFoward{1};
-  static constexpr int kHoodSolenoidReverse{6};
   static constexpr int kDoohickeyPushyThangSolenoidFoward{2};
-  static constexpr int kDoohickeyPushyThangSolenoidReverse{5};
   static constexpr int kUnusedSolenoidFoward{3};
   static constexpr int kUnusedSolenoidReverse{4};
-
+  static constexpr int kDoohickeyPushyThangSolenoidReverse{5};
+  static constexpr int kHoodSolenoidReverse{6};
+  static constexpr int kLatchSolenoidReverse{7};
 
   RobotContainer();
 
