@@ -25,7 +25,10 @@ void WinchHook::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void WinchHook::End(bool interrupted) {}
+void WinchHook::End(bool interrupted) 
+{
+    mWinch.WinchHook(0);
+}
 
 // Returns true when the command should end.
 bool WinchHook::IsFinished() { return false; }
