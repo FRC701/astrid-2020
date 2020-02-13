@@ -166,6 +166,9 @@ void RobotContainer::ConfigureButtonBindings() {
   coX.WhenPressed(new IntakeOn(mIntake, 0.5));
   coY.WhenPressed(new Shoot(mShooter, 0.5));
 
+  coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
+  coB.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
+  coX.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coBumperLeft.WhenPressed(new HickeyEngage(mDooHickey));
   coBumperRight.WhenPressed(new HickeyDisengage(mDooHickey));
 

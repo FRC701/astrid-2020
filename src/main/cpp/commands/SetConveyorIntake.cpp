@@ -5,16 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/LongHood.h"
-#include "commands/LatchEngage.h"
-#include "commands/HoodOutFull.h"
-#include <frc2/command/WaitCommand.h>
+#include "commands/SetConveyorIntake.h"
+#include "commands/SetConveyor.h"
+#include "commands/EndIntake.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-LongHood::LongHood(Shooter& shooter) {
-constexpr units::second_t kWaitLatch{.25};
-  AddCommands(LatchEngage(shooter), frc2::WaitCommand(kWaitLatch), HoodOutFull(shooter) );
+SetConveyorIntake::SetConveyorIntake(Conveyor& conveyor, double speed) 
+: mConveyor(conveyor)
+, mSpeed(speed)
+{
+  AddCommands(SetConveyor(mConveyor, mSpeed), EndIntake(mConveyor));
+  // Add your commands here, e.g.
+  // AddCommands(FooCommand(), BarCommand());
 }
-
