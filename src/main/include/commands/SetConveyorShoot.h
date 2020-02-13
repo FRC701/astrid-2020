@@ -9,8 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/Conveyor.h>
-#include <frc2/command/WaitCommand.h>
+#include "subsystems/Conveyor.h"
 #include <frc/Timer.h>
 
 /**
@@ -20,10 +19,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SetConveyor
-    : public frc2::CommandHelper<frc2::CommandBase, SetConveyor> {
+class SetConveyorShoot
+    : public frc2::CommandHelper<frc2::CommandBase, SetConveyorShoot> {
  public:
-  SetConveyor(Conveyor& conveyor, double speed);
+  SetConveyorShoot(Conveyor& conveyor, double speed);
 
   void Initialize() override;
 
@@ -32,7 +31,7 @@ class SetConveyor
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-private: 
+ private:
   Conveyor& mConveyor;
   double mSpeed;
   frc::Timer mTimer;

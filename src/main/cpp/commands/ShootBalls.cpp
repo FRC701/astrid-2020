@@ -7,7 +7,7 @@
 
 #include "commands/ShootBalls.h"
 #include "commands/Shoot.h"
-#include "commands/SetConveyor.h"
+#include "commands/SetConveyorShoot.h"
 #include "commands/StowHood.h"
 #include "commands/StopShooting.h"
 
@@ -16,5 +16,5 @@
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 ShootBalls::ShootBalls(Shooter& shooter, Conveyor& conveyor, double shooterRPM) {
   // Add your commands here, e.g.
-  AddCommands(Shoot(shooter, shooterRPM), SetConveyor(conveyor, 0.8, false), StowHood(shooter), StopShooting(shooter));
+  AddCommands(Shoot(shooter, shooterRPM), SetConveyorShoot(conveyor, 0.8), StowHood(shooter), StopShooting(shooter));
 }

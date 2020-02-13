@@ -6,12 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/SetConveyor.h"
-#include <frc/Timer.h>
+#include "commands/EndIntake.h"
 
-SetConveyor::SetConveyor(Conveyor& conveyor, double speed, bool isIntake)
+SetConveyor::SetConveyor(Conveyor& conveyor, double speed)
 : mConveyor{conveyor}
 , mSpeed(speed)
-, mIsIntake(isIntake)
 , mTimer()
 {
   // Use addRequirements() here to declare subsystem dependencies.
@@ -19,16 +18,12 @@ SetConveyor::SetConveyor(Conveyor& conveyor, double speed, bool isIntake)
 }
 
 // Called when the command is initially scheduled.
-void SetConveyor::Initialize()
-{
-    mTimer.Start();
-    mTimer.Reset();
-}
+void SetConveyor::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void SetConveyor::Execute() 
 {
-    if(mConveyor.IsBallComing() && mConveyor.IsBallExiting() && mIsIntake)
+    if(mConveyor.IsBallComing() && mConveyor.IsBallExiting())
     {
         while(mConveyor.IsBallComing())
         {
@@ -36,16 +31,12 @@ void SetConveyor::Execute()
         }
         while(!mConveyor.IsBallComing())
         {
-            mConveyor.SetConveyor(-0.3);
+            mConveyor.SetConveyor(-0.4);
         }
         while(mConveyor.IsBallComing())
         {
             mConveyor.SetConveyor(0.1);
         }
-    }
-    else if(!mIsIntake)
-    {
-        mConveyor.SetConveyor(mSpeed);
     }
     else
     {
@@ -56,42 +47,15 @@ void SetConveyor::Execute()
 // Called once the command ends or is interrupted.
 void SetConveyor::End(bool interrupted)
 {
-    mTimer.Reset();
-    if(mIsIntake)
+    while(!mConveyor.IsBallComing() || !mConveyor.IsBallExiting())
     {
-        while(!mConveyor.IsBallExiting())
-        {
-            mConveyor.SetConveyor(-0.2);
-            mTimer.Reset();
-        }
-        while(mConveyor.IsBallExiting() || mTimer.Get() >= 2)
-        {
-            mConveyor.SetConveyor(0.2);
-        }
-        mConveyor.SetConveyor(0.0);
+        mConveyor.SetConveyor(-0.25);
     }
-    else
-    {
-        mConveyor.SetConveyor(0.0);
-    }
-    mTimer.Reset();
-    mTimer.Stop();
-    
+    mConveyor.SetConveyor(0.0);
 }
 
 // Returns true when the command should end.
 bool SetConveyor::IsFinished()
 {
-    if(mIsIntake)
-    {
-        return !mConveyor.IsBallExiting();
-    }
-    else
-    {
-        if(!mConveyor.IsBallExiting())
-        {
-            mTimer.Reset();
-        }
-        return (mTimer.Get() >= 2);
-    }  
+    return false;
 }

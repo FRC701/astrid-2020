@@ -124,8 +124,12 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { if(mConveyor.IsBallExiting()) { mConveyor.BallIntakeExiting(); }});
   frc2::Button coA {[this]{return coDriver.GetRawButton(1);}};
+  frc2::Button coB {[this]{return coDriver.GetRawButton(2);}};
+  frc2::Button coX {[this]{return coDriver.GetRawButton(3);}};
 
   coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
+  coB.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
+  coX.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
