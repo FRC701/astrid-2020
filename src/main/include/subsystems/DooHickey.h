@@ -22,6 +22,11 @@
 
 
 class DooHickey : public frc2::SubsystemBase {
+  
+public:
+  using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
+  using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+  using StatusFrameEnhanced = ctre::phoenix::motorcontrol::StatusFrameEnhanced;
 
   static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
 
@@ -30,16 +35,22 @@ class DooHickey : public frc2::SubsystemBase {
 
   double mMotorSpeed;
   double mTargetPos; 
+/*
+  frc::Color detectedColor = m_colorSensor.GetColor();
+  frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
+  frc::Color assignedColor;
+*/ 
+  std::string gameData;
+  std::string colorString;
+  std::string assignedColorString;
+  
+  double confidence = 0.0;
+  int colorCounter = 0;
 
   static constexpr frc::Color kBlueTarget = frc::Color(0.143, 0.427, 0.429);
   static constexpr frc::Color kGreenTarget = frc::Color(0.197, 0.561, 0.240);
   static constexpr frc::Color kRedTarget = frc::Color(0.561, 0.232, 0.114);
   static constexpr frc::Color kYellowTarget = frc::Color(0.361, 0.524, 0.113);
-  
-public:
-  using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
-  using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
-  using StatusFrameEnhanced = ctre::phoenix::motorcontrol::StatusFrameEnhanced;
 
   bool IsRotationControlFinished = false;
   struct Components
@@ -47,7 +58,20 @@ public:
       WPI_TalonSRX spinner;
       frc::DoubleSolenoid UpPushyThang;
     }; 
-
+    
+  struct stoppingColor  
+    {
+      int direction;
+      frc::Color Color;
+    };
+    
+  struct colorstuff 
+    {
+      frc::Color viewing;
+      frc::Color assigned;
+      stoppingColor stopHere;
+    };
+  
   DooHickey(const wpi::Twine& name, Components& components);
 
 
@@ -64,8 +88,15 @@ public:
   void UpdatePos();
   void MoveSpinner(double speed);
   bool IsInRange() const;
+  frc::Color MatchedColor();
+  frc::Color AssignedColor();
+  stoppingColor StopHereColor();
 
  private:
    int mutable kWithinThresholdLoops = {0};
    Components& mComponents; 
+
+  frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
+  frc::Color detectedColor = m_colorSensor.GetColor();
+  frc::Color assignedColor;
 };
