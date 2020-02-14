@@ -11,7 +11,7 @@
 SetConveyor::SetConveyor(Conveyor& conveyor, double speed)
 : mConveyor{conveyor}
 , mSpeed(speed)
-, mTimer()
+, mEndIntake(mConveyor)
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(&mConveyor);
@@ -25,15 +25,15 @@ void SetConveyor::Execute()
 {
     if(mConveyor.IsBallComing() && mConveyor.IsBallExiting())
     {
-        while(mConveyor.IsBallComing())
+        if(mConveyor.IsBallComing())
         {
             mConveyor.SetConveyor(mSpeed);
         }
-        while(!mConveyor.IsBallComing())
+        if(!mConveyor.IsBallComing())
         {
             mConveyor.SetConveyor(-0.4);
         }
-        while(mConveyor.IsBallComing())
+        if(mConveyor.IsBallComing())
         {
             mConveyor.SetConveyor(0.1);
         }
@@ -47,14 +47,7 @@ void SetConveyor::Execute()
 // Called once the command ends or is interrupted.
 void SetConveyor::End(bool interrupted)
 {
-    mTimer.Start();
-    mTimer.Reset();
-    while((!mConveyor.IsBallComing() || !mConveyor.IsBallExiting()) && mTimer.Get() <= 2)
-    {
-        mConveyor.SetConveyor(-0.25);
-    }
-    mTimer.Stop();
-    mConveyor.SetConveyor(0.0);
+    mEndIntake.Schedule();
 }
 
 // Returns true when the command should end.

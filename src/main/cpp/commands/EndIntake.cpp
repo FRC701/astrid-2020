@@ -9,13 +9,18 @@
 
 EndIntake::EndIntake(Conveyor& conveyor)
 : mConveyor(conveyor)
+, mTimer()
 {
   AddRequirements(&mConveyor);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void EndIntake::Initialize() {}
+void EndIntake::Initialize()
+{
+  mTimer.Start();
+  mTimer.Reset();
+}
 
 // Called repeatedly when this Command is scheduled to run
 void EndIntake::Execute()
@@ -26,11 +31,12 @@ void EndIntake::Execute()
 // Called once the command ends or is interrupted.
 void EndIntake::End(bool interrupted)
 {
+  mTimer.Stop();
   mConveyor.SetConveyor(0.0);
 }
 
 // Returns true when the command should end.
 bool EndIntake::IsFinished()
 {
-  return mConveyor.IsBallComing() && !mConveyor.IsBallExiting();
+  return (!mConveyor.IsBallComing() || !mConveyor.IsBallExiting()) && mTimer.Get() <= 2;
 }
