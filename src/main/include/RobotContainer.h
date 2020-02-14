@@ -88,10 +88,10 @@ class RobotContainer {
   Conveyor mConveyor{"Conveyor", mConveyorMotor};
     
   Shooter::Components mShooterComponents{
-    WPI_TalonFX{1},
-    WPI_TalonFX{2},
-    frc::DoubleSolenoid{2,5},
-    frc::DoubleSolenoid{1,6}
+    WPI_TalonFX{kShooterLeft},
+    WPI_TalonFX{kShooterRight},
+    frc::DoubleSolenoid{kHoodSolenoidFoward,kHoodSolenoidReverse},
+    frc::DoubleSolenoid{kLatchSolenoidFoward,kLatchSolenoidReverse}
   };
   Shooter mShooter{"Shooter", mShooterComponents};
 
