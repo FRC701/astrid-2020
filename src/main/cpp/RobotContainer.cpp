@@ -87,11 +87,11 @@ RobotContainer::RobotContainer()
     TelescopeRise
     (
       mTelescope,
-      [this] { return codriver.GetY(JoystickHand::kLeftHand); }
+      [this] { return coDriver.GetY(JoystickHand::kLeftHand); }
     )
   );
 
-  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.5));
+  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this]{return 0.5;}));
   
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
@@ -156,12 +156,12 @@ void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { if(mConveyor.IsBallExiting()) { mConveyor.BallIntakeExiting(); }});
-  frc2::Button coA {[this]{return codriver.GetRawButton(1);}};
-  frc2::Button coB {[this]{return codriver.GetRawButton(2);}};
-  frc2::Button coX {[this]{return codriver.GetRawButton(3);}};
-  frc2::Button coY {[this]{return codriver.GetRawButton(4);}};
-  frc2::Button coBumperLeft {[this]{return codriver.GetRawButton(5);}};
-  frc2::Button coBumperRight {[this]{return codriver.GetRawButton(6);}};
+  frc2::Button coA {[this]{return coDriver.GetRawButton(1);}};
+  frc2::Button coB {[this]{return coDriver.GetRawButton(2);}};
+  frc2::Button coX {[this]{return coDriver.GetRawButton(3);}};
+  frc2::Button coY {[this]{return coDriver.GetRawButton(4);}};
+  frc2::Button coBumperLeft {[this]{return coDriver.GetRawButton(5);}};
+  frc2::Button coBumperRight {[this]{return coDriver.GetRawButton(6);}};
   coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
   coA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
   coB.WhenPressed(new WinchHook(mWinch, -kWinchPercentOutput));

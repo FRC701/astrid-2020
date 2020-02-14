@@ -81,7 +81,7 @@ double Shooter::MotorBottomRPM()
 
 double Shooter::GetVelocity()
 {
-  return mshooterleft.GetSelectedSensorVelocity();
+  return mComponents.shooterleft.GetSelectedSensorVelocity();
 }
 
 double Shooter::Shoot(double speedRPM)
@@ -96,7 +96,7 @@ bool Shooter::IsInRange() const
   constexpr int kErrorThreshold = 10;
   constexpr int kLoopsToSettle = 10;
 
-  int loopError = mshooterleft.GetClosedLoopError();
+  int loopError = mComponents.shooterleft.GetClosedLoopError();
   if (loopError < kErrorThreshold && loopError > -kErrorThreshold)
   {
     ++mThresholdLoops;
