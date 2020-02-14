@@ -10,6 +10,7 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/Conveyor.h"
+#include "frc/Timer.h"
 
 /**
  * An example command.
@@ -32,4 +33,5 @@ class EndIntake
   bool IsFinished() override;
  private:
   Conveyor& mConveyor;
+  frc::Timer mTimer;
 };

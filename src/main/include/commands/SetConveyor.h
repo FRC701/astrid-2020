@@ -12,6 +12,7 @@
 #include <subsystems/Conveyor.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc/Timer.h>
+#include "commands/EndIntake.h"
 
 /**
  * An example command.
@@ -35,5 +36,5 @@ class SetConveyor
 private: 
   Conveyor& mConveyor;
   double mSpeed;
-  frc::Timer mTimer;
+  EndIntake mEndIntake;
 };
