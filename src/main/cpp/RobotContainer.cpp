@@ -65,19 +65,19 @@ RobotContainer::RobotContainer()
   constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
   constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
 
-  frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, 0.1));
-  frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, 0.2));
-  frc::SmartDashboard::PutData("Intake 30 percent", new IntakeOn(mIntake, 0.3));
-  frc::SmartDashboard::PutData("Intake 40 percent", new IntakeOn(mIntake, 0.4));
-  frc::SmartDashboard::PutData("Intake 50 percent", new IntakeOn(mIntake, 0.5));
-  frc::SmartDashboard::PutData("Intake 60 percent", new IntakeOn(mIntake, 0.6));
-  frc::SmartDashboard::PutData("Intake 70 percent", new IntakeOn(mIntake, 0.7));
-  frc::SmartDashboard::PutData("Intake 80 percent", new IntakeOn(mIntake, 0.8));
-  frc::SmartDashboard::PutData("Intake 90 percent", new IntakeOn(mIntake, 0.9));
-  frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(mIntake, 1.0));
+  frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, mChassis, 0.1));
+  frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, mChassis, 0.2));
+  frc::SmartDashboard::PutData("Intake 30 percent", new IntakeOn(mIntake, mChassis, 0.3));
+  frc::SmartDashboard::PutData("Intake 40 percent", new IntakeOn(mIntake, mChassis, 0.4));
+  frc::SmartDashboard::PutData("Intake 50 percent", new IntakeOn(mIntake, mChassis, 0.5));
+  frc::SmartDashboard::PutData("Intake 60 percent", new IntakeOn(mIntake, mChassis, 0.6));
+  frc::SmartDashboard::PutData("Intake 70 percent", new IntakeOn(mIntake, mChassis, 0.7));
+  frc::SmartDashboard::PutData("Intake 80 percent", new IntakeOn(mIntake, mChassis, 0.8));
+  frc::SmartDashboard::PutData("Intake 90 percent", new IntakeOn(mIntake, mChassis, 0.9));
+  frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(mIntake, mChassis, 1.0));
   frc::SmartDashboard::PutData("Intake Engage", new IntakeEngage(mIntake));
   frc::SmartDashboard::PutData("Intake Disengage", new IntakeDisengage(mIntake));
-  frc::SmartDashboard::PutData("Enable Intake", new EnableIntake(mIntake, mConveyor));
+  frc::SmartDashboard::PutData("Enable Intake", new EnableIntake(mIntake, mConveyor, mChassis));
 
 
   //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));

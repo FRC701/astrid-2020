@@ -8,6 +8,7 @@
 #pragma once
 
 #include "subsystems/Intake.h"
+#include "subsystems/Chassis.h"
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 /**
@@ -20,7 +21,7 @@
 class IntakeOn
     : public frc2::CommandHelper<frc2::CommandBase, IntakeOn> {
  public:
-  IntakeOn( Intake& intake, double speed);
+  IntakeOn(Intake& intake, Chassis& chassis, double speed);
 
   void Initialize() override;
 
@@ -33,4 +34,5 @@ class IntakeOn
  private:
   double mSpeed;
   Intake& mIntake;
+  Chassis& mChassis;
 };

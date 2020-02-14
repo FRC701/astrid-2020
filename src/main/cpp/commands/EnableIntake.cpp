@@ -12,10 +12,10 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-EnableIntake::EnableIntake(Intake& intake, Conveyor& conveyor)
-: mIntake(intake), mConveyor(conveyor)
+EnableIntake::EnableIntake(Intake& intake, Conveyor& conveyor, Chassis& chassis)
+: mIntake(intake), mConveyor(conveyor), mChassis(chassis)
 {
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  AddCommands(IntakeEngage(mIntake), IntakeCommand(mIntake, mConveyor));
+  AddCommands(IntakeEngage(mIntake), IntakeCommand(mIntake, mConveyor, mChassis));
 }
