@@ -25,6 +25,10 @@
 #include "commands/HickeyEngage.h"
 #include "commands/RunConveyor.h"
 #include "commands/ResetBallConveyor.h"
+#include <commands/HoodRetract.h>
+#include <commands/HoodOutFull.h>
+#include <commands/LatchDisengage.h>
+#include <commands/LatchEngage.h>
 
 
 namespace {
@@ -114,6 +118,14 @@ RobotContainer::RobotContainer()
 
   // Configure the button bindings
 
+  frc::SmartDashboard::PutData(&mShooter);
+  frc::SmartDashboard::PutData("Shoot 100%", new Shoot(mShooter, 1.0));
+  frc::SmartDashboard::PutData("Shoot 75%", new Shoot(mShooter, .75));
+  frc::SmartDashboard::PutData("Shoot 50%", new Shoot(mShooter, .50));
+  frc::SmartDashboard::PutData("Shoot 25%", new Shoot(mShooter, .25));
+  frc::SmartDashboard::PutData("Shoot 10%", new Shoot(mShooter, .10));
+
+  // Configure the button bindings
   ConfigureButtonBindings();
 }
 

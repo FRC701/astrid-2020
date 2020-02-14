@@ -19,6 +19,8 @@
 #include "subsystems/Telescope.h"
 #include "subsystems/Winch.h"
 #include "subsystems/DooHickey.h"
+#include <commands/Shoot.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "commands/TelescopeRise.h"
 #include "commands/Shoot.h"
@@ -84,14 +86,14 @@ class RobotContainer {
   // Conveyor Components
   WPI_TalonFX mConveyorMotor{kConveyor};
   Conveyor mConveyor{"Conveyor", mConveyorMotor};
-
-  //Shooter Components
-  WPI_TalonFX mshooterleft{kShooterLeft};
-  WPI_TalonFX mshooterright{kShooterRight};
-
-  frc::DoubleSolenoid mhood{kHoodSolenoidFoward, kHoodSolenoidReverse};
-  frc::DoubleSolenoid mlatch{kLatchSolenoidFoward, kLatchSolenoidReverse};
-  Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
+    
+  Shooter::Components mShooterComponents{
+    WPI_TalonFX{kShooterLeft},
+    WPI_TalonFX{kShooterRight},
+    frc::DoubleSolenoid{kHoodSolenoidFoward,kHoodSolenoidReverse},
+    frc::DoubleSolenoid{kLatchSolenoidFoward,kLatchSolenoidReverse}
+  };
+  Shooter mShooter{"Shooter", mShooterComponents};
 
   // Intake Components
   WPI_TalonFX mIntakeRoller{kIntake};
