@@ -8,9 +8,8 @@
 #include "commands/HickeyPosControl.h"
 
 HickeyPosControl::HickeyPosControl(DooHickey& DooHickey
-  ,DooHickey::stoppingColor stopHere
   ,double speed)
-: mDooHickey(DooHickey), mStopHere(stopHere), mSpeed(speed) 
+: mDooHickey(DooHickey), mSpeed(speed) 
 {
   SetName("HickeyPosControl");
   AddRequirements(&mDooHickey);

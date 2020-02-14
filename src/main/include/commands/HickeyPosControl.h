@@ -22,7 +22,6 @@ class HickeyPosControl
     : public frc2::CommandHelper<frc2::CommandBase, HickeyPosControl> {
  public:
   HickeyPosControl(DooHickey& DooHickey
-  ,DooHickey::stoppingColor stopHere
   ,double speed);
 
   void Initialize() override;

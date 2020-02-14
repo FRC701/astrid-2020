@@ -66,7 +66,10 @@ void DooHickey::Init() {
 
 }
 void DooHickey::MoveSpinner(double speed) {
-  double setSpeedTP100ms = speed * 2048 / 60 / 10;
+  constexpr double kTicksPerRotation{2048};
+  constexpr double kSecondsPerMinute{60};
+  constexpr double kSecondsTo100ms{10};
+  double setSpeedTP100ms = speed * kTicksPerRotation / kSecondsPerMinute / kSecondsTo100ms;
   mMotorSpeed = setSpeedTP100ms;
   UpdateSpeed();
 }
