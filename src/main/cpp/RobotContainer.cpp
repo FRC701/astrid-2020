@@ -162,17 +162,16 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button coY {[this]{return coDriver.GetRawButton(4);}};
   frc2::Button coBumperLeft {[this]{return coDriver.GetRawButton(5);}};
   frc2::Button coBumperRight {[this]{return coDriver.GetRawButton(6);}};
-  coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
-  coA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
-  coB.WhenPressed(new WinchHook(mWinch, -kWinchPercentOutput));
-  coX.WhenPressed(new IntakeOn(mIntake, 0.5));
-  coY.WhenPressed(new Shoot(mShooter, 0.5));
 
-  coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
-  coB.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
+//took out buttons for doohickey, intake, and shooter; still need buttons for them
+  coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
+  coB.WhenPressed(Spin(mDooHickey, 0.5));
   coX.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
-  coBumperLeft.WhenPressed(new HickeyEngage(mDooHickey));
-  coBumperRight.WhenPressed(new HickeyDisengage(mDooHickey));
+  coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
+
+  coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
+  coBumperRight.WhenPressed(new WinchHook(mWinch, -kWinchPercentOutput));
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
