@@ -116,11 +116,6 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("reset balls in conveyor", new ResetBallConveyor(mConveyor));
 
-  frc::SmartDashboard::PutData("Open Hatch Fully", new HoodOutFull());
-  frc::SmartDashboard::PutData("Close Hatch", new HoodRetract());
-  frc::SmartDashboard::PutData("Engage Latch", new LatchEngage());
-  frc::SmartDashboard::PutData("Disengage Latch", new LatchDisengage());
-
   // Configure the button bindings
 
   frc::SmartDashboard::PutData(&mShooter);

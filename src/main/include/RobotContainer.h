@@ -95,10 +95,6 @@ class RobotContainer {
   };
   Shooter mShooter{"Shooter", mShooterComponents};
 
-  frc::DoubleSolenoid mhood{2,5};
-  frc::DoubleSolenoid mlatch{1,6};
-  Shooter mShooter{"Shooter", mshooterleft, mshooterright, mhood, mlatch};
-
   // Intake Components
   WPI_TalonFX mIntakeRoller{kIntake};
   Intake mIntake{"Intake", mIntakeRoller};
