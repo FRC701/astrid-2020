@@ -88,6 +88,7 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, [this] {return -0.4;}));
   
   frc::SmartDashboard::PutData("Start Winch", new WinchHook(mWinch, kWinchPercentOutput));
+  frc::SmartDashboard::PutData("Drop Winch", new WinchHook(mWinch, -kWinchPercentOutput));
 
   frc::SmartDashboard::PutData(&mShooter);
   frc::SmartDashboard::PutData("Shoot 100%", new Shoot(mShooter, 1.0));
@@ -128,7 +129,7 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button coBumperRight {[this]{return codriver.GetRawButton(6);}};
 
   coA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
-  coB.WhenPressed(new Spin(mDooHickey, 0.5));
+  coB.WhenPressed(new WinchHook(mWinch, -kWinchPercentOutput));
   coX.WhenPressed(new IntakeOn(mIntake, 0.5));
   coY.WhenPressed(new Shoot(mShooter, 0.5));
 

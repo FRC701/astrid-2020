@@ -6,13 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
-#include <ctre/Phoenix.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc2/command/SubsystemBase.h>
 
 class Telescope : public frc2::SubsystemBase {
  public:
- using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+ using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
 
  struct Components
  {
