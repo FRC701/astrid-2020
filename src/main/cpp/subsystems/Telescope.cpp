@@ -13,6 +13,8 @@ Telescope::Telescope(
 : mComponents{components}
 {
     SetName(name);
+    mComponents.telescopeMotor.ConfigForwardSoftLimitEnable(true);
+    mComponents.telescopeMotor.ConfigForwardSoftLimitThreshold(1300);
 }
 
 // This method will be called once per scheduler run
