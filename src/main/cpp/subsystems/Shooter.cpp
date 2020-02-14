@@ -87,7 +87,7 @@ double Shooter::GetVelocity()
 double Shooter::Shoot(double speedRPM)
 {
   double speed = RPMToTicks(speedRPM);  
-    mComponents.shooterleft.Set(speed);
+    mComponents.shooterleft.Set(ControlMode::Velocity, speed);
     return speed;
 }
 
