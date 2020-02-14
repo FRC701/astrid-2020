@@ -26,7 +26,7 @@ EnableShoot::EnableShoot(Chassis& chassis, Conveyor& conveyor, Shooter& shooter)
   AddCommands(
     LongHood(shooter), 
     /* Aim(mChassis), */
-    ShootBalls(shooter, conveyor, 2000), // 2000RPM for testing
+    ShootBalls(shooter, conveyor, 4000), // 2000RPM for testing
     StowHood(shooter)
   );
 }

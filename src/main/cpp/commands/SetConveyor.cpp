@@ -47,10 +47,13 @@ void SetConveyor::Execute()
 // Called once the command ends or is interrupted.
 void SetConveyor::End(bool interrupted)
 {
-    while(!mConveyor.IsBallComing() || !mConveyor.IsBallExiting())
+    mTimer.Start();
+    mTimer.Reset();
+    while((!mConveyor.IsBallComing() || !mConveyor.IsBallExiting()) && mTimer.Get() <= 2)
     {
         mConveyor.SetConveyor(-0.25);
     }
+    mTimer.Stop();
     mConveyor.SetConveyor(0.0);
 }
 

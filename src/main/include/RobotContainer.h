@@ -44,7 +44,7 @@ class RobotContainer {
   static constexpr int kChassisFrontRight{1};
   static constexpr int kChassisRearLeft{2};
   static constexpr int kChassisRearRight{3};
-  static constexpr int kTelescope{4};
+  static constexpr int kTelescope{12};
   static constexpr int kWinchLeft{5};
   static constexpr int kWinchRight{6};
   static constexpr int kConveyor{7};

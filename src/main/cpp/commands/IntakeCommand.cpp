@@ -17,5 +17,5 @@ IntakeCommand::IntakeCommand(Intake& intake, Conveyor& conveyor)
 {
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  AddCommands(IntakeOn(mIntake, 0.4), SetConveyor(mConveyor, 0.50));
+  AddCommands(IntakeOn(mIntake, 0.5), SetConveyor(mConveyor, 0.50));
 }
