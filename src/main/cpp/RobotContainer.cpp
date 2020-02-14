@@ -105,9 +105,6 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Close Hatch", new HoodRetract(mShooter));
   frc::SmartDashboard::PutData("Engage Latch", new LatchEngage(mShooter));
   frc::SmartDashboard::PutData("Disengage Latch", new LatchDisengage(mShooter));
-  frc::SmartDashboard::PutData("Shoot Close Shot", new ShooterCloseShot(mShooter));
-  frc::SmartDashboard::PutData("Shoot Far Shot", new ShooterFarShot(mShooter));
-  frc::SmartDashboard::PutData("Shooter Stop", new ShooterStop(mShooter));
 
   frc::SmartDashboard::PutData("run conveyor 100", new RunConveyor(mConveyor, 1.0));
   frc::SmartDashboard::PutData("run conveyor 80", new RunConveyor(mConveyor, 0.8));
