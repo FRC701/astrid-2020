@@ -9,6 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include "subsystems/DooHickey.h"
 
 /**
  * An example command.
@@ -17,10 +18,12 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SelectDooHickeyDirection
-    : public frc2::CommandHelper<frc2::CommandBase, SelectDooHickeyDirection> {
+class HickeyPosControl
+    : public frc2::CommandHelper<frc2::CommandBase, HickeyPosControl> {
  public:
-  SelectDooHickeyDirection();
+  HickeyPosControl(DooHickey& DooHickey
+  ,DooHickey::stoppingColor stopHere
+  ,double speed);
 
   void Initialize() override;
 
@@ -29,4 +32,10 @@ class SelectDooHickeyDirection
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
+  private:
+    DooHickey& mDooHickey;
+    DooHickey::stoppingColor mStopHere;
+    double mSpeed;
+
 };

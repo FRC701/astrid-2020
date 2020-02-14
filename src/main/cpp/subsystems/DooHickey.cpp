@@ -198,18 +198,6 @@ void DooHickey::Periodic() {
       IsRotationControlFinished = true;
     }
 
-   /* for(int i = 0; i < sizeof(Selector1); i++) 
-    {
-      if(matchedColor == Selector1[i].viewing && assignedColor == Selector1[i].assigned)
-      {
-        while(!(matchedColor == Selector3[i].stopHere))
-        {
-          MoveSpinner(Selector2[i].direction * 18730);
-        }
-      }
-    }
-    */
-
     //Code for stopping the motor after Rotation Control is finished AND the specified Color is reached.
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     if(gameData.length() > 0)

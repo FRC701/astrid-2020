@@ -5,20 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/SelectDooHickeyDirection.h"
+#include "commands/HickeyPosControl.h"
 
-SelectDooHickeyDirection::SelectDooHickeyDirection() {
-  // Use addRequirements() here to declare subsystem dependencies.
+HickeyPosControl::HickeyPosControl(DooHickey& DooHickey
+  ,DooHickey::stoppingColor stopHere
+  ,double speed)
+: mDooHickey(DooHickey), mStopHere(stopHere), mSpeed(speed) 
+{
+  SetName("HickeyPosControl");
+  AddRequirements(&mDooHickey);
 }
 
 // Called when the command is initially scheduled.
-void SelectDooHickeyDirection::Initialize() {}
+void HickeyPosControl::Initialize() {
+  mStopHere = mDooHickey.StopHereColor();
+}
 
 // Called repeatedly when this Command is scheduled to run
-void SelectDooHickeyDirection::Execute() {}
+void HickeyPosControl::Execute() {
+  mDooHickey.MoveSpinner(mSpeed * mStopHere.direction);
+}
 
 // Called once the command ends or is interrupted.
-void SelectDooHickeyDirection::End(bool interrupted) {}
+void HickeyPosControl::End(bool interrupted) {
+  mDooHickey.MoveSpinner(0.0);
+}
 
 // Returns true when the command should end.
-bool SelectDooHickeyDirection::IsFinished() { return false; }
+bool HickeyPosControl::IsFinished() {
+ return mDooHickey.MatchedColor() == mStopHere.Color;
+}
