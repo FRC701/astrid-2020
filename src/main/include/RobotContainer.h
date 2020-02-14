@@ -8,6 +8,7 @@
 #pragma once
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <frc2/command/button/JoystickButton.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/XboxController.h>
@@ -43,7 +44,7 @@ class RobotContainer {
   static constexpr int kChassisFrontRight{1};
   static constexpr int kChassisRearLeft{2};
   static constexpr int kChassisRearRight{3};
-  static constexpr int kTelescope{4};
+  static constexpr int kTelescope{12};
   static constexpr int kWinchLeft{5};
   static constexpr int kWinchRight{6};
   static constexpr int kConveyor{7};
@@ -53,14 +54,14 @@ class RobotContainer {
   static constexpr int kDoohickey{11};
 
   // Solenoid IDs (must be unique)
-  static constexpr int kLatchSolenoidFoward{0};
-  static constexpr int kHoodSolenoidFoward{1};
-  static constexpr int kDoohickeyPushyThangSolenoidFoward{2};
-  static constexpr int kUnusedSolenoidFoward{3};
-  static constexpr int kUnusedSolenoidReverse{4};
-  static constexpr int kDoohickeyPushyThangSolenoidReverse{5};
-  static constexpr int kHoodSolenoidReverse{6};
-  static constexpr int kLatchSolenoidReverse{7};
+  static constexpr int kLatchSolenoidFoward{1};
+  static constexpr int kLatchSolenoidReverse{6};
+  static constexpr int kHoodSolenoidFoward{2};
+  static constexpr int kHoodSolenoidReverse{5};
+  static constexpr int kDoohickeyPushyThangSolenoidFoward{0};
+  static constexpr int kDoohickeyPushyThangSolenoidReverse{7};
+  static constexpr int kIntakePistonSolenoidFoward{3};
+  static constexpr int kIntakePistonSolenoidReverse{4};
 
   RobotContainer();
 
@@ -68,7 +69,7 @@ class RobotContainer {
 
  private:
   frc::XboxController driver{0};
-  frc::XboxController codriver{1};
+  frc::XboxController coDriver{1};
 
   // Chassis Components
   Chassis::Components mChassisComponents{kChassisFrontLeft, kChassisFrontRight,kChassisRearLeft,kChassisRearRight};  
@@ -97,10 +98,11 @@ class RobotContainer {
 
   // Intake Components
   WPI_TalonFX mIntakeRoller{kIntake};
-  Intake mIntake{"Intake", mIntakeRoller};
+  frc::DoubleSolenoid mIntakePiston{kIntakePistonSolenoidFoward, kIntakePistonSolenoidReverse};
+  Intake mIntake{"Intake", mIntakeRoller, mIntakePiston};
 
   //DooHickey Components
-  WPI_TalonFX mDooHickeySpinner{kDoohickey};
+  WPI_TalonSRX mDooHickeySpinner{kDoohickey};
   frc::DoubleSolenoid mUpPushyThang{kDoohickeyPushyThangSolenoidFoward, 
                                     kDoohickeyPushyThangSolenoidReverse};
   DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};

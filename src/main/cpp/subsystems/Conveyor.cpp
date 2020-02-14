@@ -14,6 +14,7 @@ Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX& conveyorMotor)
     SetName(name);
 
     mConveyorMotor.SetInverted(true);
+    mConveyorMotor.OverrideLimitSwitchesEnable(false);
 }
 
 // This method will be called once per scheduler run
@@ -21,6 +22,8 @@ void Conveyor::Periodic()
 {
     frc::SmartDashboard::PutNumber("conveyor velocity", GetVelocity());
     frc::SmartDashboard::PutNumber("Balls:", BallCount());
+    frc::SmartDashboard::PutBoolean("Conveyor Enter Limit Switch", IsBallComing());
+    frc::SmartDashboard::PutBoolean("Conveyor Exit Limit Switch", IsBallExiting());
 }
 
 bool Conveyor::IsBallComing()
@@ -35,11 +38,17 @@ bool Conveyor::IsBallExiting()
 
 void Conveyor::BallIntakeIncoming()
 {
-    ++mBallCount;
+    if(BallCount() < 5)
+    {
+        ++mBallCount;
+    }
 }
 void Conveyor::BallIntakeExiting()
 {
-    --mBallCount;
+    if(BallCount() > 0)
+    {
+        --mBallCount;
+    }
 }
 void Conveyor::SetConveyor(double speed)
 {

@@ -5,31 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/IntakeOn.h"
+#include "commands/IntakeEngage.h"
 
-IntakeOn::IntakeOn( Intake& intake, double speed)
-: mSpeed{speed}
-, mIntake{intake}
+// NOTE:  Consider using this command inline, rather than writing a subclass.
+// For more information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+IntakeEngage::IntakeEngage(Intake& intake) 
+: mIntake{intake}
 {
   AddRequirements(&mIntake);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void IntakeOn::Initialize() {}
-
-// Called repeatedly when this Command is scheduled to run
-void IntakeOn::Execute()
+void IntakeEngage::Initialize() 
 {
-  mIntake.SetIntake(mSpeed);
+  mIntake.IntakeEngage();
 }
-
-// Called once the command ends or is interrupted.
-void IntakeOn::End(bool interrupted)
-{
-  mIntake.SetIntake(0);
-  mIntake.IntakeDisengage();
-}
-
-// Returns true when the command should end.
-bool IntakeOn::IsFinished() { return false; }

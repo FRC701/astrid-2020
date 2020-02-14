@@ -5,48 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/Aim.h"
+#include "commands/SetConveyorShoot.h"
 
-Aim::Aim(Chassis& chassis)
-: mChassis(chassis)
+SetConveyorShoot::SetConveyorShoot(Conveyor& conveyor, double speed)
+: mConveyor{conveyor}
+, mSpeed(speed)
+, mTimer()
 {
-  AddRequirements(&mChassis);
+  AddRequirements(&mConveyor);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void Aim::Initialize() 
+void SetConveyorShoot::Initialize() 
 {
-  mChassis.SetVisionCam();
+  mTimer.Start();
+  mTimer.Reset();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void Aim::Execute() 
+void SetConveyorShoot::Execute()
 {
-  if(mChassis.TargetOffset() > -10.0 && mChassis.TargetOffset() < 10.0)
-  {
-    if(mChassis.TargetOffset() < -1.0)
-    {
-      mChassis.ArcadeDrive(0, 0.33);
-    }
-    if(mChassis.TargetOffset() > 1.0)
-    {
-      mChassis.ArcadeDrive(0, -0.33);
-    }
-  }
-  else
-  {
-    double pCoefficient {-25};
-    double rotation = mChassis.TargetOffset() / pCoefficient;
-    mChassis.ArcadeDrive(0, rotation);
-  }  
+  mConveyor.SetConveyor(mSpeed);
 }
 
 // Called once the command ends or is interrupted.
-void Aim::End(bool interrupted) {}
+void SetConveyorShoot::End(bool interrupted)
+{
+  mConveyor.SetConveyor(0.0);
+  mTimer.Stop();
+}
 
 // Returns true when the command should end.
-bool Aim::IsFinished()
+bool SetConveyorShoot::IsFinished()
 {
-  return mChassis.TargetOffset() < 1 && mChassis.TargetOffset() > -1;
+  if(!mConveyor.IsBallExiting())
+  {
+    mTimer.Reset();
+  }
+  return (mTimer.Get() >= 3);
 }

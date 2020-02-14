@@ -5,48 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/Aim.h"
+#include "commands/EndIntake.h"
 
-Aim::Aim(Chassis& chassis)
-: mChassis(chassis)
+EndIntake::EndIntake(Conveyor& conveyor)
+: mConveyor(conveyor)
+, mTimer()
 {
-  AddRequirements(&mChassis);
+  AddRequirements(&mConveyor);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void Aim::Initialize() 
+void EndIntake::Initialize()
 {
-  mChassis.SetVisionCam();
+  mTimer.Start();
+  mTimer.Reset();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void Aim::Execute() 
+void EndIntake::Execute()
 {
-  if(mChassis.TargetOffset() > -10.0 && mChassis.TargetOffset() < 10.0)
-  {
-    if(mChassis.TargetOffset() < -1.0)
-    {
-      mChassis.ArcadeDrive(0, 0.33);
-    }
-    if(mChassis.TargetOffset() > 1.0)
-    {
-      mChassis.ArcadeDrive(0, -0.33);
-    }
-  }
-  else
-  {
-    double pCoefficient {-25};
-    double rotation = mChassis.TargetOffset() / pCoefficient;
-    mChassis.ArcadeDrive(0, rotation);
-  }  
+  mConveyor.SetConveyor(-0.4);
 }
 
 // Called once the command ends or is interrupted.
-void Aim::End(bool interrupted) {}
+void EndIntake::End(bool interrupted)
+{
+  mTimer.Stop();
+  mConveyor.SetConveyor(0.0);
+}
 
 // Returns true when the command should end.
-bool Aim::IsFinished()
+bool EndIntake::IsFinished()
 {
-  return mChassis.TargetOffset() < 1 && mChassis.TargetOffset() > -1;
+  return (!mConveyor.IsBallComing() || !mConveyor.IsBallExiting()) && mTimer.Get() <= 2;
 }

@@ -6,10 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/SetConveyor.h"
+#include "commands/EndIntake.h"
 
-SetConveyor::SetConveyor(Conveyor& conveyor, double speed) 
+SetConveyor::SetConveyor(Conveyor& conveyor, double speed)
 : mConveyor{conveyor}
 , mSpeed(speed)
+, mEndIntake(mConveyor)
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(&mConveyor);
@@ -21,9 +23,20 @@ void SetConveyor::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void SetConveyor::Execute() 
 {
- if((mConveyor.IsBallComing() && mConveyor.BallCount() < 5) || (mConveyor.BallCount() > 0 && mConveyor.IsShooting()))
+    if(mConveyor.IsBallComing() && mConveyor.IsBallExiting())
     {
-        mConveyor.SetConveyor(mSpeed);
+        if(mConveyor.IsBallComing())
+        {
+            mConveyor.SetConveyor(mSpeed);
+        }
+        if(!mConveyor.IsBallComing())
+        {
+            mConveyor.SetConveyor(-0.4);
+        }
+        if(mConveyor.IsBallComing())
+        {
+            mConveyor.SetConveyor(0.1);
+        }
     }
     else
     {
@@ -32,7 +45,13 @@ void SetConveyor::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void SetConveyor::End(bool interrupted) {}
+void SetConveyor::End(bool interrupted)
+{
+    mEndIntake.Schedule();
+}
 
 // Returns true when the command should end.
-bool SetConveyor::IsFinished() { return false; }
+bool SetConveyor::IsFinished()
+{
+    return false;
+}
