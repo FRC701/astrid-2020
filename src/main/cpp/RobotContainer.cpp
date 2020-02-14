@@ -73,7 +73,7 @@ RobotContainer::RobotContainer()
 
   //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
 
-  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.1));
+  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, 0.5));
   
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
@@ -127,9 +127,9 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button coB {[this]{return coDriver.GetRawButton(2);}};
   frc2::Button coX {[this]{return coDriver.GetRawButton(3);}};
 
-  coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
+  coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coB.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
-  coX.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
+  coX.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

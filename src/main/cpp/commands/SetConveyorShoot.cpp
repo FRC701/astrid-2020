@@ -37,11 +37,11 @@ void SetConveyorShoot::End(bool interrupted)
 }
 
 // Returns true when the command should end.
-bool SetConveyorShoot::IsFinished() 
+bool SetConveyorShoot::IsFinished()
 {
   if(!mConveyor.IsBallExiting())
   {
     mTimer.Reset();
   }
-  return (mTimer.Get() >= 2);
+  return (mTimer.Get() >= 3);
 }
