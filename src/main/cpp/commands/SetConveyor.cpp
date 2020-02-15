@@ -25,18 +25,7 @@ void SetConveyor::Execute()
 {
     if(mConveyor.IsBallComing() && mConveyor.IsBallExiting())
     {
-        if(mConveyor.IsBallComing())
-        {
-            mConveyor.SetConveyor(mSpeed);
-        }
-        if(!mConveyor.IsBallComing())
-        {
-            mConveyor.SetConveyor(-0.4);
-        }
-        if(mConveyor.IsBallComing())
-        {
-            mConveyor.SetConveyor(0.1);
-        }
+        mConveyor.SetConveyor(mSpeed);
     }
     else
     {

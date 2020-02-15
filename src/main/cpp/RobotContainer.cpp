@@ -90,8 +90,6 @@ RobotContainer::RobotContainer()
       [this] { return coDriver.GetY(JoystickHand::kLeftHand); }
     )
   );
-
-  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this]{return 0.5;}));
   
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
@@ -157,6 +155,9 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { if(mConveyor.IsBallExiting()) { mConveyor.BallIntakeExiting(); }});
   frc2::Button coA {[this]{return coDriver.GetRawButton(1);}};
+
+
+  
   frc2::Button coB {[this]{return coDriver.GetRawButton(2);}};
   frc2::Button coX {[this]{return coDriver.GetRawButton(3);}};
   frc2::Button coY {[this]{return coDriver.GetRawButton(4);}};

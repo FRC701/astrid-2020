@@ -27,6 +27,7 @@ class Telescope : public frc2::SubsystemBase {
   void Periodic();
 
   void TelescopeRise(double percentoutput);
+  double GetPosition();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
