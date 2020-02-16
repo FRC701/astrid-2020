@@ -127,6 +127,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("run conveyor 30", new RunConveyor(mConveyor, 0.3));
   frc::SmartDashboard::PutData("run conveyor 20", new RunConveyor(mConveyor, 0.2));
 
+  frc::SmartDashboard::PutData("reverse conveyor", new RunConveyor(mConveyor, -0.2));
+
   frc::SmartDashboard::PutData("reset balls in conveyor", new ResetBallConveyor(mConveyor));
   
   frc::SmartDashboard::PutData("Short Hood", new ShortHood(mShooter));
@@ -155,9 +157,6 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { if(mConveyor.IsBallExiting()) { mConveyor.BallIntakeExiting(); }});
   frc2::Button coA {[this]{return coDriver.GetRawButton(1);}};
-
-
-  
   frc2::Button coB {[this]{return coDriver.GetRawButton(2);}};
   frc2::Button coX {[this]{return coDriver.GetRawButton(3);}};
   frc2::Button coY {[this]{return coDriver.GetRawButton(4);}};
