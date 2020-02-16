@@ -41,7 +41,7 @@
 
 
 namespace {
-  constexpr double kWinchPercentOutput = 0.2;
+  constexpr double kWinchPercentOutput = 0.8;
 }
 
 RobotContainer::RobotContainer()
