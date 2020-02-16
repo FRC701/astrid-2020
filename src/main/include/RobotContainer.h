@@ -81,7 +81,7 @@ class RobotContainer {
   Telescope::Components mTelescopeComponents{kTelescope};
   Telescope mTelescope{"Telescope", mTelescopeComponents};
 
-  Winch::Components mWinchComponents{5,6};
+  Winch::Components mWinchComponents{kWinchLeft, kWinchRight};
   Winch mWinch{"Winch", mWinchComponents};
 
   // Conveyor Components
