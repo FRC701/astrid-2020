@@ -52,6 +52,7 @@ void SetPID(Shooter::Components& components)
 
 Shooter::Shooter(const wpi::Twine& name, Components& components)
 : mComponents(components)
+, mThresholdLoops(0)
 {
     SetName(name);
     mComponents.shooterleft.SetInverted(false);
