@@ -249,7 +249,7 @@ void DooHickey::Periodic() {
     frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
     frc::SmartDashboard::PutNumber("Confidence", confidence);
     frc::SmartDashboard::PutString("Detected Color", colorString);
-    frc::SmartDashboard::PutNumber("Rotation Control Finished", IsRotationControlFinished);
+    frc::SmartDashboard::PutBoolean("Rotation Control Finished", IsRotationControlFinished);
     frc::SmartDashboard::PutString("Assigned Color", assignedColorString);
 
   }
