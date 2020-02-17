@@ -5,25 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/SetConveyor.h"
-#include "commands/ConveyorInitialize.h"
-#include "commands/ConveyorIn.h"
-#include "commands/ConveyorSettle.h"
-#include "commands/ConveyorSet.h"
+#include "commands/FullEndIntake.h"
+#include "commands/EndIntake.h"
+#include "commands/IntakeDisengage.h"
+#include "commands/NullCommand.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-SetConveyor::SetConveyor(Conveyor& conveyor, double speed)
+FullEndIntake::FullEndIntake(Conveyor& conveyor, Intake& intake)
 : mConveyor(conveyor)
-, mSpeed(speed)
+, mIntake(intake)
 {
-  AddCommands(
-    ConveyorInitialize(mConveyor),
-    ConveyorIn(mConveyor, mSpeed),
-    ConveyorSettle(mConveyor, mSpeed),
-    ConveyorSet(mConveyor, mSpeed)
-  );
+  AddCommands(EndIntake(mConveyor), IntakeDisengage(mIntake), NullCommand(mConveyor));
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
 }
