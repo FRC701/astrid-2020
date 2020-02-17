@@ -44,6 +44,7 @@ class Shooter : public frc2::SubsystemBase {
   void DisengageLatch();
   double GetVelocity();
   bool IsInRange() const;
+  void ResetRange();
 
 
  private:

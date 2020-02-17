@@ -17,7 +17,7 @@ Shoot::Shoot(Shooter& mShooter,  double speed)
 // Called when the command is initially scheduled.
 void Shoot::Initialize() 
 {
-
+  mShooter.ResetRange();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -33,7 +33,8 @@ void Shoot::End(bool interrupted)
 // Returns true when the command should end.
 bool Shoot::IsFinished() 
 {
-  return mShooter.MotorTopRPM() >= (mSpeed); 
+  return mShooter.IsInRange();
+  //return mShooter.MotorTopRPM() >= (mSpeed); 
   // What does this mean?
   //constexpr double range = 100;
  // return mShooter.GetVelocity() < range && mShooter.GetVelocity() > range * -1; 

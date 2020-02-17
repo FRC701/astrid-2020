@@ -29,11 +29,11 @@ double RPMToTicks(double rpm)
   double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
   return ticks;
 }
-constexpr double kMaxVelocityError{4000-3000};
-constexpr double kP{(.05*1023)/kMaxVelocityError};
+constexpr double kMaxVelocityError{3540-3000};
+constexpr double kP{(.30*1023)/kMaxVelocityError};
 constexpr double kI{0.0};
-constexpr double kD{0.0};
-double kF{(.95 * 1023)/ RPMToTicks(4000)};
+constexpr double kD{10 * kP}; // 30 is too high
+double kF{(.90 * 1023)/ RPMToTicks(4000)};
 
 }
 Shooter::Shooter(const wpi::Twine& name, Components& components)
@@ -41,7 +41,7 @@ Shooter::Shooter(const wpi::Twine& name, Components& components)
 {
     SetName(name);
     mComponents.shooterleft.SetInverted(false);
-    mComponents.shooterright.SetInverted(false);
+    mComponents.shooterright.SetInverted(true);
     mComponents.shooterright.Follow(mComponents.shooterleft);
     SetPID();
 }
@@ -61,21 +61,23 @@ void Shooter::IdleShoot()
 
 double Shooter::MotorTopRPM()
 {
-  constexpr double TicksPerRotation {2048};
-  constexpr double hundredMSPS {10};
-  constexpr double secondsPMin {60};
+  //constexpr double TicksPerRotation {2048};
+  //constexpr double hundredMSPS {10};
+  //constexpr double secondsPMin {60};
   double SpeedTP100msTop = mComponents.shooterleft.GetSelectedSensorVelocity();
-  double RPMMotorTop = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
+  double RPMMotorTop = ticksToRPM(SpeedTP100msTop);
+  //double RPMMotorTop = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
   return RPMMotorTop;
 }
 
 double Shooter::MotorBottomRPM()
 {
-  constexpr double TicksPerRotation {2048};
-  constexpr double hundredMSPS {10};
-  constexpr double secondsPMin {60};
+  //constexpr double TicksPerRotation {2048};
+  //constexpr double hundredMSPS {10};
+  //constexpr double secondsPMin {60};
   double SpeedTP100msTop = mComponents.shooterright.GetSelectedSensorVelocity();
-  double RPMMotorBottom = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
+  double RPMMotorBottom = ticksToRPM(SpeedTP100msTop);
+  // double RPMMotorBottom = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
   return RPMMotorBottom;
 }
 
@@ -87,17 +89,23 @@ double Shooter::GetVelocity()
 double Shooter::Shoot(double speedRPM)
 {
   double speed = RPMToTicks(speedRPM);  
-    mComponents.shooterleft.Set(ControlMode::Velocity, speed);
-    return speed;
+  mComponents.shooterleft.Set(ControlMode::Velocity, speed);
+  return speed;
+}
+
+void Shooter::ResetRange()
+{
+  mThresholdLoops = 0;
 }
 
 bool Shooter::IsInRange() const
 {
-  constexpr int kErrorThreshold = 10;
-  constexpr int kLoopsToSettle = 10;
+  constexpr int kErrorThreshold = 20;
+  constexpr int kLoopsToSettle = 30;
 
+  const double errorThresholdTicks{RPMToTicks(kErrorThreshold)};
   int loopError = mComponents.shooterleft.GetClosedLoopError();
-  if (loopError < kErrorThreshold && loopError > -kErrorThreshold)
+  if (loopError < errorThresholdTicks && loopError > -errorThresholdTicks)
   {
     ++mThresholdLoops;
   }
