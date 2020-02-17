@@ -10,13 +10,15 @@
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include "subsystems/Conveyor.h"
+#include "subsystems/Intake.h"
 
-class SetConveyor
+class FullEndIntake
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
-                                 SetConveyor> {
+                                 FullEndIntake> {
  public:
-  SetConveyor(Conveyor& conveyor, double speed);
+  FullEndIntake(Conveyor& conveyor, Intake& intake);
  private:
   Conveyor& mConveyor;
-  double mSpeed;
+ private:
+  Intake& mIntake;
 };

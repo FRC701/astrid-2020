@@ -7,15 +7,29 @@
 
 #pragma once
 
+#include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc2/command/SequentialCommandGroup.h>
 #include "subsystems/Conveyor.h"
 
-class SetConveyor
-    : public frc2::CommandHelper<frc2::SequentialCommandGroup,
-                                 SetConveyor> {
+/**
+ * An example command.
+ *
+ * <p>Note that this extends CommandHelper, rather extending CommandBase
+ * directly; this is crucially important, or else the decorator functions in
+ * Command will *not* work!
+ */
+class ConveyorIn
+    : public frc2::CommandHelper<frc2::CommandBase, ConveyorIn> {
  public:
-  SetConveyor(Conveyor& conveyor, double speed);
+  ConveyorIn(Conveyor& conveyor, double speed);
+
+  void Initialize() override;
+
+  void Execute() override;
+
+  void End(bool interrupted) override;
+
+  bool IsFinished() override;
  private:
   Conveyor& mConveyor;
   double mSpeed;
