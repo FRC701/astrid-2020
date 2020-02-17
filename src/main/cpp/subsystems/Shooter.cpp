@@ -22,22 +22,23 @@ constexpr double kTicksPerRotation {2048};
 constexpr double kHundredMillisPerSecond {10};
 constexpr double kSecondsPerMin {60};
 
-double ticksToRPM(double ticks)
+constexpr double ticksToRPM(double ticks)
 {
   double rpm = (ticks / kTicksPerRotation) * kHundredMillisPerSecond * kSecondsPerMin;
   return rpm;
 }
 
-double RPMToTicks(double rpm)
+constexpr double RPMToTicks(double rpm)
 {
   double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
   return ticks;
 }
+
 constexpr double kMaxVelocityError{3540-3000};
 constexpr double kP{(.30*1023)/kMaxVelocityError};
 constexpr double kI{0.0};
 constexpr double kD{10 * kP}; // 30 is too high
-double kF{(.90 * 1023)/ RPMToTicks(4000)};
+constexpr double kF{(.90 * 1023)/ RPMToTicks(4000)};
 
 void SetPID(Shooter::Components& components)
 {
@@ -97,12 +98,12 @@ void Shooter::ResetRange()
 
 bool Shooter::IsInRange() const
 {
-  constexpr int kErrorThreshold = 20;
+  constexpr int kErrorThresholdRPM = 20;
   constexpr int kLoopsToSettle = 30;
 
-  const double errorThresholdTicks{RPMToTicks(kErrorThreshold)};
+  constexpr double kErrorThresholdTicks{RPMToTicks(kErrorThresholdRPM)};
   int loopError = mComponents.shooterleft.GetClosedLoopError();
-  if (loopError < errorThresholdTicks && loopError > -errorThresholdTicks)
+  if (loopError < kErrorThresholdTicks && loopError > -kErrorThresholdTicks)
   {
     ++mThresholdLoops;
   }
