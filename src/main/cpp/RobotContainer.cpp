@@ -44,6 +44,7 @@
 #include "commands/EnableIntake.h"
 #include "commands/EnableShootShort.h"
 #include <commands/ResetChassisPos.h>
+#include "commands/FullEndIntake.h"
 
 
 namespace {
@@ -66,6 +67,8 @@ RobotContainer::RobotContainer()
       [this] { return -1.0*driver.GetY(JoystickHand::kRightHand); }
     )
   );
+
+  mConveyor.SetDefaultCommand(FullEndIntake(mConveyor, mIntake));
 
   constexpr double radiusCW = 16; //16" radius of Control panel 
   constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
