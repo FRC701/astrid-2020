@@ -99,7 +99,7 @@ RobotContainer::RobotContainer()
   
   frc::SmartDashboard::PutData("Spin 58 RPM", new Spin(mDooHickey, 18730.0)); //RPM for 775Pro = 58 RPM on wheel.
   frc::SmartDashboard::PutData("Position Control", new HickeyPosControl(mDooHickey, 9365.0));
-  frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
+  frc::SmartDashboard::PutData("Rotation Control", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
 
