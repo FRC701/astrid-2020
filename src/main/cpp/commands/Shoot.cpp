@@ -34,8 +34,4 @@ void Shoot::End(bool interrupted)
 bool Shoot::IsFinished() 
 {
   return mShooter.IsInRange();
-  //return mShooter.MotorTopRPM() >= (mSpeed); 
-  // What does this mean?
-  //constexpr double range = 100;
- // return mShooter.GetVelocity() < range && mShooter.GetVelocity() > range * -1; 
 }

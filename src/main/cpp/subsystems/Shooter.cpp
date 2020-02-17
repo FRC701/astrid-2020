@@ -61,23 +61,15 @@ void Shooter::IdleShoot()
 
 double Shooter::MotorTopRPM()
 {
-  //constexpr double TicksPerRotation {2048};
-  //constexpr double hundredMSPS {10};
-  //constexpr double secondsPMin {60};
-  double SpeedTP100msTop = mComponents.shooterleft.GetSelectedSensorVelocity();
-  double RPMMotorTop = ticksToRPM(SpeedTP100msTop);
-  //double RPMMotorTop = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
+  double speedTP100msTop = mComponents.shooterleft.GetSelectedSensorVelocity();
+  double RPMMotorTop = ticksToRPM(speedTP100msTop);
   return RPMMotorTop;
 }
 
 double Shooter::MotorBottomRPM()
 {
-  //constexpr double TicksPerRotation {2048};
-  //constexpr double hundredMSPS {10};
-  //constexpr double secondsPMin {60};
-  double SpeedTP100msTop = mComponents.shooterright.GetSelectedSensorVelocity();
-  double RPMMotorBottom = ticksToRPM(SpeedTP100msTop);
-  // double RPMMotorBottom = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
+  double speedTP100msTop = mComponents.shooterright.GetSelectedSensorVelocity();
+  double RPMMotorBottom = ticksToRPM(speedTP100msTop);
   return RPMMotorBottom;
 }
 
