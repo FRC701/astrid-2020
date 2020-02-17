@@ -94,13 +94,13 @@ bool DooHickey::IsInRange() const
 
   if(abs(mComponents.spinner.GetActiveTrajectoryPosition() - TargetPos) < kErrorThreshold)
   {
-    kWithinThresholdLoops++;
+    mWithinThresholdLoops++;
   }
   else {
-    kWithinThresholdLoops = 0;
+    mWithinThresholdLoops = 0;
   }
 
-  return (kWithinThresholdLoops > kLoopsToSettle);
+  return (mWithinThresholdLoops > kLoopsToSettle);
 }
 
 void DooHickey::PushThang() {
@@ -113,19 +113,16 @@ void DooHickey::RetractThang() {
 
 frc::Color DooHickey::MatchedColor()
 {
-  return matchedColor;
+  return mMatchedColor;
 }
 
 frc::Color DooHickey::AssignedColor()
 {
-  return assignedColor;
+  return mAssignedColor;
 }
 
 DooHickey::stoppingColor DooHickey::StopHereColor()
 {
-  frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
-  frc::Color assignedColor;
-
     colorstuff Selector1[] = 
     {
        {kRedTarget, kRedTarget, {-1, kBlueTarget}}
@@ -149,8 +146,8 @@ DooHickey::stoppingColor DooHickey::StopHereColor()
       ,{kYellowTarget, kYellowTarget, {-1, kGreenTarget}}
     };
     auto found = std::find_if(std::begin(Selector1), std::end(Selector1),
-    [matchedColor, assignedColor] (auto& Selector1) -> bool {
-      matchedColor == Selector1.viewing && assignedColor == Selector1.assigned;
+    [this] (auto& Selector1) -> bool {
+      mMatchedColor == Selector1.viewing && mAssignedColor == Selector1.assigned;
     }); 
     if(found != std::end(Selector1))
     {
@@ -158,7 +155,8 @@ DooHickey::stoppingColor DooHickey::StopHereColor()
     } 
     else 
     {
-        //how did you get here?
+      //How did you get here?
+      return Selector1[0].stopHere;
     }
 }
 
@@ -175,19 +173,17 @@ void DooHickey::Periodic() {
      * measurements and make it difficult to accurately determine its color.
      */
 
-  frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
-  frc::Color detectedColor = m_colorSensor.GetColor();
-  frc::Color assignedColor;
-
+    frc::Color detectedColor = m_colorSensor.GetColor();
+    mMatchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
     //Code for finding out the detected Color 
-    if (matchedColor == kBlueTarget) {
+    if (mMatchedColor == kBlueTarget) {
       colorString = "Blue";
       colorCounter++;
-    } else if (matchedColor == kRedTarget) {
+    } else if (mMatchedColor == kRedTarget) {
       colorString = "Red";
-    } else if (matchedColor == kGreenTarget) {
+    } else if (mMatchedColor == kGreenTarget) {
       colorString = "Green";
-    } else if (matchedColor == kYellowTarget) {
+    } else if (mMatchedColor == kYellowTarget) {
       colorString = "Yellow";
     } else {
       colorString = "Unknown";
@@ -200,8 +196,7 @@ void DooHickey::Periodic() {
     if (colorCounter >= 6) {
       IsRotationControlFinished = true;
     }
-
-    //Code for stopping the motor after Rotation Control is finished AND the specified Color is reached.
+    
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     if(gameData.length() > 0)
     {
@@ -210,25 +205,25 @@ void DooHickey::Periodic() {
     case 'B' :
       
       assignedColorString = "Blue";
-      assignedColor = kBlueTarget;
+      mAssignedColor = kBlueTarget;
 
       break;
     case 'G' :
       
       assignedColorString = "Green";
-      assignedColor = kGreenTarget;
+      mAssignedColor = kGreenTarget;
       
       break;
     case 'R' :
       
       assignedColorString = "Red";
-      assignedColor = kRedTarget;
+      mAssignedColor = kRedTarget;
      
       break;
     case 'Y' :
       
       assignedColorString = "Yellow";
-      assignedColor = kYellowTarget;
+      mAssignedColor = kYellowTarget;
 
       
       break;

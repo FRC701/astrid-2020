@@ -35,11 +35,7 @@ public:
 
   double mMotorSpeed;
   double mTargetPos; 
-/*
-  frc::Color detectedColor = m_colorSensor.GetColor();
-  frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
-  frc::Color assignedColor;
-*/ 
+
   std::string gameData;
   std::string colorString;
   std::string assignedColorString;
@@ -93,10 +89,9 @@ public:
   stoppingColor StopHereColor();
 
  private:
-   int mutable kWithinThresholdLoops = {0};
+   int mutable mWithinThresholdLoops = {0};
    Components& mComponents; 
 
-  frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
-  frc::Color detectedColor = m_colorSensor.GetColor();
-  frc::Color assignedColor;
+  frc::Color mMatchedColor = kGreenTarget;
+  frc::Color mAssignedColor = kGreenTarget;
 };
