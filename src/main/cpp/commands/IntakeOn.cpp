@@ -13,8 +13,8 @@ constexpr double conversionFactor {driveRatio * driveToIntakeRatio};
 
 IntakeOn::IntakeOn(Intake& intake, Chassis& chassis, double speed)
 : mSpeed{speed}
-, mChassis{chassis}
 , mIntake{intake}
+, mChassis{chassis}
 {
   AddRequirements(&mIntake);
   // Use addRequirements() here to declare subsystem dependencies.
