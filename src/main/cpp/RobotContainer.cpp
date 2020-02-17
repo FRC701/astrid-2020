@@ -65,19 +65,19 @@ RobotContainer::RobotContainer()
   constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
   constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
 
-  frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, 0.1));
-  frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, 0.2));
-  frc::SmartDashboard::PutData("Intake 30 percent", new IntakeOn(mIntake, 0.3));
-  frc::SmartDashboard::PutData("Intake 40 percent", new IntakeOn(mIntake, 0.4));
-  frc::SmartDashboard::PutData("Intake 50 percent", new IntakeOn(mIntake, 0.5));
-  frc::SmartDashboard::PutData("Intake 60 percent", new IntakeOn(mIntake, 0.6));
-  frc::SmartDashboard::PutData("Intake 70 percent", new IntakeOn(mIntake, 0.7));
-  frc::SmartDashboard::PutData("Intake 80 percent", new IntakeOn(mIntake, 0.8));
-  frc::SmartDashboard::PutData("Intake 90 percent", new IntakeOn(mIntake, 0.9));
-  frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(mIntake, 1.0));
+  frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, mChassis, 0.1));
+  frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, mChassis, 0.2));
+  frc::SmartDashboard::PutData("Intake 30 percent", new IntakeOn(mIntake, mChassis, 0.3));
+  frc::SmartDashboard::PutData("Intake 40 percent", new IntakeOn(mIntake, mChassis, 0.4));
+  frc::SmartDashboard::PutData("Intake 50 percent", new IntakeOn(mIntake, mChassis, 0.5));
+  frc::SmartDashboard::PutData("Intake 60 percent", new IntakeOn(mIntake, mChassis, 0.6));
+  frc::SmartDashboard::PutData("Intake 70 percent", new IntakeOn(mIntake, mChassis, 0.7));
+  frc::SmartDashboard::PutData("Intake 80 percent", new IntakeOn(mIntake, mChassis, 0.8));
+  frc::SmartDashboard::PutData("Intake 90 percent", new IntakeOn(mIntake, mChassis, 0.9));
+  frc::SmartDashboard::PutData("Intake 100 percent", new IntakeOn(mIntake, mChassis, 1.0));
   frc::SmartDashboard::PutData("Intake Engage", new IntakeEngage(mIntake));
   frc::SmartDashboard::PutData("Intake Disengage", new IntakeDisengage(mIntake));
-  frc::SmartDashboard::PutData("Enable Intake", new EnableIntake(mIntake, mConveyor));
+  frc::SmartDashboard::PutData("Enable Intake", new EnableIntake(mIntake, mConveyor, mChassis));
 
 
   //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
@@ -90,8 +90,6 @@ RobotContainer::RobotContainer()
       [this] { return coDriver.GetY(JoystickHand::kLeftHand); }
     )
   );
-
-  frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this]{return 0.5;}));
   
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
@@ -157,22 +155,24 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { if(mConveyor.IsBallExiting()) { mConveyor.BallIntakeExiting(); }});
   frc2::Button coA {[this]{return coDriver.GetRawButton(1);}};
+
+
+  
   frc2::Button coB {[this]{return coDriver.GetRawButton(2);}};
   frc2::Button coX {[this]{return coDriver.GetRawButton(3);}};
   frc2::Button coY {[this]{return coDriver.GetRawButton(4);}};
   frc2::Button coBumperLeft {[this]{return coDriver.GetRawButton(5);}};
   frc2::Button coBumperRight {[this]{return coDriver.GetRawButton(6);}};
-  coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor));
-  coA.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
-  coB.WhenPressed(new WinchHook(mWinch, -kWinchPercentOutput));
-  coX.WhenPressed(new IntakeOn(mIntake, 0.5));
-  coY.WhenPressed(new Shoot(mShooter, 0.5));
 
-  coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
-  coB.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
+//took out buttons for doohickey, intake, and shooter; still need buttons for them
+  coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
+  coB.WhenPressed(Spin(mDooHickey, 0.5));
   coX.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
-  coBumperLeft.WhenPressed(new HickeyEngage(mDooHickey));
-  coBumperRight.WhenPressed(new HickeyDisengage(mDooHickey));
+  coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
+
+  coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
+  coBumperRight.WhenPressed(new WinchHook(mWinch, -kWinchPercentOutput));
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

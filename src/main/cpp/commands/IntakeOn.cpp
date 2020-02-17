@@ -7,9 +7,14 @@
 
 #include "commands/IntakeOn.h"
 
-IntakeOn::IntakeOn( Intake& intake, double speed)
+constexpr double driveRatio {8 / 84};
+constexpr double driveToIntakeRatio {3};
+constexpr double conversionFactor {driveRatio * driveToIntakeRatio};
+
+IntakeOn::IntakeOn(Intake& intake, Chassis& chassis, double speed)
 : mSpeed{speed}
 , mIntake{intake}
+, mChassis{chassis}
 {
   AddRequirements(&mIntake);
   // Use addRequirements() here to declare subsystem dependencies.
@@ -21,7 +26,9 @@ void IntakeOn::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void IntakeOn::Execute()
 {
-  mIntake.SetIntake(mSpeed);
+  double averageDrive = (mChassis.GetLeftVelocity() + mChassis.GetRightVelocity()) / 2;
+  double velocity = averageDrive * conversionFactor + mSpeed;
+  mIntake.SetIntake(velocity);
 }
 
 // Called once the command ends or is interrupted.

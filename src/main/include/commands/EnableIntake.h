@@ -11,13 +11,15 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include "subsystems/Intake.h"
 #include "subsystems/Conveyor.h"
+#include "subsystems/Chassis.h"
 
 class EnableIntake
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  EnableIntake> {
  public:
-  EnableIntake(Intake& intake, Conveyor& conveyor);
+  EnableIntake(Intake& intake, Conveyor& conveyor, Chassis& chassis);
  private:
   Intake& mIntake;
   Conveyor& mConveyor;
+  Chassis& mChassis;
 };

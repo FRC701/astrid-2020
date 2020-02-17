@@ -7,7 +7,11 @@
 
 #include "subsystems/Shooter.h"
 
+#include <ctre/phoenix/motorcontrol/ControlMode.h>
+
 namespace{
+
+using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
 
 constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kReverse};
 constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kForward};
@@ -18,40 +22,43 @@ constexpr double kTicksPerRotation {2048};
 constexpr double kHundredMillisPerSecond {10};
 constexpr double kSecondsPerMin {60};
 
-double ticksToRPM(double ticks)
+constexpr double ticksToRPM(double ticks)
 {
   double rpm = (ticks / kTicksPerRotation) * kHundredMillisPerSecond * kSecondsPerMin;
   return rpm;
 }
 
-double RPMToTicks(double rpm)
+constexpr double RPMToTicks(double rpm)
 {
   double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
   return ticks;
 }
-constexpr double kMaxVelocityError{4000-3000};
-constexpr double kP{(.05*1023)/kMaxVelocityError};
-constexpr double kI{0.0};
-constexpr double kD{0.0};
-double kF{(.95 * 1023)/ RPMToTicks(4000)};
 
+constexpr double kMaxVelocityError{3540-3000};
+constexpr double kP{(.30*1023)/kMaxVelocityError};
+constexpr double kI{0.0};
+constexpr double kD{10 * kP}; // 30 is too high
+constexpr double kF{(.90 * 1023)/ RPMToTicks(4000)};
+
+void SetPID(Shooter::Components& components)
+{
+  components.shooterleft.Config_kP(0, kP, 10);
+  components.shooterleft.Config_kI(0, kI, 10);
+  components.shooterleft.Config_kD(0, kD, 10);
+  components.shooterleft.Config_kF(0, kF, 10);
 }
+
+} // namespace
+
 Shooter::Shooter(const wpi::Twine& name, Components& components)
 : mComponents(components)
+, mThresholdLoops(0)
 {
     SetName(name);
     mComponents.shooterleft.SetInverted(false);
-    mComponents.shooterright.SetInverted(false);
+    mComponents.shooterright.SetInverted(true);
     mComponents.shooterright.Follow(mComponents.shooterleft);
-    SetPID();
-}
-
-void Shooter::SetPID()
-{
-  mComponents.shooterleft.Config_kP(0, kP, 10);
-  mComponents.shooterleft.Config_kI(0, kI, 10);
-  mComponents.shooterleft.Config_kD(0, kD, 10);
-  mComponents.shooterleft.Config_kF(0, kF, 10);
+    SetPID(mComponents);
 }
 
 void Shooter::IdleShoot() 
@@ -61,21 +68,15 @@ void Shooter::IdleShoot()
 
 double Shooter::MotorTopRPM()
 {
-  constexpr double TicksPerRotation {2048};
-  constexpr double hundredMSPS {10};
-  constexpr double secondsPMin {60};
-  double SpeedTP100msTop = mComponents.shooterleft.GetSelectedSensorVelocity();
-  double RPMMotorTop = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
+  double speedTP100msTop = mComponents.shooterleft.GetSelectedSensorVelocity();
+  double RPMMotorTop = ticksToRPM(speedTP100msTop);
   return RPMMotorTop;
 }
 
 double Shooter::MotorBottomRPM()
 {
-  constexpr double TicksPerRotation {2048};
-  constexpr double hundredMSPS {10};
-  constexpr double secondsPMin {60};
-  double SpeedTP100msTop = mComponents.shooterright.GetSelectedSensorVelocity();
-  double RPMMotorBottom = (SpeedTP100msTop/TicksPerRotation)*hundredMSPS*secondsPMin;
+  double speedTP100msTop = mComponents.shooterright.GetSelectedSensorVelocity();
+  double RPMMotorBottom = ticksToRPM(speedTP100msTop);
   return RPMMotorBottom;
 }
 
@@ -87,17 +88,23 @@ double Shooter::GetVelocity()
 double Shooter::Shoot(double speedRPM)
 {
   double speed = RPMToTicks(speedRPM);  
-    mComponents.shooterleft.Set(speed);
-    return speed;
+  mComponents.shooterleft.Set(ControlMode::Velocity, speed);
+  return speed;
+}
+
+void Shooter::ResetRange()
+{
+  mThresholdLoops = 0;
 }
 
 bool Shooter::IsInRange() const
 {
-  constexpr int kErrorThreshold = 10;
-  constexpr int kLoopsToSettle = 10;
+  constexpr int kErrorThresholdRPM = 20;
+  constexpr int kLoopsToSettle = 30;
 
+  constexpr double kErrorThresholdTicks{RPMToTicks(kErrorThresholdRPM)};
   int loopError = mComponents.shooterleft.GetClosedLoopError();
-  if (loopError < kErrorThreshold && loopError > -kErrorThreshold)
+  if (loopError < kErrorThresholdTicks && loopError > -kErrorThresholdTicks)
   {
     ++mThresholdLoops;
   }

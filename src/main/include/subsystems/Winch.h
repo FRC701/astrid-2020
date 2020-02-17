@@ -13,6 +13,7 @@
 class Winch : public frc2::SubsystemBase {
  public:
    using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+
  struct Components
  {
        WPI_TalonFX left;
@@ -27,7 +28,8 @@ class Winch : public frc2::SubsystemBase {
    */
   void Periodic();
 
-  void WinchHook(double percentoutput);
+  void WinchHook(double position);
+  void WinchHookPercent(double percentOutput);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

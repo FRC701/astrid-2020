@@ -11,13 +11,15 @@
 #include <frc2/command/ParallelRaceGroup.h>
 #include "subsystems/Conveyor.h"
 #include "subsystems/Intake.h"
+#include "subsystems/Chassis.h"
 
 class IntakeCommand
     : public frc2::CommandHelper<frc2::ParallelRaceGroup,
                                  IntakeCommand> {
  public:
-  IntakeCommand(Intake& intake, Conveyor& conveyor);
+  IntakeCommand(Intake& intake, Conveyor& conveyor, Chassis& chassis);
  private:
   Intake& mIntake;
   Conveyor& mConveyor;
+  Chassis& mChassis;
 };

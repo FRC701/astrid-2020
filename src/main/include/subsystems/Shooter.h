@@ -10,14 +10,11 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/SubsystemBase.h>
-#include <ctre/phoenix/motorcontrol/ControlMode.h>
 #include "frc/DoubleSolenoid.h"
 
 class Shooter : public frc2::SubsystemBase {
  public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
-  using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
-
 
   struct Components
 {
@@ -37,13 +34,13 @@ class Shooter : public frc2::SubsystemBase {
   double MotorTopRPM();
   double MotorBottomRPM();
   double Shoot(double speed);
-  void SetPID();
   void PushHood();
   void RetractHood();
   void EngageLatch();
   void DisengageLatch();
   double GetVelocity();
   bool IsInRange() const;
+  void ResetRange();
 
 
  private:
