@@ -39,7 +39,16 @@ constexpr double kI{0.0};
 constexpr double kD{10 * kP}; // 30 is too high
 double kF{(.90 * 1023)/ RPMToTicks(4000)};
 
+void SetPID(Shooter::Components& components)
+{
+  components.shooterleft.Config_kP(0, kP, 10);
+  components.shooterleft.Config_kI(0, kI, 10);
+  components.shooterleft.Config_kD(0, kD, 10);
+  components.shooterleft.Config_kF(0, kF, 10);
 }
+
+} // namespace
+
 Shooter::Shooter(const wpi::Twine& name, Components& components)
 : mComponents(components)
 {
@@ -47,15 +56,7 @@ Shooter::Shooter(const wpi::Twine& name, Components& components)
     mComponents.shooterleft.SetInverted(false);
     mComponents.shooterright.SetInverted(true);
     mComponents.shooterright.Follow(mComponents.shooterleft);
-    SetPID();
-}
-
-void Shooter::SetPID()
-{
-  mComponents.shooterleft.Config_kP(0, kP, 10);
-  mComponents.shooterleft.Config_kI(0, kI, 10);
-  mComponents.shooterleft.Config_kD(0, kD, 10);
-  mComponents.shooterleft.Config_kF(0, kF, 10);
+    SetPID(mComponents);
 }
 
 void Shooter::IdleShoot() 

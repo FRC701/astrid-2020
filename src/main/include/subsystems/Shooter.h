@@ -34,7 +34,6 @@ class Shooter : public frc2::SubsystemBase {
   double MotorTopRPM();
   double MotorBottomRPM();
   double Shoot(double speed);
-  void SetPID();
   void PushHood();
   void RetractHood();
   void EngageLatch();
