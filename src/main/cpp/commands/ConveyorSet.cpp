@@ -27,7 +27,10 @@ void ConveyorSet::Execute()
 // Called once the command ends or is interrupted.
 void ConveyorSet::End(bool interrupted)
 {
-  mSetConveyor.Schedule();
+  if (interrupted != true) 
+  {
+    mSetConveyor.Schedule();
+  }
 }
 
 // Returns true when the command should end.
