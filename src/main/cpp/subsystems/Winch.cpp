@@ -43,7 +43,7 @@ void Winch::Periodic()
 
 void Winch::WinchHook(double position)
 {
-    mMotors.Set(position);
+    using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
     mComponents.left.Set(ControlMode::Position, position);
     mComponents.right.Set(ControlMode::Position, position);
 }

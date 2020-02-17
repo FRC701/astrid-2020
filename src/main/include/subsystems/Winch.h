@@ -13,7 +13,6 @@
 class Winch : public frc2::SubsystemBase {
  public:
    using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
-   using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
 
  struct Components
  {
