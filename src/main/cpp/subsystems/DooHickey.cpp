@@ -24,9 +24,9 @@ namespace
 }
 
 DooHickey::DooHickey(const wpi::Twine& name, Components& components)
-: mComponents(components)
-  ,mMotorSpeed{0}
-  ,mTargetPos{0}
+  : mMotorSpeed{0}
+  , mTargetPos{0}
+  , mComponents(components)
 {
   SetName(name);
   SetUpMotionMagic();
@@ -147,7 +147,7 @@ DooHickey::stoppingColor DooHickey::StopHereColor()
     };
     auto found = std::find_if(std::begin(Selector1), std::end(Selector1),
     [this] (auto& Selector1) -> bool {
-      mMatchedColor == Selector1.viewing && mAssignedColor == Selector1.assigned;
+      return mMatchedColor == Selector1.viewing && mAssignedColor == Selector1.assigned;
     }); 
     if(found != std::end(Selector1))
     {
