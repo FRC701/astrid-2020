@@ -28,8 +28,8 @@ class Winch : public frc2::SubsystemBase {
    */
   void Periodic();
 
-  void WinchHook(double percentoutput);
-
+  void WinchHook(double position);
+  void WinchHookPercent(double percentOutput);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

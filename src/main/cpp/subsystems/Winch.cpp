@@ -51,3 +51,9 @@ void Winch::WinchHook(double position)
     mComponents.left.Set(ControlMode::Position, position);
     mComponents.right.Set(ControlMode::Position, position);
 }
+
+void Winch::WinchHookPercent(double percentOutput)
+{
+    mMotors.Set(percentOutput);
+}
+
