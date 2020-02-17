@@ -7,7 +7,11 @@
 
 #include "subsystems/Shooter.h"
 
+#include <ctre/phoenix/motorcontrol/ControlMode.h>
+
 namespace{
+
+using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
 
 constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kReverse};
 constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kForward};
