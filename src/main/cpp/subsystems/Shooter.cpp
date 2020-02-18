@@ -99,7 +99,7 @@ void Shooter::ResetRange()
 
 bool Shooter::IsInRange() const
 {
-  constexpr int kErrorThresholdRPM = 20;
+  constexpr int kErrorThresholdRPM = 100;
   constexpr int kLoopsToSettle = 30;
 
   constexpr double kErrorThresholdTicks{RPMToTicks(kErrorThresholdRPM)};

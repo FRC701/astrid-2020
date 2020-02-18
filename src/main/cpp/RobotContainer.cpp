@@ -57,6 +57,7 @@ RobotContainer::RobotContainer()
 
   // Initialize all of your commands and subsystems here
 
+  std::cout << "Robot Container Start" << std::endl;
   // Configure the button bindings
   mChassis.SetDefaultCommand
   (
@@ -74,6 +75,8 @@ RobotContainer::RobotContainer()
   constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
   constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
 
+  std::cout << "Chassis Drive" << std::endl;
+
   frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, mChassis, 0.1));
   frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, mChassis, 0.2));
   frc::SmartDashboard::PutData("Intake 30 percent", new IntakeOn(mIntake, mChassis, 0.3));
@@ -88,8 +91,9 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Intake Disengage", new IntakeDisengage(mIntake));
   frc::SmartDashboard::PutData("Enable Intake", new EnableIntake(mIntake, mConveyor, mChassis));
 
+  std::cout << "Enable Intake" << std::endl;
 
-  //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
+  // mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
 
   mTelescope.SetDefaultCommand
   (
@@ -117,6 +121,8 @@ RobotContainer::RobotContainer()
   
   frc::SmartDashboard::PutData("Start Winch", new WinchHook(mWinch, kWinchPercentOutput));
   frc::SmartDashboard::PutData("Drop Winch", new WinchHook(mWinch, -kWinchPercentOutput));
+ 
+  std::cout << "Drop Winch" << std::endl;
 
   frc::SmartDashboard::PutData(&mShooter);
   frc::SmartDashboard::PutData("Shoot 3000", new Shoot(mShooter, 3000.));
@@ -137,6 +143,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("run conveyor 40", new RunConveyor(mConveyor, 0.4));
   frc::SmartDashboard::PutData("run conveyor 30", new RunConveyor(mConveyor, 0.3));
   frc::SmartDashboard::PutData("run conveyor 20", new RunConveyor(mConveyor, 0.2));
+
+  std::cout << "Run Conveyor" << std::endl;
 
   frc::SmartDashboard::PutData("reverse conveyor", new RunConveyor(mConveyor, -0.2));
 
@@ -167,6 +175,9 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Short Adjust", new ChassisShortAdjust(mChassis));
   // Configure the button bindings
   ConfigureButtonBindings();
+
+  std::cout << "Robot Container Finished" << std::endl;
+
 }
 
 void RobotContainer::ConfigureButtonBindings() {
