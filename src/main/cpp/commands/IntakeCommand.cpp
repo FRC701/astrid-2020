@@ -8,6 +8,7 @@
 #include "commands/IntakeCommand.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
+#include "commands/ConveyorInWait.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -17,5 +18,6 @@ IntakeCommand::IntakeCommand(Intake& intake, Conveyor& conveyor, Chassis& chassi
 {
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  AddCommands(IntakeOn(mIntake, mChassis, 0.4), SetConveyor(mConveyor, 0.70));
+  AddCommands(IntakeOn(mIntake, mChassis, 0.4), ConveyorInWait(mConveyor, 0.25));
+                                                // was SetConveyor .7
 }

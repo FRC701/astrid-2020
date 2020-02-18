@@ -5,37 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ConveyorSet.h"
+#include "commands/ConveyorInWait.h"
 
-ConveyorSet::ConveyorSet(Conveyor& conveyor, double speed, SetConveyor* setConveyor)
-: mConveyor(conveyor)
-, mSpeed(speed)
-, mSetConveyor(setConveyor)
+ConveyorInWait::ConveyorInWait(Conveyor& conveyor, double speed)
+: mConveyor(conveyor),
+  mSpeed(speed)
 {
   AddRequirements(&mConveyor);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void ConveyorSet::Initialize() {}
+void ConveyorInWait::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ConveyorSet::Execute()
-{
-  mConveyor.SetConveyor(0.1);
+void ConveyorInWait::Execute() {
+  if (mConveyor.IsBallComing())
+  {
+    mConveyor.SetConveyor(mSpeed);
+  }
+  else
+  {
+    mConveyor.SetConveyor(0);
+  }
+  
 }
 
 // Called once the command ends or is interrupted.
-void ConveyorSet::End(bool interrupted)
-{
-  if (interrupted != true) 
-  {
-  //  mSetConveyor->Schedule();
-  }
+void ConveyorInWait::End(bool interrupted) {
 }
 
 // Returns true when the command should end.
-bool ConveyorSet::IsFinished()
-{
-  return !mConveyor.IsBallComing();
+bool ConveyorInWait::IsFinished() { 
+  return ! mConveyor.IsBallExiting(); 
+  //return false;
 }
