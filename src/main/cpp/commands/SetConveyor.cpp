@@ -18,12 +18,14 @@ SetConveyor::SetConveyor(Conveyor& conveyor, double speed)
 : mConveyor(conveyor)
 , mSpeed(speed)
 {
+#if 1
   AddCommands(
     ConveyorInitialize(mConveyor),
-    ConveyorIn(mConveyor, mSpeed),
-    ConveyorSettle(mConveyor, mSpeed),
-    ConveyorSet(mConveyor, mSpeed)
+    ConveyorIn(mConveyor, mSpeed)
+    //ConveyorSettle(mConveyor, mSpeed),
+    //ConveyorSet(mConveyor, mSpeed, this)
   );
+#endif
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
 }
