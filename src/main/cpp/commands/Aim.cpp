@@ -9,6 +9,7 @@
 
 Aim::Aim(Chassis& chassis)
 : mChassis(chassis)
+, mCounter(0)
 {
   AddRequirements(&mChassis);
   // Use addRequirements() here to declare subsystem dependencies.
@@ -18,6 +19,8 @@ Aim::Aim(Chassis& chassis)
 void Aim::Initialize() 
 {
   mChassis.SetVisionCam();
+  mChassis.limeLightLightsOn();
+  mCounter = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -27,11 +30,11 @@ void Aim::Execute()
   {
     if(mChassis.TargetOffset() < -1.0)
     {
-      mChassis.ArcadeDrive(0, 0.33);
+      mChassis.ArcadeDrive(0, 0.348);
     }
     if(mChassis.TargetOffset() > 1.0)
     {
-      mChassis.ArcadeDrive(0, -0.33);
+      mChassis.ArcadeDrive(0, -0.348);
     }
   }
   else
@@ -48,5 +51,20 @@ void Aim::End(bool interrupted) {}
 // Returns true when the command should end.
 bool Aim::IsFinished()
 {
-  return mChassis.TargetOffset() < 1 && mChassis.TargetOffset() > -1;
+  if(mCounter <= 30)
+  {
+    if(mChassis.TargetOffset() < 1 && mChassis.TargetOffset() > -1)
+    {
+      mCounter++;
+    }
+  }
+  if(mCounter > 30)
+  {
+    return mChassis.TargetOffset() < 1 && mChassis.TargetOffset() > -1;
+  }
+  else
+  {
+    return false;
+  }
+  
 }
