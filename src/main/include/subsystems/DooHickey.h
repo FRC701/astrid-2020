@@ -33,9 +33,6 @@ public:
   rev::ColorSensorV3 m_colorSensor{i2cPort};
   rev::ColorMatch m_colorMatcher;
 
-  double mMotorSpeed;
-  double mTargetPos; 
-
   std::string gameData;
   std::string colorString;
   std::string assignedColorString;
@@ -70,9 +67,6 @@ public:
   
   DooHickey(const wpi::Twine& name, Components& components);
 
-
-  DooHickey(const wpi::Twine& name);
-
   void Init();
   void Periodic();
   void SetUpMotionMagic();
@@ -80,8 +74,8 @@ public:
   void SetHickeyPosition(double position);
   void PushThang();
   void RetractThang();
-  void UpdateSpeed();
-  void UpdatePos();
+  void UpdateSpeed(double pos);
+  void UpdatePos(double speed);
   void MoveSpinner(double speed);
   bool IsInRange() const;
   frc::Color MatchedColor();

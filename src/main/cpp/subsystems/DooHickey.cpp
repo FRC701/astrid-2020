@@ -16,6 +16,8 @@ namespace
   constexpr double kD{0.0};
   constexpr double kNumberOfRotations{4};
   constexpr double kTicksPerRotation{2048};
+  constexpr double kSecondsPerMinute{60};
+  constexpr double kSecondsTo100ms{10};
   constexpr double radiusCW{16}; //16" radius of Control panel 
   constexpr double radiusDW{1.5};  //1.5" radius of DooHickey wheel (3" diameter)
   constexpr double TargetPos = (kNumberOfRotations*(radiusCW/radiusDW)) * kTicksPerRotation;
@@ -24,9 +26,7 @@ namespace
 }
 
 DooHickey::DooHickey(const wpi::Twine& name, Components& components)
-  : mMotorSpeed{0}
-  , mTargetPos{0}
-  , mComponents(components)
+  : mComponents(components)
 {
   SetName(name);
   SetUpMotionMagic();
@@ -66,25 +66,20 @@ void DooHickey::Init() {
 
 }
 void DooHickey::MoveSpinner(double speed) {
-  constexpr double kTicksPerRotation{2048};
-  constexpr double kSecondsPerMinute{60};
-  constexpr double kSecondsTo100ms{10};
   double setSpeedTP100ms = speed * kTicksPerRotation / kSecondsPerMinute / kSecondsTo100ms;
-  mMotorSpeed = setSpeedTP100ms;
-  UpdateSpeed();
+  UpdateSpeed(setSpeedTP100ms);
 }
 
-void DooHickey::SetHickeyPosition(double position){
-  mTargetPos = position;
-  UpdatePos();
+void DooHickey::SetHickeyPosition(double position) {
+  UpdatePos(TargetPos);
 }
 
-void DooHickey::UpdateSpeed() {
-  mComponents.spinner.Set(ControlMode::Velocity, mMotorSpeed);
+void DooHickey::UpdateSpeed(double speed) {
+  mComponents.spinner.Set(ControlMode::Velocity, speed);
 }
 
-void DooHickey::UpdatePos() {
-  mComponents.spinner.Set(ControlMode::MotionMagic, mTargetPos);
+void DooHickey::UpdatePos(double pos) {
+  mComponents.spinner.Set(ControlMode::MotionMagic, pos);
 }
 
 bool DooHickey::IsInRange() const
@@ -123,7 +118,7 @@ frc::Color DooHickey::AssignedColor()
 
 DooHickey::stoppingColor DooHickey::StopHereColor()
 {
-    colorstuff Selector1[] = 
+   colorstuff Selector1[] = 
     {
        {kRedTarget, kRedTarget, {-1, kBlueTarget}}
       ,{kRedTarget, kGreenTarget, {-1, kYellowTarget}}

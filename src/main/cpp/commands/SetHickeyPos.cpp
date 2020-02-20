@@ -15,7 +15,22 @@ SetHickeyPos::SetHickeyPos(DooHickey& dooHickey, double position) : mDooHickey(d
 }
 
 // Called when the command is initially scheduled.
-void SetHickeyPos::Initialize() {
-    mDooHickey.SetHickeyPosition(mPosition);
+void SetHickeyPos::Initialize() {}
 
+// Called repeatedly when this Command is scheduled to run
+void SetHickeyPos::Execute() 
+{
+    mDooHickey.SetHickeyPosition(mPosition);
+}
+
+// Make this return true when this Command no longer needs to run execute()
+bool SetHickeyPos::IsFinished() 
+{
+   return mDooHickey.IsInRange();
+}
+
+// Called once after isFinished returns true
+void SetHickeyPos::End(bool interrupted) 
+{
+  mDooHickey.MoveSpinner(0.0);
 }
