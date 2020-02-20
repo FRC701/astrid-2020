@@ -37,6 +37,5 @@ void ConveyorInWait::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool ConveyorInWait::IsFinished() { 
-  return ! mConveyor.IsBallExiting(); 
-  //return false;
+  return false;
 }
