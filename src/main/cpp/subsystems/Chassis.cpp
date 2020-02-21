@@ -68,11 +68,8 @@ double Chassis::TargetOffset()
 
 double Chassis::TargetDistance() //this doesn't work
 {
-    constexpr double TargetHeightInch {84};
-    constexpr double CameraHeightInch {18};
-    constexpr double CameraAngleOffGroundDegrees {15};
-    double distanceInch = (TargetHeightInch - CameraHeightInch) / tan(CameraAngleOffGroundDegrees + TargetOffset());
-    return distanceInch;
+    double distanceFeet = 14.6 - (11.6 * log(mTable->GetNumber("ta",0.0)));
+    return distanceFeet;
 }
 
 void Chassis::SetDriverCam()
