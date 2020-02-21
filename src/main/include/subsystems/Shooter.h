@@ -11,6 +11,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/SubsystemBase.h>
 #include "frc/DoubleSolenoid.h"
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
 
 class Shooter : public frc2::SubsystemBase {
  public:
@@ -41,6 +43,7 @@ class Shooter : public frc2::SubsystemBase {
   double GetVelocity();
   bool IsInRange() const;
   void ResetRange();
+  double GetTargetDistance();
 
 
  private:

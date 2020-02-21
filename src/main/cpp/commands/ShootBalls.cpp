@@ -16,5 +16,5 @@
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 ShootBalls::ShootBalls(Shooter& shooter, Conveyor& conveyor, double shooterRPM) {
   // Add your commands here, e.g.
-  AddCommands(Shoot(shooter, shooterRPM), SetConveyorShoot(conveyor, 1), StowHood(shooter), StopShooting(shooter));
+  AddCommands(Shoot(shooter, shooterRPM), SetConveyorShoot(conveyor, .65), StowHood(shooter), StopShooting(shooter));
 }
