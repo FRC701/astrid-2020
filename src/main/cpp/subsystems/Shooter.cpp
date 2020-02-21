@@ -9,6 +9,8 @@
 
 #include <ctre/phoenix/motorcontrol/ControlMode.h>
 
+std::shared_ptr<NetworkTable> mTable2 = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+
 namespace{using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
 
 
@@ -38,7 +40,7 @@ constexpr double kMaxVelocityError{3540-3000};
 constexpr double kP{(.30*1023)/kMaxVelocityError};
 constexpr double kI{0.0};
 constexpr double kD{10 * kP}; // 30 is too high
-constexpr double kF{(.90 * 1023)/ RPMToTicks(4000)};
+constexpr double kF{(1 * 1023)/ RPMToTicks(4000)};
 
 void SetPID(Shooter::Components& components)
 {
@@ -104,7 +106,7 @@ bool Shooter::IsInRange() const
 
   constexpr double kErrorThresholdTicks{RPMToTicks(kErrorThresholdRPM)};
   int loopError = mComponents.shooterleft.GetClosedLoopError();
-  if (loopError < kErrorThresholdTicks && loopError > -kErrorThresholdTicks)
+  if (loopError < kErrorThresholdTicks + 125 && loopError > -kErrorThresholdTicks + 125)
   {
     ++mThresholdLoops;
   }
@@ -142,4 +144,9 @@ void Shooter::Periodic()
   frc::SmartDashboard::PutNumber("Left Motor RPM", MotorBottomRPM());
   frc::SmartDashboard::PutNumber("Right Motor RPM", MotorTopRPM());
   frc::SmartDashboard::PutBoolean("Shooter is in range", IsInRange());
+}
+
+double Shooter::GetTargetDistance()
+{
+  return mTable2->GetNumber("ta",0.0);
 }

@@ -23,6 +23,8 @@ void Shoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() 
 {
+  //double distanceConstant;
+  //double motorSpeed = mShooter.GetTargetDistance() * distanceConstant;
   mShooter.Shoot(mSpeed);
 }
 
