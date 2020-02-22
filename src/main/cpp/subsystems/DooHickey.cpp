@@ -10,6 +10,41 @@
 
 namespace
 {
+  constexpr frc::Color kBlueTarget = frc::Color(0.143, 0.427, 0.429);
+  constexpr frc::Color kGreenTarget = frc::Color(0.197, 0.561, 0.240);
+  constexpr frc::Color kRedTarget = frc::Color(0.561, 0.232, 0.114);
+  constexpr frc::Color kYellowTarget = frc::Color(0.361, 0.524, 0.113);
+
+  struct colorstuff 
+    {
+      frc::Color viewing;
+      frc::Color assigned;
+      DooHickey::stoppingColor stopHere;
+    };
+
+    colorstuff Selector1[] = 
+    {
+       {kRedTarget, kRedTarget, {-1, kBlueTarget}}
+      ,{kRedTarget, kGreenTarget, {-1, kYellowTarget}}
+      ,{kRedTarget, kBlueTarget, {0, kRedTarget}}
+      ,{kRedTarget, kYellowTarget, {1, kGreenTarget}}
+
+      ,{kGreenTarget, kRedTarget, {1, kBlueTarget}}
+      ,{kGreenTarget, kGreenTarget, {-1, kYellowTarget}}
+      ,{kGreenTarget, kBlueTarget, {-1, kRedTarget}}
+      ,{kGreenTarget, kYellowTarget, {0, kGreenTarget}}
+
+      ,{kBlueTarget, kRedTarget, {0, kBlueTarget}}
+      ,{kBlueTarget, kGreenTarget, {1, kYellowTarget}}
+      ,{kBlueTarget, kBlueTarget, {-1, kRedTarget}}
+      ,{kBlueTarget, kYellowTarget, {-1, kGreenTarget}}
+
+      ,{kYellowTarget, kRedTarget, {-1, kBlueTarget}}
+      ,{kYellowTarget, kGreenTarget, {0, kYellowTarget}}
+      ,{kYellowTarget, kBlueTarget, {1, kRedTarget}}
+      ,{kYellowTarget, kYellowTarget, {-1, kGreenTarget}}
+    };
+
   constexpr double kF{0.0};
   constexpr double kP{0.1};
   constexpr double kI{0.0};
@@ -108,41 +143,60 @@ void DooHickey::RetractThang() {
 
 frc::Color DooHickey::MatchedColor()
 {
+  frc::Color mMatchedColor = kGreenTarget;
+  frc::Color detectedColor = m_colorSensor.GetColor();
+  mMatchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
   return mMatchedColor;
 }
 
 frc::Color DooHickey::AssignedColor()
 {
-  return mAssignedColor;
+    std::string gameData;
+    frc::Color mAssignedColor = kGreenTarget;
+
+    gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+    if(gameData.length() > 0)
+    {
+    switch (gameData[0])
+    {
+    case 'B' :
+      
+      mAssignedColor = kBlueTarget;
+
+      break;
+    case 'G' :
+      
+      mAssignedColor = kGreenTarget;
+      
+      break;
+    case 'R' :
+      
+      mAssignedColor = kRedTarget;
+     
+      break;
+    case 'Y' :
+      
+      mAssignedColor = kYellowTarget;
+
+      
+      break;
+    default :
+      //This is corrupt data
+      break;
+    }
+    } else {
+      //Code for no data received yet
+    }
+    return mAssignedColor;
 }
 
 DooHickey::stoppingColor DooHickey::StopHereColor()
 {
-   colorstuff Selector1[] = 
-    {
-       {kRedTarget, kRedTarget, {-1, kBlueTarget}}
-      ,{kRedTarget, kGreenTarget, {-1, kYellowTarget}}
-      ,{kRedTarget, kBlueTarget, {0, kRedTarget}}
-      ,{kRedTarget, kYellowTarget, {1, kGreenTarget}}
-
-      ,{kGreenTarget, kRedTarget, {1, kBlueTarget}}
-      ,{kGreenTarget, kGreenTarget, {-1, kYellowTarget}}
-      ,{kGreenTarget, kBlueTarget, {-1, kRedTarget}}
-      ,{kGreenTarget, kYellowTarget, {0, kGreenTarget}}
-
-      ,{kBlueTarget, kRedTarget, {0, kBlueTarget}}
-      ,{kBlueTarget, kGreenTarget, {1, kYellowTarget}}
-      ,{kBlueTarget, kBlueTarget, {-1, kRedTarget}}
-      ,{kBlueTarget, kYellowTarget, {-1, kGreenTarget}}
-
-      ,{kYellowTarget, kRedTarget, {-1, kBlueTarget}}
-      ,{kYellowTarget, kGreenTarget, {0, kYellowTarget}}
-      ,{kYellowTarget, kBlueTarget, {1, kRedTarget}}
-      ,{kYellowTarget, kYellowTarget, {-1, kGreenTarget}}
-    };
+    frc::Color assignedColor = AssignedColor();
+    frc::Color matchedColor = MatchedColor();
     auto found = std::find_if(std::begin(Selector1), std::end(Selector1),
-    [this] (auto& Selector1) -> bool {
-      return mMatchedColor == Selector1.viewing && mAssignedColor == Selector1.assigned;
+    [matchedColor, assignedColor] (auto& Selector1) -> bool {
+      return matchedColor == Selector1.viewing && assignedColor == Selector1.assigned;
     }); 
     if(found != std::end(Selector1))
     {
@@ -168,17 +222,16 @@ void DooHickey::Periodic() {
      * measurements and make it difficult to accurately determine its color.
      */
 
-    frc::Color detectedColor = m_colorSensor.GetColor();
-    mMatchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
+    frc::Color matchedColor = MatchedColor();
     //Code for finding out the detected Color 
-    if (mMatchedColor == kBlueTarget) {
+    if (matchedColor == kBlueTarget) {
       colorString = "Blue";
       colorCounter++;
-    } else if (mMatchedColor == kRedTarget) {
+    } else if (matchedColor == kRedTarget) {
       colorString = "Red";
-    } else if (mMatchedColor == kGreenTarget) {
+    } else if (matchedColor == kGreenTarget) {
       colorString = "Green";
-    } else if (mMatchedColor == kYellowTarget) {
+    } else if (matchedColor == kYellowTarget) {
       colorString = "Yellow";
     } else {
       colorString = "Unknown";
@@ -192,55 +245,14 @@ void DooHickey::Periodic() {
       IsRotationControlFinished = true;
     }
     
-    gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
-    if(gameData.length() > 0)
-    {
-    switch (gameData[0])
-    {
-    case 'B' :
-      
-      assignedColorString = "Blue";
-      mAssignedColor = kBlueTarget;
-
-      break;
-    case 'G' :
-      
-      assignedColorString = "Green";
-      mAssignedColor = kGreenTarget;
-      
-      break;
-    case 'R' :
-      
-      assignedColorString = "Red";
-      mAssignedColor = kRedTarget;
-     
-      break;
-    case 'Y' :
-      
-      assignedColorString = "Yellow";
-      mAssignedColor = kYellowTarget;
-
-      
-      break;
-    default :
-      //This is corrupt data
-      break;
-    }
-    } else {
-      //Code for no data received yet
-    }
-
+    
     /**
      * Open Smart Dashboard or Shuffleboard to see the color detected by the 
      * sensor.
      */
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-    frc::SmartDashboard::PutNumber("Confidence", confidence);
+   
     frc::SmartDashboard::PutString("Detected Color", colorString);
     frc::SmartDashboard::PutBoolean("Rotation Control Finished", IsRotationControlFinished);
-    frc::SmartDashboard::PutString("Assigned Color", assignedColorString);
 
   }
 
