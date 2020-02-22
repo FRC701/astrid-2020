@@ -27,6 +27,6 @@ EnableShootShort::EnableShootShort(Chassis& chassis, Conveyor& conveyor, Shooter
   AddCommands(
     ShortHood(shooter), 
     /* Aim(mChassis), */
-    ShootBalls(shooter, conveyor, 1300), // 2000RPM for testing
+    ShootBalls(shooter, conveyor, 1350), // 2000RPM for testing
     HoodRetract(shooter));
 }

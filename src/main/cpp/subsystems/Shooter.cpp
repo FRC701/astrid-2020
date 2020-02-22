@@ -106,7 +106,7 @@ bool Shooter::IsInRange() const
 
   constexpr double kErrorThresholdTicks{RPMToTicks(kErrorThresholdRPM)};
   int loopError = mComponents.shooterleft.GetClosedLoopError();
-  if (loopError < kErrorThresholdTicks + 125 && loopError > -kErrorThresholdTicks + 125)
+  if (loopError < kErrorThresholdTicks + 110 && loopError > -kErrorThresholdTicks + 110)
   {
     ++mThresholdLoops;
   }
