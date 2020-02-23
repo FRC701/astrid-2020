@@ -106,7 +106,7 @@ bool Shooter::IsInRange() const
 
   constexpr double kErrorThresholdTicks{RPMToTicks(kErrorThresholdRPM)};
   int loopError = mComponents.shooterleft.GetClosedLoopError();
-  if (loopError < kErrorThresholdTicks + 110 && loopError > -kErrorThresholdTicks + 110)
+  if (loopError < kErrorThresholdTicks + 125 && loopError > -kErrorThresholdTicks + 125)
   {
     ++mThresholdLoops;
   }
@@ -148,5 +148,5 @@ void Shooter::Periodic()
 
 double Shooter::GetTargetDistance()
 {
-  return mTable2->GetNumber("ta",0.0);
+  return mTable2->GetNumber("tvert",0.0);
 }
