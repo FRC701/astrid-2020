@@ -123,6 +123,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Start Winch", new WinchHook(mWinch, kWinchInches));
   frc::SmartDashboard::PutData("Drop Winch", new WinchHook(mWinch, -kWinchInches));
 
+  frc::SmartDashboard::PutData("")
+
   frc::SmartDashboard::PutData(&mShooter);
   frc::SmartDashboard::PutData("Shoot 3000", new Shoot(mShooter, 3000.));
   frc::SmartDashboard::PutData("Shoot 4000", new Shoot(mShooter, 4000.));
@@ -198,6 +200,8 @@ void RobotContainer::ConfigureButtonBindings() {
 
   coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
   coBumperRight.WhenPressed(new WinchHook(mWinch, -kWinchPercentOutput));
+
+
 
 }
 
