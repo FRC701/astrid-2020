@@ -23,24 +23,28 @@ Chassis::Chassis(const wpi::Twine& name,
     SetName(name);
     // TODO: SetSensorPhase does not seem to be having an effect
     // The velocity is still going in reverse to the direction of travel.
-    mComponents.frontLeft.SetSensorPhase(true);
+    mComponents.frontLeft.SetSensorPhase(false);
     mComponents.backLeft.SetSensorPhase(true);
-    mComponents.frontLeft.SetInverted(false);
-    mComponents.backLeft.SetInverted(false);
+    mComponents.frontLeft.SetInverted(true);
+    mComponents.backLeft.SetInverted(true);
     mComponents.frontRight.SetInverted(false);
     mComponents.backRight.SetInverted(false);
 
      mComponents.backLeft.Follow(mComponents.frontLeft); 
      mComponents.backRight.Follow(mComponents.frontRight); 
+     
+     mDrive.SetRightSideInverted(false);
 }
 
 // This method will be called once per scheduler run
 void Chassis::Periodic() 
 {
-    frc::SmartDashboard::PutNumber("left velocity", GetLeftVelocity());
-    frc::SmartDashboard::PutNumber("right velocity", GetRightVelocity());
+    frc::SmartDashboard::PutNumber("left chassis velocity", GetLeftVelocity());
+    frc::SmartDashboard::PutNumber("right chassis velocity", GetRightVelocity());
     frc::SmartDashboard::PutNumber("Target Offset", TargetOffset());
     frc::SmartDashboard::PutNumber("Target Distance", TargetDistance());
+    frc::SmartDashboard::PutNumber("Right Chassis Pos", GetRightPos());
+    frc::SmartDashboard::PutNumber("Left Chassis Pos", GetLeftPos());
 }
 
 void Chassis::TankDrive(double left, double right)
@@ -56,6 +60,26 @@ double Chassis::GetLeftVelocity()
 double Chassis::GetRightVelocity()
 {
     return mComponents.frontRight.GetSelectedSensorVelocity();
+}
+
+double Chassis::GetRightPos()
+{
+    return mComponents.frontRight.GetSelectedSensorPosition();
+}
+
+double Chassis::GetLeftPos()
+{
+    return mComponents.frontLeft.GetSelectedSensorPosition();
+}
+
+double Chassis::ResetLeftPos()
+{
+    mComponents.frontLeft.SetSelectedSensorPosition(0);
+}
+
+double Chassis::ResetRightPos()
+{
+    mComponents.frontRight.SetSelectedSensorPosition(0);
 }
 
 void Chassis::ArcadeDrive(double speed, double rotation)

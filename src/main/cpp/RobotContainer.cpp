@@ -39,6 +39,7 @@
 #include <commands/IntakeDisengage.h>
 #include "commands/EnableIntake.h"
 #include "commands/EnableShootShort.h"
+#include <commands/ResetChassisPos.h>
 
 
 namespace {
@@ -58,8 +59,8 @@ RobotContainer::RobotContainer()
     TankDrive
     (
       mChassis,
-      [this] { return driver.GetY(JoystickHand::kLeftHand); },
-      [this] { return driver.GetY(JoystickHand::kRightHand); }
+      [this] { return -1.0*driver.GetY(JoystickHand::kLeftHand); },
+      [this] { return -1.0*driver.GetY(JoystickHand::kRightHand); }
     )
   );
 
@@ -96,6 +97,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
   frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
+
+  frc::SmartDashboard::PutData("Reset Left Chassis Pos", new ResetChassisPos(mChassis));
   
   frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
   frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404));
