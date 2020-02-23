@@ -41,7 +41,8 @@
 
 
 namespace {
-  constexpr double kWinchPercentOutput = 0.2;
+  constexpr double kWinchPercentOutput = 0.5;
+  constexpr double kWinchInches = 60;
 }
 
 RobotContainer::RobotContainer()
@@ -104,8 +105,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Telescope Rise", new TelescopeRise(mTelescope, [this] {return 0.4;}));
   frc::SmartDashboard::PutData("Telescope Fall", new TelescopeRise(mTelescope, [this] {return -0.4;}));
   
-  frc::SmartDashboard::PutData("Start Winch", new WinchHook(mWinch, kWinchPercentOutput));
-  frc::SmartDashboard::PutData("Drop Winch", new WinchHook(mWinch, -kWinchPercentOutput));
+  frc::SmartDashboard::PutData("Start Winch", new WinchHook(mWinch, kWinchInches));
+  frc::SmartDashboard::PutData("Drop Winch", new WinchHook(mWinch, -kWinchInches));
 
   frc::SmartDashboard::PutData(&mShooter);
   frc::SmartDashboard::PutData("Shoot 3000", new Shoot(mShooter, 3000.));
