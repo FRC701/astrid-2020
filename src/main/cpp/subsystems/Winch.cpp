@@ -16,6 +16,16 @@ constexpr double kI{0.0};
 constexpr double kD{0.0};
 constexpr double kF{0.0};
 
+constexpr double kTicksPerRotation {2048};
+constexpr double kHundredMillisPerSecond {10};
+constexpr double kSecondsPerMin {60};
+
+constexpr double ticksToRPM(double ticks)
+{
+  double rpm = (ticks / kTicksPerRotation) * kHundredMillisPerSecond * kSecondsPerMin;
+  return rpm;
+}
+
 void SetPID(Winch::Components& components)
 {
     components.left.Config_kP(0, kP, 10);
@@ -39,10 +49,25 @@ Winch::Winch(const wpi::Twine& name,
     SetPID(mComponents);
 }
 
+double Winch::WinchHookLeftRPM()
+{
+    double WinchHookSpeed = mComponents.left.GetSelectedSensorVelocity();
+    double RPMMotorLeft = ticksToRPM(WinchHookSpeed);
+    return RPMMotorLeft;
+}
+
+double Winch::WinchHookRightRPM()
+{
+    double WinchHookSpeed = mComponents.right.GetSelectedSensorVelocity();
+    double RPMMotorRight = ticksToRPM(WinchHookSpeed);
+    return RPMMotorRight;
+}
+
 // This method will be called once per scheduler run
 void Winch::Periodic() 
 {
-
+    frc::SmartDashboard::PutNumber("Winch Hook Left Motor RPM", WinchHookLeftRPM());
+    frc::SmartDashboard::PutNumber("Winch Hook Right Motor RPM", WinchHookRightRPM());
 }
 
 void Winch::WinchHook(double position)
