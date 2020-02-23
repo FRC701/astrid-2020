@@ -1,8 +1,10 @@
-#include <Commands/ChassisMotionProfileCommand.h>
-#include "Subsystems/Chassis.h"
+#include "Commands/ChassisMotionProfileCommand.h"
+
+#include <ctre/Phoenix.h> // TODO Include what we need.
 #include <iostream>
 
-#include "ctre/Phoenix.h"
+#include "Subsystems/Chassis.h"
+
 
 /**
  * Notes about Talon Motion Profile
@@ -35,9 +37,10 @@ namespace {
   const double kSecondsToMillis = 1000.0;
   const double kMillisToSeconds = ( 1.0 / kSecondsToMillis );
 
-  typedef ctre::phoenix::motion::TrajectoryPoint ctre_TrajectoryPoint;
+  using TrajectoryPoint = ctre::phoenix::motion::TrajectoryPoint;
 
   void LoadPoints(
+    Chassis& chassis,
     const robovikes::TrajectoryPoint* chassisLeft,
     const robovikes::TrajectoryPoint* chassisRight,
     unsigned int trajectoryPointCount,
@@ -53,19 +56,19 @@ namespace {
     for (unsigned int point = 0; point < trajectoryPointCount; ++point) {
       std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity << std::endl;
 
-      ctre_TrajectoryPoint rightTrajectoryPoint;
+      TrajectoryPoint rightTrajectoryPoint;
       rightTrajectoryPoint.position = chassisRight[point].position;
       rightTrajectoryPoint.velocity = chassisRight[point].velocity;
       rightTrajectoryPoint.profileSlotSelect0 = 0;
       rightTrajectoryPoint.isLastPoint = (point == lastPoint);
       rightTrajectoryPoint.zeroPos = (point == 0);
-      rightTrajectoryPoint.timeDur = static_cast<TrajectoryDuration>(pointDurationMillis);
+      rightTrajectoryPoint.timeDur = pointDurationMillis;
 
-      ctre_TrajectoryPoint leftTrajectoryPoint = rightTrajectoryPoint;
+      TrajectoryPoint leftTrajectoryPoint = rightTrajectoryPoint;
       leftTrajectoryPoint.position = chassisLeft[point].position;
       leftTrajectoryPoint.velocity = chassisLeft[point].velocity;
 
-      Chassis::getInstance()->PushMotionProfileTrajectory(leftTrajectoryPoint, rightTrajectoryPoint);
+      chassis.PushMotionProfileTrajectory(leftTrajectoryPoint, rightTrajectoryPoint);
       std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity<< std::endl;
     }
     std::cout << "Load Points Complete"<< std::endl;
@@ -85,8 +88,8 @@ namespace {
   {
   public:
     void run(const ChassisMotionProfileCommand* motionProfile) {
-      Chassis::getInstance()->ClearMotionProfileTrajectories();
-      Chassis::getInstance()->SetMotionProfileSetValue(SetValueMotionProfile::Disable);
+      motionProfile->mChassis.ClearMotionProfileTrajectories();
+      motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Disable);
       std::cout << "MotionProfileStart" << std::endl;
     }
 
@@ -94,7 +97,7 @@ namespace {
       return false;
     }
 
-    ChassisMotionProfileCommand::MotionProfileState* getNextState();
+    ChassisMotionProfileCommand::MotionProfileState* getNextState(const ChassisMotionProfileCommand*);
 
     virtual ~MotionProfileStart() { }
   };
@@ -105,14 +108,14 @@ namespace {
     static const int kMinPointsInTalon = 5;
 
     void run(const ChassisMotionProfileCommand* motionProfile) {
-      Chassis::getInstance()->SetMotionProfileSetValue(SetValueMotionProfile::Disable);
+      motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Disable);
     }
 
     bool isFinished() const {
       return false;
     }
 
-    ChassisMotionProfileCommand::MotionProfileState* getNextState();
+    ChassisMotionProfileCommand::MotionProfileState* getNextState(const ChassisMotionProfileCommand*);
 
     virtual ~MotionProfileLoadTalon() { }
   };
@@ -122,14 +125,14 @@ namespace {
   public:
     void run(const ChassisMotionProfileCommand* motionProfile) {
       std::cout << "MotionProfileRun" << std::endl;
-      Chassis::getInstance()->SetMotionProfileSetValue(SetValueMotionProfile::Enable);
+      motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Enable);
     }
 
     bool isFinished() const {
       return false;
     }
 
-    ChassisMotionProfileCommand::MotionProfileState* getNextState();
+    ChassisMotionProfileCommand::MotionProfileState* getNextState(const ChassisMotionProfileCommand*);
 
     virtual ~MotionProfileRun() { }
   };
@@ -139,14 +142,14 @@ namespace {
   public:
     void run(const ChassisMotionProfileCommand* motionProfile) {
       std::cout << "MotionProfileFinished" << std::endl;
-      Chassis::getInstance()->SetMotionProfileSetValue(SetValueMotionProfile::Hold);
+      motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Hold);
     }
 
     bool isFinished() const {
       return true;
     }
 
-    ChassisMotionProfileCommand::MotionProfileState* getNextState();
+    ChassisMotionProfileCommand::MotionProfileState* getNextState(const ChassisMotionProfileCommand*);
 
     virtual ~MotionProfileFinished() { }
   };
@@ -162,12 +165,12 @@ namespace {
    */
 
   ChassisMotionProfileCommand::MotionProfileState*
-  MotionProfileStart::getNextState() {
+  MotionProfileStart::getNextState(const ChassisMotionProfileCommand*) {
     return &motionProfileLoad;
   }
 
   ChassisMotionProfileCommand::MotionProfileState*
-  MotionProfileLoadTalon::getNextState() {
+  MotionProfileLoadTalon::getNextState(const ChassisMotionProfileCommand* motionProfile) {
     /**
      * The PeriodicTask will automatically load the Talons as the data points
      * are added. Presumably, by the time we check here, there are already
@@ -175,7 +178,7 @@ namespace {
      */
     std::cout << "MotionProfileLoadTalon::getNextState" << std::endl;
     MotionProfileStatus leftStatus, rightStatus;
-    Chassis::getInstance()->GetMotionProfileStatus(&leftStatus, &rightStatus);
+    motionProfile->mChassis.GetMotionProfileStatus(&leftStatus, &rightStatus);
     std::cout << "MotionProfileStatus" << leftStatus.btmBufferCnt << " " << rightStatus.btmBufferCnt << std::endl;
     if (leftStatus.btmBufferCnt > kMinPointsInTalon
         && rightStatus.btmBufferCnt > kMinPointsInTalon) {
@@ -187,9 +190,9 @@ namespace {
   }
 
   ChassisMotionProfileCommand::MotionProfileState*
-  MotionProfileRun::getNextState() {
+  MotionProfileRun::getNextState(const ChassisMotionProfileCommand* motionProfile) {
     MotionProfileStatus leftStatus, rightStatus;
-    Chassis::getInstance()->GetMotionProfileStatus(&leftStatus, &rightStatus);
+    motionProfile->mChassis.GetMotionProfileStatus(&leftStatus, &rightStatus);
     // activePointValid must precede isLastPoint.
     std::cout << "MotionProfileRun" << leftStatus.activePointValid << " " << rightStatus.activePointValid << std::endl;
     if (rightStatus.activePointValid && rightStatus.isLast
@@ -202,7 +205,7 @@ namespace {
   }
 
   ChassisMotionProfileCommand::MotionProfileState*
-  MotionProfileFinished::getNextState() {
+  MotionProfileFinished::getNextState(const ChassisMotionProfileCommand* ) {
     return this;
   }
 
@@ -210,8 +213,9 @@ namespace {
 
 void ChassisMotionProfileCommand::MotionProfileLoad::run(const ChassisMotionProfileCommand* motionProfile) {
   std::cout << "MotionProfileLoad" << std::endl;
-  Chassis::getInstance()->ConfigMotionProfileTrajectoryPeriod(motionProfile->pointDurationMillis);
-  LoadPoints(motionProfile->chassisLeft, motionProfile->chassisRight,
+  motionProfile->mChassis.ConfigMotionProfileTrajectoryPeriod(motionProfile->pointDurationMillis);
+  LoadPoints(motionProfile->mChassis,
+             motionProfile->chassisLeft, motionProfile->chassisRight,
              motionProfile->trajectoryPointCount, motionProfile->pointDurationMillis, motionProfile->velocityOnly);
 }
 
@@ -220,7 +224,7 @@ bool ChassisMotionProfileCommand::MotionProfileLoad::isFinished() const {
 }
 
 ChassisMotionProfileCommand::MotionProfileState*
-ChassisMotionProfileCommand::MotionProfileLoad::getNextState() {
+ChassisMotionProfileCommand::MotionProfileLoad::getNextState(const ChassisMotionProfileCommand* ) {
   return &motionProfileLoadTalon;
 }
 
@@ -229,12 +233,14 @@ ChassisMotionProfileCommand::MotionProfileLoad::~MotionProfileLoad() {
 
 
 ChassisMotionProfileCommand::ChassisMotionProfileCommand(
+  Chassis& chassis,
   const TrajectoryPoint* _chassisLeft,
   const TrajectoryPoint* _chassisRight,
   unsigned int _trajectoryPointCount,
   unsigned int _pointDurationMillis,
   bool _velocityOnly)
-: chassisLeft(_chassisLeft),
+: mChassis(chassis),
+  chassisLeft(_chassisLeft),
   chassisRight(_chassisRight),
   trajectoryPointCount(_trajectoryPointCount),
   pointDurationMillis(_pointDurationMillis),
@@ -244,13 +250,15 @@ ChassisMotionProfileCommand::ChassisMotionProfileCommand(
 {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
-  Requires(Chassis::getInstance().get());
+  AddRequirements(&mChassis);
   std::cout<<"ChassisMotionProfileCommand Constructor"<<std::endl;
 }
 
 // Called just before this Command runs the first time
 void ChassisMotionProfileCommand::Initialize() {
-  Chassis::getInstance()->SetModeMotionProfile();
+  mChassis.SetModeMotionProfile();
+  // TODO StartPeriodic is deprecated. Use the units version
+  // Need to understand units to do this correctly
   notifier.StartPeriodic((pointDurationMillis * kMillisToSeconds) / 2.0);
   std::cout << "Start Periodic" << std::endl;
   state = &motionProfileStart;
@@ -259,7 +267,7 @@ void ChassisMotionProfileCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ChassisMotionProfileCommand::Execute() {
   state->run(this);
-  state = state->getNextState();
+  state = state->getNextState(this);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -271,16 +279,16 @@ bool ChassisMotionProfileCommand::IsFinished() {
 void ChassisMotionProfileCommand::End() {
   std::cout << "ChassisMotionProfileCommand::End" << std::endl;
   notifier.Stop();
-  Chassis::getInstance()->SetModePercentOutput();
+  mChassis.SetModePercentOutput();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void ChassisMotionProfileCommand::Interrupted() {
   notifier.Stop();
-  Chassis::getInstance()->SetModePercentOutput();
+  mChassis.SetModePercentOutput();
 }
 
 void ChassisMotionProfileCommand::PeriodicTask() {
-  Chassis::getInstance()->ProcessMotionProfileBuffer();
+  mChassis.ProcessMotionProfileBuffer();
 }

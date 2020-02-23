@@ -10,6 +10,8 @@
 #include <cmath>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+
 std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 Chassis::Chassis(const wpi::Twine& name,
@@ -94,3 +96,59 @@ void Chassis::limeLightLightsOff()
 {
     mTable->PutNumber("ledMode", 1);
 }
+
+// Motion Profile Support Interface
+
+void Chassis::SetModePercentOutput()
+{
+  mComponents.frontLeft.Set(ControlMode::PercentOutput, 0.0);
+  mComponents.frontRight.Set(ControlMode::PercentOutput, 0.0);
+}
+
+void Chassis::SetModeMotionProfile()
+{
+  mComponents.frontLeft.Set(ControlMode::MotionProfile, 0.0);
+  mComponents.frontRight.Set(ControlMode::MotionProfile, 0.0);
+}
+
+void Chassis::ClearMotionProfileTrajectories()
+{
+  mComponents.frontLeft.ClearMotionProfileTrajectories();
+  mComponents.frontRight.ClearMotionProfileTrajectories();
+}
+
+void Chassis::ConfigMotionProfileTrajectoryPeriod(int trajectoryDurationMillis) {
+}
+
+void Chassis::SetMotionProfileSetValue(SetValueMotionProfile setValue)
+{
+  mComponents.frontLeft.Set(ControlMode::MotionProfile, setValue);
+  mComponents.frontRight.Set(ControlMode::MotionProfile, setValue);
+}
+
+void Chassis::PushMotionProfileTrajectory(const TrajectoryPoint& leftTrajectoryPoint,
+                                          const TrajectoryPoint& rightTrajectoryPoint)
+{
+  mComponents.frontLeft.PushMotionProfileTrajectory(leftTrajectoryPoint);
+  mComponents.frontRight.PushMotionProfileTrajectory(rightTrajectoryPoint);
+}
+
+void Chassis::ProcessMotionProfileBuffer()
+{
+  mComponents.frontLeft.ProcessMotionProfileBuffer();
+  mComponents.frontRight.ProcessMotionProfileBuffer();
+}
+
+void Chassis::GetMotionProfileStatus(MotionProfileStatus* leftStatus,
+                                     MotionProfileStatus* rightStatus)
+{
+  mComponents.frontLeft.GetMotionProfileStatus(*leftStatus);
+  mComponents.frontRight.GetMotionProfileStatus(*rightStatus);
+}
+
+void Chassis::SetMotionMagic(int position)
+{
+  mComponents.frontLeft.Set(ControlMode::MotionMagic, position);
+  mComponents.frontRight.Set(ControlMode::MotionMagic, position);
+}
+

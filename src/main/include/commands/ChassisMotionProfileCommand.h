@@ -1,15 +1,19 @@
 #ifndef ChassisMotionProfileCommand_H
 #define ChassisMotionProfileCommand_H
 
-#include <frc2/command/Command.h>
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
 #include <frc/Notifier.h>
 #include "commands/MotionProfile.h"
+#include "subsystems/Chassis.h"
 
-class ChassisMotionProfileCommand : public frc2::Command {
+class ChassisMotionProfileCommand : public frc2::CommandHelper<frc2::CommandBase, ChassisMotionProfileCommand> 
+{
 public:
-  typedef robovikes::TrajectoryPoint TrajectoryPoint;
+  using TrajectoryPoint = robovikes::TrajectoryPoint;
 
   ChassisMotionProfileCommand(
+      Chassis& chassis,
       const TrajectoryPoint* chassisLeft,
       const TrajectoryPoint* chassisRight,
       unsigned int trajectoryPointCount,
@@ -26,7 +30,7 @@ public:
   public:
     virtual void run(const ChassisMotionProfileCommand*) = 0;
     virtual bool isFinished() const = 0;
-    virtual MotionProfileState* getNextState() = 0;
+    virtual ChassisMotionProfileCommand::MotionProfileState* getNextState(const ChassisMotionProfileCommand*) = 0;
 
     virtual ~MotionProfileState() { };
   };
@@ -34,14 +38,21 @@ public:
   class MotionProfileLoad : public MotionProfileState
   {
   public:
+    using MotionProfileState = ChassisMotionProfileCommand::MotionProfileState;
     void run(const ChassisMotionProfileCommand* motionProfile);
     bool isFinished() const;
-    ChassisMotionProfileCommand::MotionProfileState* getNextState();
+    MotionProfileState* getNextState(const ChassisMotionProfileCommand*);
     virtual ~MotionProfileLoad();
   };
 
+  Chassis& mChassis;
+
 private:
   friend class MotionProfileLoad;
+  friend class MotionProfileStart;
+  friend class MotionProfileLoadTalon;
+  friend class MotionProfileRun;
+  friend class MotionProfileFinished;
 
   const TrajectoryPoint* chassisLeft;
   const TrajectoryPoint* chassisRight;
