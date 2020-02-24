@@ -14,6 +14,40 @@ using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
 
 std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
+
+namespace{
+
+    constexpr double kTicksPerRotation {2048};
+    constexpr double kHundredMillisPerSecond {10};
+    constexpr double kSecondsPerMin {60};
+
+    constexpr double RPMToTicks(double rpm)
+    {
+        double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
+        return ticks;
+    }
+    constexpr double kMaxVelocityError{3540-3000};
+    constexpr double kP{(.30*1023)/kMaxVelocityError};
+    constexpr double kI{0.0};
+    constexpr double kD{0.0}; // 30 is too high
+    constexpr double kF{(.90 * 1023)/ RPMToTicks(4000)};
+
+
+void SetPID(Chassis::Components& components)
+{
+  components.frontLeft.Config_kP(0, kP, 10);
+  components.frontLeft.Config_kI(0, kI, 10);
+  components.frontLeft.Config_kD(0, kD, 10);
+  components.frontLeft.Config_kF(0, kF, 10);
+
+  components.frontRight.Config_kP(0, kP, 10);
+  components.frontRight.Config_kI(0, kI, 10);
+  components.frontRight.Config_kD(0, kD, 10);
+  components.frontRight.Config_kF(0, kF, 10);
+}
+
+} //namespace
+
 Chassis::Chassis(const wpi::Twine& name,
     Components& components)
 
