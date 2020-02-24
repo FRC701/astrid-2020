@@ -10,6 +10,7 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include "commands/AutoRookie.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
@@ -148,6 +149,9 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Shoot 50%", new Shoot(mShooter, .50));
   frc::SmartDashboard::PutData("Shoot 25%", new Shoot(mShooter, .25));
   frc::SmartDashboard::PutData("Shoot 10%", new Shoot(mShooter, .10));
+
+  // Some Autos for testing
+  frc::SmartDashboard::PutData("Rookie Auto", new AutoRookie(mChassis));
 
   // Configure the button bindings
   ConfigureButtonBindings();
