@@ -11,6 +11,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 #include "commands/AutoRookie.h"
+#include "commands/AutoRookie10.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
@@ -154,6 +155,7 @@ RobotContainer::RobotContainer()
 
   // Some Autos for testing
   frc::SmartDashboard::PutData("Rookie Auto", new AutoRookie(mChassis));
+  frc::SmartDashboard::PutData("Rookie Auto 10", new AutoRookie10(mChassis));
 
   // Configure the button bindings
   ConfigureButtonBindings();
