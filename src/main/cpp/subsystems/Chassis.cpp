@@ -46,6 +46,7 @@ void SetPID(Chassis::Components& components)
   components.frontRight.Config_kF(0, kF, 10);
 }
 
+
 } //namespace
 
 Chassis::Chassis(const wpi::Twine& name,
@@ -68,6 +69,8 @@ Chassis::Chassis(const wpi::Twine& name,
      mComponents.backRight.Follow(mComponents.frontRight); 
      
      mDrive.SetRightSideInverted(false);
+
+     SetPID(mComponents);
 }
 
 // This method will be called once per scheduler run
