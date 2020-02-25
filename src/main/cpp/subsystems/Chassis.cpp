@@ -26,11 +26,11 @@ namespace{
         double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
         return ticks;
     }
-    constexpr double kMaxVelocityError{3540-3000};
-    constexpr double kP{(.30*1023)/kMaxVelocityError};
+    constexpr double kMaxVelocityError{3500-3000};
+    constexpr double kP{(.10*1023)/kMaxVelocityError};
     constexpr double kI{0.0};
     constexpr double kD{0.0}; // 30 is too high
-    constexpr double kF{(.90 * 1023)/ RPMToTicks(4000)};
+    constexpr double kF{(.70 * 1023)/ RPMToTicks(3000)};
 
 
 void SetPID(Chassis::Components& components)
