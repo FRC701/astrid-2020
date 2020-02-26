@@ -6,11 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/EnableShootShort.h"
-#include "commands/Aim.h"
+#include "commands/ChassisShortAdjust.h"
 #include "commands/ShortHood.h"
 #include "commands/SetConveyor.h"
 #include "commands/Shoot.h"
-#include "commands/ShootBalls.h"
+#include "commands/ShootBallsShort.h"
 #include "commands/HoodRetract.h"
 #include "commands/TankDrive.h"
 
@@ -27,7 +27,7 @@ EnableShootShort::EnableShootShort(Chassis& chassis, Conveyor& conveyor, Shooter
   // What is this magic number? What is the calculation?
   AddCommands(
     ShortHood(shooter), 
-    /* Aim(mChassis), */
-    ShootBalls(shooter, conveyor, 1350), // 2000RPM for testing
+    ChassisShortAdjust(mChassis),
+    ShootBallsShort(shooter, conveyor, 1350), // 2000RPM for testing
     HoodRetract(shooter));
 }
