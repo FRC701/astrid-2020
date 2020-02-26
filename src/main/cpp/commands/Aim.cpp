@@ -28,13 +28,13 @@ void Aim::Execute()
 {
   if(mChassis.TargetOffset() > -10.0 && mChassis.TargetOffset() < 10.0)
   {
-    if(mChassis.TargetOffset() < -1.0)
+    if(mChassis.TargetOffset() < -0.5)
     {
-      mChassis.ArcadeDrive(0, 0.38);
+      mChassis.ArcadeDrive(0, 0.37);
     }
-    if(mChassis.TargetOffset() > 1.0)
+    if(mChassis.TargetOffset() > 1.5)
     {
-      mChassis.ArcadeDrive(0, -0.38);
+      mChassis.ArcadeDrive(0, -0.37);
     }
   }
   else
