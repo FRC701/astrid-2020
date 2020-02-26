@@ -35,4 +35,5 @@ class Shoot
 
   Shooter& mShooter;
   double mSpeed;
+  int mCounter;
 };
