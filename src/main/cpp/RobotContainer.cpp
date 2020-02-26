@@ -124,8 +124,6 @@ RobotContainer::RobotContainer()
  
   std::cout << "Drop Winch" << std::endl;
 
-  frc::SmartDashboard::PutData("")
-
   frc::SmartDashboard::PutData(&mShooter);
   frc::SmartDashboard::PutData("Shoot 3000", new Shoot(mShooter, 3000.));
   frc::SmartDashboard::PutData("Shoot 4000", new Shoot(mShooter, 4000.));

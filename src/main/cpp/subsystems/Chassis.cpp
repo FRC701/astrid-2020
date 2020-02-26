@@ -124,11 +124,6 @@ void Chassis::ArcadeDrive(double speed, double rotation)
     mDrive.ArcadeDrive(speed, rotation);
 }
 
-void Chassis::PositionDrive()
-{
-    
-}
-
 double Chassis::TargetOffset()
 {
     return mTable->GetNumber("tx",0.0);
