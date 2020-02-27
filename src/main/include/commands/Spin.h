@@ -17,7 +17,7 @@ class Spin
  public:
   Spin(
    DooHickey& DooHickey
-  ,double speed);
+  ,std::function<double()> speed);
 
   void Initialize() override;
   void Execute() override;
@@ -26,6 +26,6 @@ class Spin
 
  private:
   DooHickey& mDooHickey;
-  double mSpeed;
+  std::function<double()> mSpeed;
 
 };
