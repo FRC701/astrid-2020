@@ -8,7 +8,7 @@
 #include "commands/Spin.h"
 
 Spin::Spin(DooHickey& DooHickey
-          ,double speed)
+          ,std::function<double()> speed)
 : mDooHickey(DooHickey), mSpeed(speed) 
 {
   SetName("Spin");
@@ -21,7 +21,7 @@ void Spin::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void Spin::Execute() 
 {
-  mDooHickey.MoveSpinner(mSpeed);
+  mDooHickey.MoveSpinner(mSpeed());
 }
 
 // Make this return true when this Command no longer needs to run execute()

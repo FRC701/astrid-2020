@@ -104,6 +104,15 @@ RobotContainer::RobotContainer()
       [this] { return coDriver.GetY(JoystickHand::kLeftHand); }
     )
   );
+
+  mDooHickey.SetDefaultCommand
+  (
+    Spin
+    (
+      mDooHickey,
+      [this] { return coDriver.GetY(JoystickHand::kRightHand); }
+    )
+  );
   
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
@@ -111,8 +120,8 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Reset Left Chassis Pos", new ResetChassisPos(mChassis));
   
-  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
-  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404));
+  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, [this] {return 0.1;}));
+  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, [this] {return 0.9404;}));
   frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
@@ -192,7 +201,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
 //took out buttons for doohickey, intake, and shooter; still need buttons for them
   coX.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
-  coB.WhenPressed(Spin(mDooHickey, 0.5));
+  coB.WhenPressed(HickeyEngage(mDooHickey));
   coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
 
