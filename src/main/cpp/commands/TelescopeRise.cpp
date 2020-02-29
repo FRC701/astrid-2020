@@ -25,9 +25,7 @@ void TelescopeRise::Execute()
 
 // Called once the command ends or is interrupted.
 void TelescopeRise::End(bool interrupted)
-{
-  mTelescope.TelescopeRise(0.0);
-}
+{}
 
 // Returns true when the command should end.
 bool TelescopeRise::IsFinished() { return false; }

@@ -101,7 +101,7 @@ RobotContainer::RobotContainer()
     TelescopeRise
     (
       mTelescope,
-      [this] { return coDriver.GetY(JoystickHand::kLeftHand); }
+      [this] { return -coDriver.GetY(JoystickHand::kLeftHand); }
     )
   );
 
