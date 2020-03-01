@@ -14,6 +14,7 @@
 #include "commands/AutoRookie10.h"
 #include "commands/AutoPoach.h"
 #include "commands/AutoPoachToShoot.h"
+#include "commands/AutoReverseFour.h"
 #include "commands/ChassisShortAdjust.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
@@ -179,6 +180,7 @@ RobotContainer::RobotContainer()
 
   // Some Autos for testing
   frc::SmartDashboard::PutData("Rookie Auto", new AutoRookie(mChassis));
+  frc::SmartDashboard::PutData("Auto Reverse 4", new AutoReverseFour(mChassis));
   frc::SmartDashboard::PutData("Rookie Auto 10", new AutoRookie10(mChassis));
   frc::SmartDashboard::PutData("Poach", new AutoPoach(mChassis));
   frc::SmartDashboard::PutData("Poach To Shoot", new AutoPoachToShoot(mChassis));
