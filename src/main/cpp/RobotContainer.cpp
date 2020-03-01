@@ -14,6 +14,7 @@
 #include "commands/AutoRookie10.h"
 #include "commands/AutoPoach.h"
 #include "commands/AutoPoachToShoot.h"
+#include "commands/AutoShootDriveAway.h"
 #include "commands/ChassisShortAdjust.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
@@ -182,6 +183,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Poach", new AutoPoach(mChassis));
   frc::SmartDashboard::PutData("Poach To Shoot", new AutoPoachToShoot(mChassis));
   frc::SmartDashboard::PutData("Short Adjust", new ChassisShortAdjust(mChassis));
+
+  frc::SmartDashboard::PutData("Shoot & Drive Away", new AutoShootDriveAway(mChassis, mConveyor, mShooter));
   // Configure the button bindings
   ConfigureButtonBindings();
 
