@@ -17,10 +17,11 @@ Telescope::Telescope(
 {
     SetName(name);
     mComponents.telescopeMotor.SetInverted(true);
+    mComponents.telescopeMotor.OverrideLimitSwitchesEnable(true);
     mComponents.telescopeMotor.ConfigForwardSoftLimitEnable(false);
     mComponents.telescopeMotor.ConfigReverseSoftLimitEnable(false);
-    //mComponents.telescopeMotor.ConfigForwardSoftLimitThreshold(1300);
-    //mComponents.telescopeMotor.ConfigReverseSoftLimitThreshold(0);
+    mComponents.telescopeMotor.ConfigForwardSoftLimitThreshold(1300);
+    mComponents.telescopeMotor.ConfigReverseSoftLimitThreshold(0);
     mComponents.telescopeMotor.SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
 }
 
@@ -29,6 +30,7 @@ void Telescope::Periodic()
 {
     frc::SmartDashboard::PutBoolean("telescope limit", GetLimitSwitch());
     frc::SmartDashboard::PutNumber("Telescope Encoder", GetPosition());
+    frc::SmartDashboard::PutBoolean("Telescope limit switch", GetRevLimitSwitch());
 }
 
 void Telescope::TelescopeRise(double percentoutput) 
@@ -42,7 +44,7 @@ double Telescope::GetPosition()
 
 }
 
-bool Telescope::GetLimitSwitch()
+bool Telescope::GetRevLimitSwitch()
 {
     return mComponents.telescopeMotor.IsRevLimitSwitchClosed();
 }
