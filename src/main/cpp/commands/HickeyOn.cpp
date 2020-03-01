@@ -13,19 +13,20 @@ HickeyOn::HickeyOn(DooHickey& dooHickey)
   AddRequirements(&mDooHickey);
 }
 
+
 // Called when the command is initially scheduled.
 void HickeyOn::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void HickeyOn::Execute() 
 {
-  mDooHickey.PushThang();
+  mDooHickey.RetractThang();
 }
 
 // Called once the command ends or is interrupted.
 void HickeyOn::End(bool interrupted) 
 {
-  mDooHickey.RetractThang();
+  mDooHickey.PushThang();
 }
 
 // Returns true when the command should end.

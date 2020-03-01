@@ -112,7 +112,7 @@ RobotContainer::RobotContainer()
     Spin
     (
       mDooHickey,
-      [this] { return coDriver.GetY(JoystickHand::kRightHand); }
+      [this] { return coDriver.GetX(JoystickHand::kRightHand); }
     )
   );
   
