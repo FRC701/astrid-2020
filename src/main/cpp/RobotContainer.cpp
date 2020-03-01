@@ -211,7 +211,7 @@ void RobotContainer::ConfigureButtonBindings() {
   coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
 
-  coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchRight));
+  coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchInches));
 
 
 

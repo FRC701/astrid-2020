@@ -149,16 +149,16 @@ void Shooter::Periodic()
 
 double Shooter::GetTargetDistance()
 {
-  double target1 = mTable2->GetNumber("tvert",0.0);
-  double target2 = mTable2->GetNumber("tvert",0.0);
-  double target3 = mTable2->GetNumber("tvert",0.0);
-  double target4 = mTable2->GetNumber("tvert",0.0);
-  double target5 = mTable2->GetNumber("tvert",0.0);
-  double target6 = mTable2->GetNumber("tvert",0.0);
-  double target7 = mTable2->GetNumber("tvert",0.0);
-  double target8 = mTable2->GetNumber("tvert",0.0);
-  double target9 = mTable2->GetNumber("tvert",0.0);
-  double target10 = mTable2->GetNumber("tvert",0.0);
+  double target1 = mTable2->GetNumber("ta",0.0);
+  double target2 = mTable2->GetNumber("ta",0.0);
+  double target3 = mTable2->GetNumber("ta",0.0);
+  double target4 = mTable2->GetNumber("ta",0.0);
+  double target5 = mTable2->GetNumber("ta",0.0);
+  double target6 = mTable2->GetNumber("ta",0.0);
+  double target7 = mTable2->GetNumber("ta",0.0);
+  double target8 = mTable2->GetNumber("ta",0.0);
+  double target9 = mTable2->GetNumber("ta",0.0);
+  double target10 = mTable2->GetNumber("ta",0.0);
   double target = (target1 + target2  + target3 + target4 + target5 + target6 + target7 + target8 + target9 + target10) / 10;
   return target;
 }
