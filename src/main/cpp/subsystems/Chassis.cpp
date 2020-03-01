@@ -89,6 +89,11 @@ void Chassis::TankDrive(double left, double right)
     mDrive.TankDrive(left, right);
 }
 
+void Chassis::SlowTankDrive(double left, double right)
+{
+    mDrive.TankDrive(left * 0.25, right * 0.25);
+}
+
 double Chassis::GetLeftVelocity()
 {
     return mComponents.frontLeft.GetSelectedSensorVelocity();

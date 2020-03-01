@@ -43,6 +43,7 @@ class Chassis : public frc2::SubsystemBase {
   void Periodic();
 
   void TankDrive(double left, double right);
+  void SlowTankDrive(double left, double right);
   void ArcadeDrive(double speed, double rotation);
 
   double GetLeftVelocity();
