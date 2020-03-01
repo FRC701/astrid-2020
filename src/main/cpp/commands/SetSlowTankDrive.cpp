@@ -5,38 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/IntakeOn.h"
+#include "commands/SetSlowTankDrive.h"
 
-constexpr double driveRatio {8 / 84};
-constexpr double driveToIntakeRatio {3};
-constexpr double conversionFactor {driveRatio * driveToIntakeRatio};
-
-IntakeOn::IntakeOn(Intake& intake, Chassis& chassis, double speed)
-: mSpeed{speed}
-, mIntake{intake}
-, mChassis{chassis}
+SetSlowTankDrive::SetSlowTankDrive(Chassis& chassis,
+                                  std::function<double()> left,
+                                  std::function<double()> right)
+: mChassis(chassis), mLeft(left), mRight(right)
 {
-  AddRequirements(&mIntake);
+  AddRequirements(&mChassis);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void IntakeOn::Initialize() {}
+void SetSlowTankDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void IntakeOn::Execute()
+void SetSlowTankDrive::Execute() 
 {
-  double averageDrive = (mChassis.GetLeftVelocity() + mChassis.GetRightVelocity()) / 2;
-  double velocity = averageDrive * conversionFactor + mSpeed;
-  mIntake.SetIntake(velocity*2);
+  mChassis.SlowTankDrive(mLeft(), mRight());
 }
 
 // Called once the command ends or is interrupted.
-void IntakeOn::End(bool interrupted)
-{
-  mIntake.SetIntake(0);
-  mIntake.IntakeDisengage();
-}
+void SetSlowTankDrive::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool IntakeOn::IsFinished() { return false; }
+bool SetSlowTankDrive::IsFinished() { return false; }
