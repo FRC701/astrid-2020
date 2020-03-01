@@ -173,6 +173,7 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { if(mConveyor.IsBallExiting()) { mConveyor.BallIntakeExiting(); }});
   frc2::Button DA {[this]{return driver.GetRawButton(1);}};
+  frc2::Button DBumperRight {[this]{return driver.GetRawButton(6);}};
   frc2::Button coA {[this]{return coDriver.GetRawButton(1);}};
   frc2::Button coB {[this]{return coDriver.GetRawButton(2);}};
   frc2::Button coX {[this]{return coDriver.GetRawButton(3);}};
@@ -181,14 +182,14 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button coBumperRight {[this]{return coDriver.GetRawButton(6);}};
 
 //took out buttons for doohickey, intake, and shooter; still need buttons for them
-  DA.ToggleWhenPressed(SetSlowTankDrive(mChassis, [this] { return -1.0*driver.GetY(JoystickHand::kLeftHand);}, [this] { return -1.0*driver.GetY(JoystickHand::kRightHand);}));
+  DBumperRight.ToggleWhenPressed(SetSlowTankDrive(mChassis, [this] { return -1.0*driver.GetY(JoystickHand::kLeftHand);}, [this] { return -1.0*driver.GetY(JoystickHand::kRightHand);}));
 
   coX.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
   coB.WhenPressed(Spin(mDooHickey, 0.5));
   coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
 
-  coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchInches));
+  coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchRight));
 
 }
 

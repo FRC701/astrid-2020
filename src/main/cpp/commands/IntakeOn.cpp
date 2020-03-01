@@ -28,7 +28,7 @@ void IntakeOn::Execute()
 {
   double averageDrive = (mChassis.GetLeftVelocity() + mChassis.GetRightVelocity()) / 2;
   double velocity = averageDrive * conversionFactor + mSpeed;
-  mIntake.SetIntake(velocity);
+  mIntake.SetIntake(velocity*2);
 }
 
 // Called once the command ends or is interrupted.
