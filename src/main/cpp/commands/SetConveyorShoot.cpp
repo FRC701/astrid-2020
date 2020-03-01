@@ -43,5 +43,5 @@ bool SetConveyorShoot::IsFinished()
   {
     mTimer.Reset();
   }
-  return (mTimer.Get() >= 3);
+  return (mTimer.Get() >= 1.5);
 }
