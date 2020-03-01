@@ -7,6 +7,11 @@
 
 #pragma once
 
+#include <cstddef>
+
+#include <ctre/phoenix/motion/MotionProfileStatus.h>
+#include <ctre/phoenix/motion/SetValueMotionProfile.h>
+#include <ctre/phoenix/motion/TrajectoryPoint.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <frc2/command/SubsystemBase.h>
@@ -18,6 +23,9 @@
 class Chassis : public frc2::SubsystemBase {
  public:
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
+  using MotionProfileStatus = ctre::phoenix::motion::MotionProfileStatus;
+  using SetValueMotionProfile = ctre::phoenix::motion::SetValueMotionProfile;
+  using TrajectoryPoint = ctre::phoenix::motion::TrajectoryPoint;
 
   struct Components 
   {
@@ -40,6 +48,12 @@ class Chassis : public frc2::SubsystemBase {
   double GetLeftVelocity();
   double GetRightVelocity();
 
+  double GetRightPos();
+  double GetLeftPos();
+
+  double ResetLeftPos();
+  double ResetRightPos();
+
   double TargetOffset();
   double TargetDistance();
 
@@ -47,6 +61,19 @@ class Chassis : public frc2::SubsystemBase {
   void SetVisionCam();
   void limeLightLightsOn();
   void limeLightLightsOff();
+
+	// Motion Profile Support
+	void SetModePercentOutput();
+	void SetModeMotionProfile();
+	void ClearMotionProfileTrajectories();
+	void SetMotionProfileSetValue(SetValueMotionProfile setValue);
+	void ConfigMotionProfileTrajectoryPeriod(int pointDurationMillis);
+	void PushMotionProfileTrajectory(const TrajectoryPoint& leftTrajectoryPoint,
+	                                 const TrajectoryPoint& rightTrajectoryPoint);
+	void ProcessMotionProfileBuffer();
+	void GetMotionProfileStatus(MotionProfileStatus* leftStatus,
+	                            MotionProfileStatus* rightStatus);
+	void SetMotionMagic(int position);
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

@@ -10,6 +10,7 @@
 Shoot::Shoot(Shooter& mShooter,  double speed)
 : mShooter(mShooter)
 , mSpeed(speed)
+, mCounter(0)
 {
   AddRequirements(&mShooter);
 }
@@ -18,16 +19,32 @@ Shoot::Shoot(Shooter& mShooter,  double speed)
 void Shoot::Initialize() 
 {
   mShooter.ResetRange();
+  mCounter = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() 
 {
-  mShooter.Shoot(mSpeed);
+  double target1 = mShooter.GetTargetDistance();
+  double target2 = mShooter.GetTargetDistance();
+  double target3 = mShooter.GetTargetDistance();
+  double target4 = mShooter.GetTargetDistance();
+  double target5 = mShooter.GetTargetDistance();
+  double target6 = mShooter.GetTargetDistance();
+  double target7 = mShooter.GetTargetDistance();
+  double target8 = mShooter.GetTargetDistance();
+  double target9 = mShooter.GetTargetDistance();
+  double target10 = mShooter.GetTargetDistance();
+  double target = (target1 + target2 + target3 + target4 + target5 + target6 + target7 + target8 + target9 + target10) / 10;
+  //double avgTarget = (target + mShooter.GetTargetDistance()) / 2;
+  //mCounter++;
+  double motorSpeed = 14080 - (1052 * target) + (30.1 * target * target) - (0.288 * target * target * target);
+  mShooter.Shoot(motorSpeed);
+  mCounter = 0;
 }
 
 // Called once the command ends or is interrupted.
-void Shoot::End(bool interrupted) 
+void Shoot::End(bool interrupted)
 {}
 
 // Returns true when the command should end.

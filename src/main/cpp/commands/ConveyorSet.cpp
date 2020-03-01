@@ -5,30 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/ConveyorSet.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
+ConveyorSet::ConveyorSet(Conveyor& conveyor, double speed, SetConveyor* setConveyor)
+: mConveyor(conveyor)
+, mSpeed(speed)
+, mSetConveyor(setConveyor)
 {
-  AddRequirements(&mChassis);
+  AddRequirements(&mConveyor);
+  // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize()
-{
-  mChassis.limeLightLightsOff();
-}
+void ConveyorSet::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
+void ConveyorSet::Execute()
 {
-  mChassis.TankDrive(mLeft(), mRight());
+  mConveyor.SetConveyor(0.1);
 }
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void ConveyorSet::End(bool interrupted)
+{
+  if (interrupted != true) 
+  {
+  //  mSetConveyor->Schedule();
+  }
+}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool ConveyorSet::IsFinished()
+{
+  return !mConveyor.IsBallComing();
+}

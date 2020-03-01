@@ -25,7 +25,11 @@ void EndIntake::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void EndIntake::Execute()
 {
-  mConveyor.SetConveyor(-0.4);
+  std::cout << "EndIntake::Execute" << std::endl;
+  if (!IsFinished())
+  {
+    mConveyor.SetConveyor(-0.4);
+  }
 }
 
 // Called once the command ends or is interrupted.
@@ -38,5 +42,6 @@ void EndIntake::End(bool interrupted)
 // Returns true when the command should end.
 bool EndIntake::IsFinished()
 {
-  return (!mConveyor.IsBallComing() || !mConveyor.IsBallExiting()) && mTimer.Get() <= 2;
+  //return (!mConveyor.IsBallComing() || !mConveyor.IsBallExiting()) && mTimer.Get() <= 2;
+  return mConveyor.IsBallExiting() || (mTimer.Get() >= 2.0);
 }

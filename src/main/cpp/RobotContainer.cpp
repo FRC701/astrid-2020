@@ -10,6 +10,11 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include "commands/AutoRookie.h"
+#include "commands/AutoRookie10.h"
+#include "commands/AutoPoach.h"
+#include "commands/AutoPoachToShoot.h"
+#include "commands/ChassisShortAdjust.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
@@ -38,6 +43,8 @@
 #include <commands/IntakeDisengage.h>
 #include "commands/EnableIntake.h"
 #include "commands/EnableShootShort.h"
+#include <commands/ResetChassisPos.h>
+#include "commands/FullEndIntake.h"
 
 
 namespace {
@@ -51,20 +58,25 @@ RobotContainer::RobotContainer()
 
   // Initialize all of your commands and subsystems here
 
+  std::cout << "Robot Container Start" << std::endl;
   // Configure the button bindings
   mChassis.SetDefaultCommand
   (
     TankDrive
     (
       mChassis,
-      [this] { return driver.GetY(JoystickHand::kLeftHand); },
-      [this] { return driver.GetY(JoystickHand::kRightHand); }
+      [this] { return -1.0*driver.GetY(JoystickHand::kLeftHand); },
+      [this] { return -1.0*driver.GetY(JoystickHand::kRightHand); }
     )
   );
+
+  mConveyor.SetDefaultCommand(FullEndIntake(mConveyor, mIntake));
 
   constexpr double radiusCW = 16; //16" radius of Control panel 
   constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
   constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
+
+  std::cout << "Chassis Drive" << std::endl;
 
   frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, mChassis, 0.1));
   frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, mChassis, 0.2));
@@ -80,8 +92,9 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Intake Disengage", new IntakeDisengage(mIntake));
   frc::SmartDashboard::PutData("Enable Intake", new EnableIntake(mIntake, mConveyor, mChassis));
 
+  std::cout << "Enable Intake" << std::endl;
 
-  //mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
+  // mConveyor.SetDefaultCommand(SetConveyor(mConveyor, 0.2));
 
   mTelescope.SetDefaultCommand
   (
@@ -91,13 +104,24 @@ RobotContainer::RobotContainer()
       [this] { return coDriver.GetY(JoystickHand::kLeftHand); }
     )
   );
+
+  mDooHickey.SetDefaultCommand
+  (
+    Spin
+    (
+      mDooHickey,
+      [this] { return coDriver.GetY(JoystickHand::kRightHand); }
+    )
+  );
   
   frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
   frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
+
+  frc::SmartDashboard::PutData("Reset Left Chassis Pos", new ResetChassisPos(mChassis));
   
-  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
-  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404));
+  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, [this] {return 0.1;}));
+  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, [this] {return 0.9404;}));
   frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
@@ -128,6 +152,10 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("run conveyor 30", new RunConveyor(mConveyor, 0.3));
   frc::SmartDashboard::PutData("run conveyor 20", new RunConveyor(mConveyor, 0.2));
 
+  std::cout << "Run Conveyor" << std::endl;
+
+  frc::SmartDashboard::PutData("reverse conveyor", new RunConveyor(mConveyor, -0.2));
+
   frc::SmartDashboard::PutData("reset balls in conveyor", new ResetBallConveyor(mConveyor));
   
   frc::SmartDashboard::PutData("Short Hood", new ShortHood(mShooter));
@@ -147,8 +175,17 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Shoot 25%", new Shoot(mShooter, .25));
   frc::SmartDashboard::PutData("Shoot 10%", new Shoot(mShooter, .10));
 
+  // Some Autos for testing
+  frc::SmartDashboard::PutData("Rookie Auto", new AutoRookie(mChassis));
+  frc::SmartDashboard::PutData("Rookie Auto 10", new AutoRookie10(mChassis));
+  frc::SmartDashboard::PutData("Poach", new AutoPoach(mChassis));
+  frc::SmartDashboard::PutData("Poach To Shoot", new AutoPoachToShoot(mChassis));
+  frc::SmartDashboard::PutData("Short Adjust", new ChassisShortAdjust(mChassis));
   // Configure the button bindings
   ConfigureButtonBindings();
+
+  std::cout << "Robot Container Finished" << std::endl;
+
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -156,9 +193,6 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Trigger( [this] { return mConveyor.IsBallComing(); }).WhenActive( [this]{ mConveyor.BallIntakeIncoming(); });
   frc2::Trigger( [this] { return mConveyor.IsBallExiting(); }).WhenInactive( [this] { if(mConveyor.IsBallExiting()) { mConveyor.BallIntakeExiting(); }});
   frc2::Button coA {[this]{return coDriver.GetRawButton(1);}};
-
-
-  
   frc2::Button coB {[this]{return coDriver.GetRawButton(2);}};
   frc2::Button coX {[this]{return coDriver.GetRawButton(3);}};
   frc2::Button coY {[this]{return coDriver.GetRawButton(4);}};
@@ -166,13 +200,15 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button coBumperRight {[this]{return coDriver.GetRawButton(6);}};
 
 //took out buttons for doohickey, intake, and shooter; still need buttons for them
-  coA.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
-  coB.WhenPressed(Spin(mDooHickey, 0.5));
-  coX.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
+  coX.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
+  coB.WhenPressed(HickeyEngage(mDooHickey));
+  coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
 
   coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchPercentOutput));
   coBumperRight.WhenPressed(new WinchHook(mWinch, -kWinchPercentOutput));
+
+
 
 }
 

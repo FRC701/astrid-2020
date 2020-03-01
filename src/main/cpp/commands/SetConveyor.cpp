@@ -6,52 +6,26 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/SetConveyor.h"
-#include "commands/EndIntake.h"
+#include "commands/ConveyorInitialize.h"
+#include "commands/ConveyorIn.h"
+#include "commands/ConveyorSettle.h"
+#include "commands/ConveyorSet.h"
 
+// NOTE:  Consider using this command inline, rather than writing a subclass.
+// For more information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 SetConveyor::SetConveyor(Conveyor& conveyor, double speed)
-: mConveyor{conveyor}
+: mConveyor(conveyor)
 , mSpeed(speed)
-, mEndIntake(mConveyor)
 {
-  // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements(&mConveyor);
-}
-
-// Called when the command is initially scheduled.
-void SetConveyor::Initialize() {}
-
-// Called repeatedly when this Command is scheduled to run
-void SetConveyor::Execute() 
-{
-    if(mConveyor.IsBallComing() && mConveyor.IsBallExiting())
-    {
-        if(mConveyor.IsBallComing())
-        {
-            mConveyor.SetConveyor(mSpeed);
-        }
-        if(!mConveyor.IsBallComing())
-        {
-            mConveyor.SetConveyor(-0.4);
-        }
-        if(mConveyor.IsBallComing())
-        {
-            mConveyor.SetConveyor(0.1);
-        }
-    }
-    else
-    {
-        mConveyor.SetConveyor(0.0);
-    }
-}
-
-// Called once the command ends or is interrupted.
-void SetConveyor::End(bool interrupted)
-{
-    mEndIntake.Schedule();
-}
-
-// Returns true when the command should end.
-bool SetConveyor::IsFinished()
-{
-    return false;
+#if 1
+  AddCommands(
+    ConveyorInitialize(mConveyor),
+    ConveyorIn(mConveyor, mSpeed)
+    //ConveyorSettle(mConveyor, mSpeed),
+    //ConveyorSet(mConveyor, mSpeed, this)
+  );
+#endif
+  // Add your commands here, e.g.
+  // AddCommands(FooCommand(), BarCommand());
 }

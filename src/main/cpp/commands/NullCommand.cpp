@@ -5,30 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TankDrive.h"
+#include "commands/NullCommand.h"
 
-TankDrive::TankDrive(Chassis& chassis,
-                    std::function<double()> left,
-                    std::function<double()> right)
-: mChassis(chassis), mLeft(left), mRight(right) 
+NullCommand::NullCommand(Conveyor& conveyor)
+: mConveyor(conveyor)
 {
-  AddRequirements(&mChassis);
+  AddRequirements(&mConveyor);
+  // Use addRequirements() here to declare subsystem dependencies.
 }
 
 // Called when the command is initially scheduled.
-void TankDrive::Initialize()
-{
-  mChassis.limeLightLightsOff();
-}
+void NullCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void TankDrive::Execute() 
-{
-  mChassis.TankDrive(mLeft(), mRight());
-}
+void NullCommand::Execute() {}
 
 // Called once the command ends or is interrupted.
-void TankDrive::End(bool interrupted) {}
+void NullCommand::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool TankDrive::IsFinished() { return false; }
+bool NullCommand::IsFinished() { return false; }

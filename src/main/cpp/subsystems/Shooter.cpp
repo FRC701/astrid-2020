@@ -9,9 +9,11 @@
 
 #include <ctre/phoenix/motorcontrol/ControlMode.h>
 
-namespace{
+std::shared_ptr<NetworkTable> mTable2 = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
-using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+namespace{using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+
+
 
 constexpr frc::DoubleSolenoid::Value kHoodOutFull {frc::DoubleSolenoid::kReverse};
 constexpr frc::DoubleSolenoid::Value kHoodRetract {frc::DoubleSolenoid::kForward};
@@ -38,7 +40,7 @@ constexpr double kMaxVelocityError{3540-3000};
 constexpr double kP{(.30*1023)/kMaxVelocityError};
 constexpr double kI{0.0};
 constexpr double kD{10 * kP}; // 30 is too high
-constexpr double kF{(.90 * 1023)/ RPMToTicks(4000)};
+constexpr double kF{(1 * 1023)/ RPMToTicks(4000)};
 
 void SetPID(Shooter::Components& components)
 {
@@ -99,7 +101,7 @@ void Shooter::ResetRange()
 
 bool Shooter::IsInRange() const
 {
-  constexpr int kErrorThresholdRPM = 20;
+  constexpr int kErrorThresholdRPM = 100;
   constexpr int kLoopsToSettle = 30;
 
   constexpr double kErrorThresholdTicks{RPMToTicks(kErrorThresholdRPM)};
@@ -142,4 +144,21 @@ void Shooter::Periodic()
   frc::SmartDashboard::PutNumber("Left Motor RPM", MotorBottomRPM());
   frc::SmartDashboard::PutNumber("Right Motor RPM", MotorTopRPM());
   frc::SmartDashboard::PutBoolean("Shooter is in range", IsInRange());
+  frc::SmartDashboard::PutNumber("TVERT", GetTargetDistance());
+}
+
+double Shooter::GetTargetDistance()
+{
+  double target1 = mTable2->GetNumber("tvert",0.0);
+  double target2 = mTable2->GetNumber("tvert",0.0);
+  double target3 = mTable2->GetNumber("tvert",0.0);
+  double target4 = mTable2->GetNumber("tvert",0.0);
+  double target5 = mTable2->GetNumber("tvert",0.0);
+  double target6 = mTable2->GetNumber("tvert",0.0);
+  double target7 = mTable2->GetNumber("tvert",0.0);
+  double target8 = mTable2->GetNumber("tvert",0.0);
+  double target9 = mTable2->GetNumber("tvert",0.0);
+  double target10 = mTable2->GetNumber("tvert",0.0);
+  double target = (target1 + target2  + target3 + target4 + target5 + target6 + target7 + target8 + target9 + target10) / 10;
+  return target;
 }

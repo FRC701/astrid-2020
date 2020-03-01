@@ -10,7 +10,44 @@
 #include <cmath>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+
 std::shared_ptr<NetworkTable> mTable = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+
+
+namespace{
+
+    constexpr double kTicksPerRotation {2048};
+    constexpr double kHundredMillisPerSecond {10};
+    constexpr double kSecondsPerMin {60};
+
+    constexpr double RPMToTicks(double rpm)
+    {
+        double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
+        return ticks;
+    }
+    constexpr double kMaxVelocityError{3500-3000};
+    constexpr double kP{(.10*1023)/kMaxVelocityError};
+    constexpr double kI{0.0};
+    constexpr double kD{0.0}; // 30 is too high
+    constexpr double kF{(.70 * 1023)/ RPMToTicks(3000)};
+
+
+void SetPID(Chassis::Components& components)
+{
+  components.frontLeft.Config_kP(0, kP, 10);
+  components.frontLeft.Config_kI(0, kI, 10);
+  components.frontLeft.Config_kD(0, kD, 10);
+  components.frontLeft.Config_kF(0, kF, 10);
+
+  components.frontRight.Config_kP(0, kP, 10);
+  components.frontRight.Config_kI(0, kI, 10);
+  components.frontRight.Config_kD(0, kD, 10);
+  components.frontRight.Config_kF(0, kF, 10);
+}
+
+
+} //namespace
 
 Chassis::Chassis(const wpi::Twine& name,
     Components& components)
@@ -21,24 +58,30 @@ Chassis::Chassis(const wpi::Twine& name,
     SetName(name);
     // TODO: SetSensorPhase does not seem to be having an effect
     // The velocity is still going in reverse to the direction of travel.
-    mComponents.frontLeft.SetSensorPhase(true);
+    mComponents.frontLeft.SetSensorPhase(false);
     mComponents.backLeft.SetSensorPhase(true);
-    mComponents.frontLeft.SetInverted(false);
-    mComponents.backLeft.SetInverted(false);
+    mComponents.frontLeft.SetInverted(true);
+    mComponents.backLeft.SetInverted(true);
     mComponents.frontRight.SetInverted(false);
     mComponents.backRight.SetInverted(false);
 
      mComponents.backLeft.Follow(mComponents.frontLeft); 
      mComponents.backRight.Follow(mComponents.frontRight); 
+     
+     mDrive.SetRightSideInverted(false);
+
+     SetPID(mComponents);
 }
 
 // This method will be called once per scheduler run
 void Chassis::Periodic() 
 {
-    frc::SmartDashboard::PutNumber("left velocity", GetLeftVelocity());
-    frc::SmartDashboard::PutNumber("right velocity", GetRightVelocity());
+    frc::SmartDashboard::PutNumber("left chassis velocity", GetLeftVelocity());
+    frc::SmartDashboard::PutNumber("right chassis velocity", GetRightVelocity());
     frc::SmartDashboard::PutNumber("Target Offset", TargetOffset());
     frc::SmartDashboard::PutNumber("Target Distance", TargetDistance());
+    frc::SmartDashboard::PutNumber("Right Chassis Pos", GetRightPos());
+    frc::SmartDashboard::PutNumber("Left Chassis Pos", GetLeftPos());
 }
 
 void Chassis::TankDrive(double left, double right)
@@ -56,6 +99,26 @@ double Chassis::GetRightVelocity()
     return mComponents.frontRight.GetSelectedSensorVelocity();
 }
 
+double Chassis::GetRightPos()
+{
+    return mComponents.frontRight.GetSelectedSensorPosition();
+}
+
+double Chassis::GetLeftPos()
+{
+    return mComponents.frontLeft.GetSelectedSensorPosition();
+}
+
+double Chassis::ResetLeftPos()
+{
+    mComponents.frontLeft.SetSelectedSensorPosition(0);
+}
+
+double Chassis::ResetRightPos()
+{
+    mComponents.frontRight.SetSelectedSensorPosition(0);
+}
+
 void Chassis::ArcadeDrive(double speed, double rotation)
 {
     mDrive.ArcadeDrive(speed, rotation);
@@ -68,11 +131,8 @@ double Chassis::TargetOffset()
 
 double Chassis::TargetDistance() //this doesn't work
 {
-    constexpr double TargetHeightInch {84};
-    constexpr double CameraHeightInch {18};
-    constexpr double CameraAngleOffGroundDegrees {15};
-    double distanceInch = (TargetHeightInch - CameraHeightInch) / tan(CameraAngleOffGroundDegrees + TargetOffset());
-    return distanceInch;
+    double distanceFeet = 14.6 - (11.6 * log(mTable->GetNumber("ta",0.0)));
+    return distanceFeet;
 }
 
 void Chassis::SetDriverCam()
@@ -94,3 +154,59 @@ void Chassis::limeLightLightsOff()
 {
     mTable->PutNumber("ledMode", 1);
 }
+
+// Motion Profile Support Interface
+
+void Chassis::SetModePercentOutput()
+{
+  mComponents.frontLeft.Set(ControlMode::PercentOutput, 0.0);
+  mComponents.frontRight.Set(ControlMode::PercentOutput, 0.0);
+}
+
+void Chassis::SetModeMotionProfile()
+{
+  mComponents.frontLeft.Set(ControlMode::MotionProfile, 0.0);
+  mComponents.frontRight.Set(ControlMode::MotionProfile, 0.0);
+}
+
+void Chassis::ClearMotionProfileTrajectories()
+{
+  mComponents.frontLeft.ClearMotionProfileTrajectories();
+  mComponents.frontRight.ClearMotionProfileTrajectories();
+}
+
+void Chassis::ConfigMotionProfileTrajectoryPeriod(int trajectoryDurationMillis) {
+}
+
+void Chassis::SetMotionProfileSetValue(SetValueMotionProfile setValue)
+{
+  mComponents.frontLeft.Set(ControlMode::MotionProfile, setValue);
+  mComponents.frontRight.Set(ControlMode::MotionProfile, setValue);
+}
+
+void Chassis::PushMotionProfileTrajectory(const TrajectoryPoint& leftTrajectoryPoint,
+                                          const TrajectoryPoint& rightTrajectoryPoint)
+{
+  mComponents.frontLeft.PushMotionProfileTrajectory(leftTrajectoryPoint);
+  mComponents.frontRight.PushMotionProfileTrajectory(rightTrajectoryPoint);
+}
+
+void Chassis::ProcessMotionProfileBuffer()
+{
+  mComponents.frontLeft.ProcessMotionProfileBuffer();
+  mComponents.frontRight.ProcessMotionProfileBuffer();
+}
+
+void Chassis::GetMotionProfileStatus(MotionProfileStatus* leftStatus,
+                                     MotionProfileStatus* rightStatus)
+{
+  mComponents.frontLeft.GetMotionProfileStatus(*leftStatus);
+  mComponents.frontRight.GetMotionProfileStatus(*rightStatus);
+}
+
+void Chassis::SetMotionMagic(int position)
+{
+  mComponents.frontLeft.Set(ControlMode::MotionMagic, position);
+  mComponents.frontRight.Set(ControlMode::MotionMagic, position);
+}
+

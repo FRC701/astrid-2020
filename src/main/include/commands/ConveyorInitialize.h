@@ -9,7 +9,10 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/Shooter.h>
+#include <subsystems/Conveyor.h>
+#include <frc2/command/WaitCommand.h>
+#include <frc/Timer.h>
+#include "commands/EndIntake.h"
 
 /**
  * An example command.
@@ -18,10 +21,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class Shoot
-    : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
+class ConveyorInitialize
+    : public frc2::CommandHelper<frc2::CommandBase, ConveyorInitialize> {
  public:
-  Shoot(Shooter& mShooter,  double speed);
+  ConveyorInitialize(Conveyor& conveyor);
 
   void Initialize() override;
 
@@ -30,10 +33,6 @@ class Shoot
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-
-  private:
-
-  Shooter& mShooter;
-  double mSpeed;
-  int mCounter;
+private: 
+  Conveyor& mConveyor;
 };

@@ -33,4 +33,5 @@ class Aim
 
  private:
   Chassis& mChassis;
+  int mCounter;
 };
