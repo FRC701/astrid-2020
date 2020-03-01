@@ -276,15 +276,8 @@ bool ChassisMotionProfileCommand::IsFinished() {
 }
 
 // Called once after isFinished returns true
-void ChassisMotionProfileCommand::End() {
+void ChassisMotionProfileCommand::End(bool /* interrupted */) {
   std::cout << "ChassisMotionProfileCommand::End" << std::endl;
-  notifier.Stop();
-  mChassis.SetModePercentOutput();
-}
-
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
-void ChassisMotionProfileCommand::Interrupted() {
   notifier.Stop();
   mChassis.SetModePercentOutput();
 }
