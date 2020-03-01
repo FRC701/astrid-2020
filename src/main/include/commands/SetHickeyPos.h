@@ -7,17 +7,21 @@
 
 #pragma once
 
+#include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc2/command/InstantCommand.h>
 #include "subsystems/DooHickey.h"
 
 class SetHickeyPos
-    : public frc2::CommandHelper<frc2::InstantCommand,
-                                 SetHickeyPos> {
+    : public frc2::CommandHelper<frc2::CommandBase, SetHickeyPos> {
  public:
+ 
   SetHickeyPos(DooHickey& dooHickey, double position);
-
   void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End(bool interrupted) override;
+  void Interrupted();
+
  private:
   DooHickey& mDooHickey;
    double mPosition;

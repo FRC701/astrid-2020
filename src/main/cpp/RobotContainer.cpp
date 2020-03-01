@@ -28,6 +28,7 @@
 #include "commands/StowHood.h"
 #include "commands/HickeyDisengage.h"
 #include "commands/HickeyEngage.h"
+#include "commands/HickeyPosControl.h"
 #include "commands/RunConveyor.h"
 #include "commands/ResetBallConveyor.h"
 #include <commands/HoodRetract.h>
@@ -61,10 +62,11 @@ RobotContainer::RobotContainer()
       [this] { return driver.GetY(JoystickHand::kRightHand); }
     )
   );
-
-  constexpr double radiusCW = 16; //16" radius of Control panel 
-  constexpr double radiusDW = 1.5;  //1.5" radius of DooHickey wheel (3" diameter)
-  constexpr double TargetPos = (4*(radiusCW/radiusDW)) * 2048; 
+  constexpr double kNumberOfRotations{4};
+  constexpr double kTicksPerRotation{2048};
+  constexpr double radiusCW{16}; //16" radius of Control panel 
+  constexpr double radiusDW{1.5};  //1.5" radius of DooHickey wheel (3" diameter)
+  constexpr double TargetPos = (kNumberOfRotations*(radiusCW/radiusDW)) * kTicksPerRotation;
 
   frc::SmartDashboard::PutData("Intake 10 percent", new IntakeOn(mIntake, mChassis, 0.1));
   frc::SmartDashboard::PutData("Intake 20 percent", new IntakeOn(mIntake, mChassis, 0.2));
@@ -96,9 +98,9 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
   frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
   
-  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, 0.1));
-  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, 0.9404));
-  frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
+  frc::SmartDashboard::PutData("Spin 58 RPM", new Spin(mDooHickey, 18730.0)); //RPM for 775Pro = 58 RPM on wheel.
+  frc::SmartDashboard::PutData("Position Control", new HickeyPosControl(mDooHickey, 9365.0));
+  frc::SmartDashboard::PutData("Rotation Control", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
 

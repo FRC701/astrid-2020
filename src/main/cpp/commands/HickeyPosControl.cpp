@@ -5,32 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/SetHickeyPos.h"
+#include "commands/HickeyPosControl.h"
 
-SetHickeyPos::SetHickeyPos(DooHickey& dooHickey, double position) : mDooHickey(dooHickey), mPosition(position) {
-  SetName("SetHickeyPos");
+HickeyPosControl::HickeyPosControl(DooHickey& DooHickey
+  ,double speed)
+: mDooHickey(DooHickey), mSpeed(speed) 
+{
+  SetName("HickeyPosControl");
   AddRequirements(&mDooHickey);
-  std::cout << "Spin::Spin" << std::endl;
-
 }
 
 // Called when the command is initially scheduled.
-void SetHickeyPos::Initialize() {}
+void HickeyPosControl::Initialize() {
+  mStopHere = mDooHickey.StopHereColor();
+}
 
 // Called repeatedly when this Command is scheduled to run
-void SetHickeyPos::Execute() 
-{
-    mDooHickey.SetHickeyPosition(mPosition);
+void HickeyPosControl::Execute() {
+  mDooHickey.MoveSpinner(mSpeed * mStopHere.direction);
 }
 
-// Make this return true when this Command no longer needs to run execute()
-bool SetHickeyPos::IsFinished() 
-{
-   return mDooHickey.IsInRange();
-}
-
-// Called once after isFinished returns true
-void SetHickeyPos::End(bool interrupted) 
-{
+// Called once the command ends or is interrupted.
+void HickeyPosControl::End(bool interrupted) {
   mDooHickey.MoveSpinner(0.0);
+}
+
+// Returns true when the command should end.
+bool HickeyPosControl::IsFinished() {
+ return mDooHickey.MatchedColor() == mStopHere.Color;
 }

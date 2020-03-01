@@ -30,5 +30,5 @@ bool Spin::IsFinished() { return false; }
 // Called once after isFinished returns true
 void Spin::End(bool interrupted) 
 {
-
+  mDooHickey.MoveSpinner(0.0);
 }

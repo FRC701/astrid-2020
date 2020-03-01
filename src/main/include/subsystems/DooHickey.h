@@ -18,33 +18,42 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "ctre/phoenix/motorcontrol/ControlMode.h"
 #include "ctre/phoenix/motorcontrol/StatusFrame.h"
+#include <cmath>
 
 
 class DooHickey : public frc2::SubsystemBase {
-
-  static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
-
-  rev::ColorSensorV3 m_colorSensor{i2cPort};
-  rev::ColorMatch m_colorMatcher;
-
-  double mMotorSpeed;
-  double mTargetPos; 
-
-  static constexpr frc::Color kBlueTarget = frc::Color(0.143, 0.427, 0.429);
-  static constexpr frc::Color kGreenTarget = frc::Color(0.197, 0.561, 0.240);
-  static constexpr frc::Color kRedTarget = frc::Color(0.561, 0.232, 0.114);
-  static constexpr frc::Color kYellowTarget = frc::Color(0.361, 0.524, 0.113);
   
 public:
   using WPI_TalonSRX = ctre::phoenix::motorcontrol::can::WPI_TalonSRX;
   using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
   using StatusFrameEnhanced = ctre::phoenix::motorcontrol::StatusFrameEnhanced;
 
-  bool IsRotationControlFinished = false;
+  static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
+
+  rev::ColorSensorV3 m_colorSensor{i2cPort};
+  rev::ColorMatch m_colorMatcher;
+
+  std::string gameData;
+  std::string colorString;
+  std::string assignedColorString;
   
-  DooHickey(const wpi::Twine& name
-        ,WPI_TalonSRX& spinner
-        ,frc::DoubleSolenoid& UpPushyThang);
+  double confidence = 0.0;
+  int colorCounter = 0;
+
+  bool IsRotationControlFinished = false;
+  struct Components
+    {
+      WPI_TalonSRX spinner;
+      frc::DoubleSolenoid UpPushyThang;
+    }; 
+    
+  struct stoppingColor  
+    {
+      int direction;
+      frc::Color Color;
+    };
+    
+  DooHickey(const wpi::Twine& name, Components& components);
 
   void Init();
   void Periodic();
@@ -53,14 +62,16 @@ public:
   void SetHickeyPosition(double position);
   void PushThang();
   void RetractThang();
-  void UpdateSpeed();
-  void UpdatePos();
+  void UpdateSpeed(double pos);
+  void UpdatePos(double speed);
   void MoveSpinner(double speed);
-
+  bool IsInRange() const;
+  frc::Color MatchedColor();
+  static frc::Color AssignedColor();
+  stoppingColor StopHereColor();
 
  private:
- 
-  WPI_TalonSRX& mSpinner;
-  frc::DoubleSolenoid& mUpPushyThang;
-  
+   int mutable mWithinThresholdLoops = {0};
+   Components& mComponents; 
+
 };
