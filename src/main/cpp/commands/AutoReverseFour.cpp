@@ -5,7 +5,7 @@ namespace
   constexpr int kPointDurationMillis{10};
 }
 
-namespace RookieTrajectories {
+namespace Reverse4Trajectories {
 
 extern const unsigned int kTrajectoryLength;
 extern const robovikes::TrajectoryPoint leftTrajectories[];
@@ -16,9 +16,9 @@ extern const robovikes::TrajectoryPoint rightTrajectories[];
 AutoReverseFour::AutoReverseFour(Chassis& chassis)
 : ChassisMotionProfileCommand(
     chassis,
-    RookieTrajectories::leftTrajectories,
-    RookieTrajectories::rightTrajectories,
-    RookieTrajectories::kTrajectoryLength,
+    Reverse4Trajectories::leftTrajectories,
+    Reverse4Trajectories::rightTrajectories,
+    Reverse4Trajectories::kTrajectoryLength,
     kPointDurationMillis)
 
 {
