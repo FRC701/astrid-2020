@@ -8,31 +8,41 @@
 #include "subsystems/Telescope.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
+using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+
 Telescope::Telescope(
     const wpi::Twine& name,
     Components& components)
 : mComponents{components}
 {
     SetName(name);
+    mComponents.telescopeMotor.SetInverted(true);
     mComponents.telescopeMotor.ConfigForwardSoftLimitEnable(false);
-    mComponents.telescopeMotor.ConfigReverseSoftLimitEnable(true);
-    mComponents.telescopeMotor.ConfigForwardSoftLimitThreshold(1300);
-    mComponents.telescopeMotor.ConfigReverseSoftLimitThreshold(0);
+    mComponents.telescopeMotor.ConfigReverseSoftLimitEnable(false);
+    //mComponents.telescopeMotor.ConfigForwardSoftLimitThreshold(1300);
+    //mComponents.telescopeMotor.ConfigReverseSoftLimitThreshold(0);
+    mComponents.telescopeMotor.SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
 }
 
 // This method will be called once per scheduler run
 void Telescope::Periodic() 
 {
+    frc::SmartDashboard::PutBoolean("telescope limit", GetLimitSwitch());
     frc::SmartDashboard::PutNumber("Telescope Encoder", GetPosition());
 }
 
 void Telescope::TelescopeRise(double percentoutput) 
 {
-    mComponents.telescopeMotor.Set(percentoutput);
+    mComponents.telescopeMotor.Set(ControlMode::PercentOutput, percentoutput);
 }
 
 double Telescope::GetPosition()
 {
     return mComponents.telescopeMotor.GetSelectedSensorPosition();
 
+}
+
+bool Telescope::GetLimitSwitch()
+{
+    return mComponents.telescopeMotor.IsRevLimitSwitchClosed();
 }
