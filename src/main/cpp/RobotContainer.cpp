@@ -15,6 +15,7 @@
 #include "commands/AutoPoach.h"
 #include "commands/AutoPoachToShoot.h"
 #include "commands/AutoReverseFour.h"
+#include "commands/AutoShootAndReverse.h"
 #include "commands/ChassisShortAdjust.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
@@ -48,6 +49,7 @@
 #include <commands/ResetChassisPos.h>
 #include "commands/FullEndIntake.h"
 #include "commands/SetSlowTankDrive.h"
+
 
 
 namespace {
@@ -185,6 +187,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Poach", new AutoPoach(mChassis));
   frc::SmartDashboard::PutData("Poach To Shoot", new AutoPoachToShoot(mChassis));
   frc::SmartDashboard::PutData("Short Adjust", new ChassisShortAdjust(mChassis));
+
+  frc::SmartDashboard::PutData("Shoot & Drive Reverse", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
   // Configure the button bindings
   ConfigureButtonBindings();
 
