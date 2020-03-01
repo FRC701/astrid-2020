@@ -33,6 +33,7 @@
 #include "commands/StowHood.h"
 #include "commands/HickeyDisengage.h"
 #include "commands/HickeyEngage.h"
+#include "commands/HickeyOn.h"
 #include "commands/RunConveyor.h"
 #include "commands/ResetBallConveyor.h"
 #include <commands/HoodRetract.h>
@@ -121,8 +122,8 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Reset Left Chassis Pos", new ResetChassisPos(mChassis));
   
-  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, [this] {return 0.1;}));
-  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, [this] {return 0.9404;}));
+  frc::SmartDashboard::PutData("DooHickey Spin forward", new Spin(mDooHickey, [this] {return 18730.0 * 0.1;}));
+  frc::SmartDashboard::PutData("DooHickey Spin backwards", new Spin(mDooHickey, [this] {return -18730.0 * 0.1;}));
   frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
@@ -207,7 +208,7 @@ void RobotContainer::ConfigureButtonBindings() {
   DBumperRight.ToggleWhenPressed(SetSlowTankDrive(mChassis, [this] { return -1.0*driver.GetY(JoystickHand::kLeftHand);}, [this] { return -1.0*driver.GetY(JoystickHand::kRightHand);}));
 
   coX.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
-  coB.WhenPressed(HickeyEngage(mDooHickey));
+  coB.ToggleWhenPressed(HickeyOn(mDooHickey));
   coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
 
