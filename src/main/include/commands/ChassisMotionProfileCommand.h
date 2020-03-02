@@ -25,7 +25,7 @@ public:
 
   ChassisMotionProfileCommand(ChassisMotionProfileCommand&& other) = default;
   ChassisMotionProfileCommand(const ChassisMotionProfileCommand& other) = default;
-  ChassisMotionProfileCommand() = default;
+  ChassisMotionProfileCommand() = delete;
 
   class MotionProfileState
   {
