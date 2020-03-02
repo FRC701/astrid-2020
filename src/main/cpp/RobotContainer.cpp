@@ -194,6 +194,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Shoot & Drive Reverse", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
 
   frc::SmartDashboard::PutData("Timed Drive 1/4", new TimedDrive(mChassis, 0.5, 50 / 4)); // 50 is one second 
+
+  ConfigureAutoChooser();
   // Configure the button bindings
   ConfigureButtonBindings();
 
@@ -229,7 +231,12 @@ void RobotContainer::ConfigureButtonBindings() {
 
 }
 
+void RobotContainer::ConfigureAutoChooser()
+{
+  mChooser.AddOption("Shoot and Drive Away", new AutoShootDriveAway(mChassis, mConveyor, mShooter));
+  mChooser.AddOption("Shoot and Drive Forward", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
+}
+
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-  // An example command will be run in autonomous
-  return nullptr;
+  return mChooser.GetSelected();
 }
