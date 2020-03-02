@@ -65,6 +65,11 @@ namespace {
       rightTrajectoryPoint.zeroPos = (point == 0);
       rightTrajectoryPoint.timeDur = pointDurationMillis;
 
+      rightTrajectoryPoint.auxiliaryPos = 0;
+      rightTrajectoryPoint.auxiliaryVel = 0;
+      rightTrajectoryPoint.profileSlotSelect1 = 0;
+      rightTrajectoryPoint.arbFeedFwd = 0;
+
       TrajectoryPoint leftTrajectoryPoint = rightTrajectoryPoint;
       leftTrajectoryPoint.position = chassisLeft[point].position;
       leftTrajectoryPoint.velocity = chassisLeft[point].velocity;
@@ -109,7 +114,7 @@ namespace {
     static const int kMinPointsInTalon = 5;
 
     void run(const ChassisMotionProfileCommand* motionProfile) {
-      motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Disable);
+      // motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Disable);
     }
 
     bool isFinished() const {
@@ -126,7 +131,7 @@ namespace {
   public:
     void run(const ChassisMotionProfileCommand* motionProfile) {
       std::cout << "MotionProfileRun" << std::endl;
-      motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Enable);
+      // motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Enable);
     }
 
     bool isFinished() const {
@@ -183,6 +188,7 @@ namespace {
     std::cout << "MotionProfileStatus - btmBufferCnt: " << leftStatus.btmBufferCnt << " " << rightStatus.btmBufferCnt << std::endl;
     if (leftStatus.btmBufferCnt > kMinPointsInTalon
         && rightStatus.btmBufferCnt > kMinPointsInTalon) {
+      motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Enable);
       return &motionProfileRun;
     }
     else {
@@ -218,6 +224,7 @@ void ChassisMotionProfileCommand::MotionProfileLoad::run(const ChassisMotionProf
   LoadPoints(motionProfile->mChassis,
              motionProfile->chassisLeft, motionProfile->chassisRight,
              motionProfile->trajectoryPointCount, motionProfile->pointDurationMillis, motionProfile->velocityOnly);
+  motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Disable);
 }
 
 bool ChassisMotionProfileCommand::MotionProfileLoad::isFinished() const {
