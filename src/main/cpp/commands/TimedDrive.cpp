@@ -7,8 +7,9 @@
 
 #include "commands/TimedDrive.h"
 
-TimedDrive::TimedDrive(Chassis& chassis, int counts)
+TimedDrive::TimedDrive(Chassis& chassis, double percent, int counts)
 : mChassis(chassis)
+, mPercent(percent)
 , mCount(counts)
 {
   // Use addRequirements() here to declare subsystem dependencies.
@@ -20,7 +21,7 @@ void TimedDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void TimedDrive::Execute() {
-  mChassis.TankDrive(0.5, 0.5);
+  mChassis.TankDrive(mPercent, mPercent);
 }
 
 // Called once the command ends or is interrupted.

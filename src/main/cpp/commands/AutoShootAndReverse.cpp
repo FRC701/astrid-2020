@@ -7,6 +7,7 @@
 
 #include "commands/AutoShootAndReverse.h"
 #include <commands/EnableShoot.h>
+#include <commands/TimedDrive.h>
 #include <commands/AutoReverseFour.h>
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
@@ -16,5 +17,5 @@ AutoShootAndReverse::AutoShootAndReverse(Chassis& chassis, Conveyor& conveyor, S
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
 
-  AddCommands(EnableShoot(chassis, conveyor, shooter), AutoReverseFour(chassis));
+  AddCommands(EnableShoot(chassis, conveyor, shooter), TimedDrive(chassis, -0.4, 50/4) /* AutoReverseFour(chassis) */);
 }

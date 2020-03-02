@@ -9,6 +9,7 @@
 
 #include <commands/EnableShoot.h>
 #include <commands/AutoRookie.h>
+#include <commands/TimedDrive.h>
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -16,5 +17,6 @@
 AutoShootDriveAway::AutoShootDriveAway(Chassis& chassis, Conveyor& conveyor, Shooter& shooter) {
   // Add your commands here, e.g.
   AddCommands(EnableShoot(chassis, conveyor, shooter), AutoRookie(chassis));
+  AddCommands(EnableShoot(chassis, conveyor, shooter), TimedDrive(chassis, 0.5, 50/4));
 }
 

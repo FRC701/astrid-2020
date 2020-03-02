@@ -22,7 +22,7 @@
 class TimedDrive
     : public frc2::CommandHelper<frc2::CommandBase, TimedDrive> {
  public:
-  TimedDrive(Chassis& chassis, int counts);
+  TimedDrive(Chassis& chassis, double percent, int counts);
 
   void Initialize() override;
 
@@ -33,5 +33,6 @@ class TimedDrive
   bool IsFinished() override;
 private:
   Chassis& mChassis;
+  double mPercent;
   int mCount;
 };
