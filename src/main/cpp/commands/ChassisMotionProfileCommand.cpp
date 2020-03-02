@@ -50,10 +50,11 @@ namespace {
     std::cout << "Load Points:" << trajectoryPointCount << std::endl;
     unsigned int lastPoint = trajectoryPointCount - 1;
 
-    std::cout << chassisLeft << "," << chassisRight << std::endl;
-    std::cout << chassisLeft->velocity << "," << chassisRight->velocity << std::endl;
+    // std::cout << chassisLeft << "," << chassisRight << std::endl;
+    // std::cout << chassisLeft->velocity << "," << chassisRight->velocity << std::endl;
 
-    for (unsigned int point = 0; point < trajectoryPointCount; ++point) {
+    unsigned int point = 0;
+    for (; point < trajectoryPointCount; ++point) {
       //std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity << std::endl;
 
       TrajectoryPoint rightTrajectoryPoint;
@@ -71,7 +72,7 @@ namespace {
       chassis.PushMotionProfileTrajectory(leftTrajectoryPoint, rightTrajectoryPoint);
       //std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity<< std::endl;
     }
-    std::cout << "Load Points Complete"<< std::endl;
+    std::cout << "Load Points Complete. Loaded " << point << " points." << std::endl;
   }
 
   /**
@@ -179,7 +180,7 @@ namespace {
     std::cout << "MotionProfileLoadTalon::getNextState" << std::endl;
     MotionProfileStatus leftStatus, rightStatus;
     motionProfile->mChassis.GetMotionProfileStatus(&leftStatus, &rightStatus);
-    std::cout << "MotionProfileStatus" << leftStatus.btmBufferCnt << " " << rightStatus.btmBufferCnt << std::endl;
+    std::cout << "MotionProfileStatus - btmBufferCnt: " << leftStatus.btmBufferCnt << " " << rightStatus.btmBufferCnt << std::endl;
     if (leftStatus.btmBufferCnt > kMinPointsInTalon
         && rightStatus.btmBufferCnt > kMinPointsInTalon) {
       return &motionProfileRun;
@@ -194,7 +195,7 @@ namespace {
     MotionProfileStatus leftStatus, rightStatus;
     motionProfile->mChassis.GetMotionProfileStatus(&leftStatus, &rightStatus);
     // activePointValid must precede isLastPoint.
-    std::cout << "MotionProfileRun" << leftStatus.activePointValid << " " << rightStatus.activePointValid << std::endl;
+    std::cout << "MotionProfileRun - valid: " << leftStatus.activePointValid << " " << rightStatus.activePointValid << std::endl;
     if (rightStatus.activePointValid && rightStatus.isLast
         && leftStatus.activePointValid && leftStatus.isLast) {
       return &motionProfileFinished;
