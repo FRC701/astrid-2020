@@ -65,21 +65,19 @@ void DooHickey::Init() {
 
 }
 void DooHickey::MoveSpinner(double speed) {
-  double setSpeedTP100ms = speed * 2048 * 60 * 10;
-  mMotorSpeed = setSpeedTP100ms;
-  UpdateSpeed();
+  UpdateSpeed(speed);
 }
 
 void DooHickey::SetHickeyPosition(double position){
   mTargetPos = position;
-  UpdatePos();
+  UpdatePos(mTargetPos);
 }
 
-void DooHickey::UpdateSpeed() {
-  mSpinner.Set(ControlMode::Velocity, mMotorSpeed);
+void DooHickey::UpdateSpeed(double speed) {
+  mSpinner.Set(speed);
 }
 
-void DooHickey::UpdatePos() {
+void DooHickey::UpdatePos(double pos) {
   mSpinner.Set(ControlMode::MotionMagic, mTargetPos);
 }
 
