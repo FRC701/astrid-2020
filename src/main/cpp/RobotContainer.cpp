@@ -34,6 +34,7 @@
 #include "commands/SetHickeyPos.h"
 #include "commands/ShortHood.h"
 #include "commands/StowHood.h"
+#include "commands/TimedDrive.h"
 #include "commands/HickeyDisengage.h"
 #include "commands/HickeyEngage.h"
 #include "commands/HickeyOn.h"
@@ -191,6 +192,8 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Shoot & Drive Away", new AutoShootDriveAway(mChassis, mConveyor, mShooter));
   frc::SmartDashboard::PutData("Shoot & Drive Reverse", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
+
+  frc::SmartDashboard::PutData("Timed Drive 1/4", new TimedDrive(mChassis, 50 / 4)); // 50 is one second 
   // Configure the button bindings
   ConfigureButtonBindings();
 
