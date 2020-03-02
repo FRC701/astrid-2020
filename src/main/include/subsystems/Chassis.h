@@ -52,8 +52,8 @@ class Chassis : public frc2::SubsystemBase {
   double GetRightPos();
   double GetLeftPos();
 
-  double ResetLeftPos();
-  double ResetRightPos();
+  void ResetLeftPos();
+  void ResetRightPos();
 
   double TargetOffset();
   double TargetDistance();

@@ -114,12 +114,12 @@ double Chassis::GetLeftPos()
     return mComponents.frontLeft.GetSelectedSensorPosition();
 }
 
-double Chassis::ResetLeftPos()
+void Chassis::ResetLeftPos()
 {
     mComponents.frontLeft.SetSelectedSensorPosition(0);
 }
 
-double Chassis::ResetRightPos()
+void Chassis::ResetRightPos()
 {
     mComponents.frontRight.SetSelectedSensorPosition(0);
 }
