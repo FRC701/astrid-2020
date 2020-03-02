@@ -170,8 +170,8 @@ void Chassis::SetModePercentOutput()
 
 void Chassis::SetModeMotionProfile()
 {
-  mComponents.frontLeft.Set(ControlMode::MotionProfile, 0.0);
-  mComponents.frontRight.Set(ControlMode::MotionProfile, 0.0);
+  mComponents.frontLeft.Set(ControlMode::MotionProfile, SetValueMotionProfile::Disable);
+  mComponents.frontRight.Set(ControlMode::MotionProfile, SetValueMotionProfile::Disable);
 }
 
 void Chassis::ClearMotionProfileTrajectories()
