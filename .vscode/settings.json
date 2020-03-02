@@ -97,6 +97,7 @@
     "iomanip": "cpp",
     "shared_mutex": "cpp",
     "cinttypes": "cpp",
-    "stack": "cpp"
+    "stack": "cpp",
+    "*.inc": "cpp"
   }
 }

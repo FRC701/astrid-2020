@@ -8,9 +8,30 @@
 #include "Robot.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <RobotContainer.h>
 #include <frc2/command/CommandScheduler.h>
+#include <frc2/command/Command.h>
+#include "commands/AutoRookie.h"
+#include "commands/AutoRookie10.h"
+#include "commands/AutoPoach.h"
+#include "commands/AutoPoachToShoot.h"
+#include "commands/ChassisMotionProfileCommand.h"
 
-void Robot::RobotInit() {}
+Robot::Robot():
+chooser(new frc::SendableChooser<frc2::Command*>()),
+mChassis{mChassis}
+{
+
+}
+
+void Robot::RobotInit() 
+{
+  //chooser = wpilib.SendableChooser();
+  chooser->AddDefault("Auto 1", new AutoRookie(mChassis));
+  chooser->AddOption("Auto 2", new AutoRookie10(mChassis));
+  chooser->AddOption("Auto 3", new AutoPoach(mChassis));
+  chooser->AddOption("Auto 4", new AutoPoachToShoot(mChassis));
+}
 
 /**
  * This function is called every robot packet, no matter the mode. Use
