@@ -14,7 +14,7 @@ extern const robovikes::TrajectoryPoint rightTrajectories[];
 }
 
 AutoRookie10::AutoRookie10(Chassis& chassis)
-: ChassisMotionProfileCommand(
+: frc2::CommandHelper<ChassisMotionProfileCommand, AutoRookie10>(
     chassis,
     Rookie10Trajectories::leftTrajectories,
     Rookie10Trajectories::rightTrajectories,

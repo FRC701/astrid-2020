@@ -2,7 +2,7 @@
 
 #include "ChassisMotionProfileCommand.h"
 
-class AutoPoachToShoot : public ChassisMotionProfileCommand {
+class AutoPoachToShoot : frc2::CommandHelper<ChassisMotionProfileCommand, AutoPoachToShoot> {
 public:
   AutoPoachToShoot(Chassis& chassis);
 };

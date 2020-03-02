@@ -14,7 +14,7 @@ extern const robovikes::TrajectoryPoint rightTrajectories[];
 }
 
 AutoPoachToShoot::AutoPoachToShoot(Chassis& chassis)
-: ChassisMotionProfileCommand(
+: frc2::CommandHelper<ChassisMotionProfileCommand, AutoPoachToShoot>(
     chassis,
     PoachToShootTrajectories::leftTrajectories,
     PoachToShootTrajectories::rightTrajectories,

@@ -16,7 +16,7 @@ extern const robovikes::TrajectoryPoint rightTrajectories[];
 namespace Trajectories = PoachTrajectories;
 
 AutoPoach::AutoPoach(Chassis& chassis)
-: ChassisMotionProfileCommand(
+: public frc2::CommandHelper<ChassisMotionProfileCommand, AutoPoach>(
     chassis,
     Trajectories::leftTrajectories,
     Trajectories::rightTrajectories,
