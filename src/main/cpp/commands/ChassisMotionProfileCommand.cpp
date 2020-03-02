@@ -54,7 +54,7 @@ namespace {
     std::cout << chassisLeft->velocity << "," << chassisRight->velocity << std::endl;
 
     for (unsigned int point = 0; point < trajectoryPointCount; ++point) {
-      std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity << std::endl;
+      //std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity << std::endl;
 
       TrajectoryPoint rightTrajectoryPoint;
       rightTrajectoryPoint.position = chassisRight[point].position;
@@ -69,7 +69,7 @@ namespace {
       leftTrajectoryPoint.velocity = chassisLeft[point].velocity;
 
       chassis.PushMotionProfileTrajectory(leftTrajectoryPoint, rightTrajectoryPoint);
-      std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity<< std::endl;
+      //std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity<< std::endl;
     }
     std::cout << "Load Points Complete"<< std::endl;
   }
