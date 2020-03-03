@@ -35,4 +35,5 @@ private:
   Chassis& mChassis;
   double mPercent;
   int mCount;
+  int mTime;
 };

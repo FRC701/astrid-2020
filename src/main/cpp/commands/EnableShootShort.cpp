@@ -13,6 +13,7 @@
 #include "commands/ShootBallsShort.h"
 #include "commands/HoodRetract.h"
 #include "commands/TankDrive.h"
+#include "commands/TimedDrive.h"
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
@@ -27,7 +28,7 @@ EnableShootShort::EnableShootShort(Chassis& chassis, Conveyor& conveyor, Shooter
   // What is this magic number? What is the calculation?
   AddCommands(
     ShortHood(shooter), 
-    ChassisShortAdjust(mChassis),
+    TimedDrive(mChassis, -0.4, 50),
     ShootBallsShort(shooter, conveyor, 1350), // 2000RPM for testing
     HoodRetract(shooter));
 }

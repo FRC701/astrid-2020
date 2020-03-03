@@ -11,13 +11,17 @@ TimedDrive::TimedDrive(Chassis& chassis, double percent, int counts)
 : mChassis(chassis)
 , mPercent(percent)
 , mCount(counts)
+, mTime(counts)
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(&mChassis);
 }
 
 // Called when the command is initially scheduled.
-void TimedDrive::Initialize() {}
+void TimedDrive::Initialize() 
+{
+  mCount = mTime;
+}
 
 // Called repeatedly when this Command is scheduled to run
 void TimedDrive::Execute() {
