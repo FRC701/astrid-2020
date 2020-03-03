@@ -16,7 +16,9 @@
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 AutoShootDriveAway::AutoShootDriveAway(Chassis& chassis, Conveyor& conveyor, Shooter& shooter) {
   // Add your commands here, e.g.
-  AddCommands(EnableShoot(chassis, conveyor, shooter), AutoRookie(chassis));
-  AddCommands(EnableShoot(chassis, conveyor, shooter), TimedDrive(chassis, 0.5, 50/4));
+
+
+ // AddCommands(EnableShoot(chassis, conveyor, shooter), AutoRookie(chassis));
+  AddCommands(EnableShoot(chassis, conveyor, shooter), TimedDrive(chassis, 0.5, 50));
 }
 

@@ -234,7 +234,9 @@ void RobotContainer::ConfigureButtonBindings() {
 void RobotContainer::ConfigureAutoChooser()
 {
   mChooser.AddOption("Shoot and Drive Away", new AutoShootDriveAway(mChassis, mConveyor, mShooter));
-  mChooser.AddOption("Shoot and Drive Forward", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
+  mChooser.AddDefault("Shoot and Drive Forward", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
+
+  frc::SmartDashboard::PutData("Autonomous Chooser", &mChooser);
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
