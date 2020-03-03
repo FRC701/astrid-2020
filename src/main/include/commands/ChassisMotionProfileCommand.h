@@ -63,7 +63,9 @@ private:
   frc::Notifier notifier;
   MotionProfileState* state;
 
-  void PeriodicTask();
+  static void PeriodicTask(Chassis* chassis);
+
+  int mCount{0};
 };
 
 #endif  // ChassisMotionProfileCommand_H

@@ -14,6 +14,7 @@
 #include <ctre/phoenix/motion/TrajectoryPoint.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/drive/DifferentialDrive.h>
+#include <frc/Notifier.h>
 #include <frc2/command/SubsystemBase.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
@@ -76,11 +77,19 @@ class Chassis : public frc2::SubsystemBase {
 	                            MotionProfileStatus* rightStatus);
 	void SetMotionMagic(int position);
 
+  using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+
+  ControlMode GetControlMode();
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   Components& mComponents;
 
   frc::DifferentialDrive mDrive;
+
+  frc::Notifier mNotifier;
+
+  void PeriodicTask();
   
 };

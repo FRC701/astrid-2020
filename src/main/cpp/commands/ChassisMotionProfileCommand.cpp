@@ -107,6 +107,8 @@ namespace {
   public:
     static const int kMinPointsInTalon = 5;
 
+    int mCount{0};
+
     void run(const ChassisMotionProfileCommand* motionProfile) {
       motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Disable);
     }
@@ -177,14 +179,18 @@ namespace {
      * points in the Talon bottom buffer.
      */
     std::cout << "MotionProfileLoadTalon::getNextState" << std::endl;
+    std::cout << (int)motionProfile->mChassis.GetControlMode() << std::endl;
+    // motionProfile->mChassis.ProcessMotionProfileBuffer();
     MotionProfileStatus leftStatus, rightStatus;
     motionProfile->mChassis.GetMotionProfileStatus(&leftStatus, &rightStatus);
     std::cout << "MotionProfileStatus" << leftStatus.btmBufferCnt << " " << rightStatus.btmBufferCnt << std::endl;
+    // std::cout << leftStatus.hasUnderrun << " : " << rightStatus.hasUnderrun << std::endl;
     if (leftStatus.btmBufferCnt > kMinPointsInTalon
         && rightStatus.btmBufferCnt > kMinPointsInTalon) {
       return &motionProfileRun;
     }
     else {
+      //mCount = 0;
       return this;
     }
   }
@@ -199,7 +205,7 @@ namespace {
         && leftStatus.activePointValid && leftStatus.isLast) {
       return &motionProfileFinished;
     }
-    else {
+   else {
       return this;
     }
   }
@@ -245,7 +251,7 @@ ChassisMotionProfileCommand::ChassisMotionProfileCommand(
   trajectoryPointCount(_trajectoryPointCount),
   pointDurationMillis(_pointDurationMillis),
   velocityOnly(_velocityOnly),
-  notifier(&ChassisMotionProfileCommand::PeriodicTask, this),
+  notifier(&ChassisMotionProfileCommand::PeriodicTask, &chassis),
   state(&motionProfileStart)
 {
   // Use Requires() here to declare subsystem dependencies
@@ -259,15 +265,17 @@ void ChassisMotionProfileCommand::Initialize() {
   mChassis.SetModeMotionProfile();
   // TODO StartPeriodic is deprecated. Use the units version
   // Need to understand units to do this correctly
-  notifier.StartPeriodic((pointDurationMillis * kMillisToSeconds) / 2.0);
+  notifier.StartPeriodic(units::second_t(0.005));
   std::cout << "Start Periodic" << std::endl;
   state = &motionProfileStart;
+  mCount = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void ChassisMotionProfileCommand::Execute() {
   state->run(this);
   state = state->getNextState(this);
+  std::cout << mCount << std::endl;
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -289,6 +297,6 @@ void ChassisMotionProfileCommand::Interrupted() {
   mChassis.SetModePercentOutput();
 }
 
-void ChassisMotionProfileCommand::PeriodicTask() {
-  mChassis.ProcessMotionProfileBuffer();
+void ChassisMotionProfileCommand::PeriodicTask(Chassis* chassis) {
+  chassis->ProcessMotionProfileBuffer();
 }

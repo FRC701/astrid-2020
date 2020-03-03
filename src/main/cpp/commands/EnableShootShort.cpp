@@ -26,8 +26,8 @@ EnableShootShort::EnableShootShort(Chassis& chassis, Conveyor& conveyor, Shooter
   //
   // What is this magic number? What is the calculation?
   AddCommands(
-    ShortHood(shooter), 
     ChassisShortAdjust(mChassis),
+    ShortHood(shooter), 
     ShootBallsShort(shooter, conveyor, 1350), // 2000RPM for testing
     HoodRetract(shooter));
 }

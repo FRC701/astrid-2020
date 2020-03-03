@@ -54,6 +54,7 @@ Chassis::Chassis(const wpi::Twine& name,
 
 :mComponents(components)
 , mDrive{mComponents.frontLeft, mComponents.frontRight}
+, mNotifier(&Chassis::PeriodicTask, this)
 {
     SetName(name);
     // TODO: SetSensorPhase does not seem to be having an effect
@@ -71,6 +72,12 @@ Chassis::Chassis(const wpi::Twine& name,
      mDrive.SetRightSideInverted(false);
 
      SetPID(mComponents);
+    mNotifier.StartPeriodic(units::second_t(0.005));
+}
+
+void Chassis::PeriodicTask()
+{
+    ProcessMotionProfileBuffer();
 }
 
 // This method will be called once per scheduler run
@@ -215,3 +222,7 @@ void Chassis::SetMotionMagic(int position)
   mComponents.frontRight.Set(ControlMode::MotionMagic, position);
 }
 
+ControlMode Chassis::GetControlMode()
+{
+    return mComponents.frontLeft.GetControlMode();
+}
