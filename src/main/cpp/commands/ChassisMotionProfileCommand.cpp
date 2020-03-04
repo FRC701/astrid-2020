@@ -24,8 +24,6 @@
  *
  */
 
-using frc::Notifier;
-
 
 // Velocity only is achieved by removed PID. When there are no PID factors, but still and F (feedforward) factor
 // then only velocity is used.
@@ -253,7 +251,6 @@ ChassisMotionProfileCommand::ChassisMotionProfileCommand(
   trajectoryPointCount(_trajectoryPointCount),
   pointDurationMillis(_pointDurationMillis),
   velocityOnly(_velocityOnly),
-  notifier(&ChassisMotionProfileCommand::PeriodicTask, this),
   state(&motionProfileStart)
 {
   // Use Requires() here to declare subsystem dependencies
@@ -267,7 +264,7 @@ void ChassisMotionProfileCommand::Initialize() {
   mChassis.SetModeMotionProfile();
   // TODO StartPeriodic is deprecated. Use the units version
   // Need to understand units to do this correctly
-  notifier.StartPeriodic((pointDurationMillis * kMillisToSeconds) / 2.0);
+  mChassis.StartNotifier();
   std::cout << "Start Periodic" << std::endl;
   state = &motionProfileStart;
 }
@@ -286,10 +283,6 @@ bool ChassisMotionProfileCommand::IsFinished() {
 // Called once after isFinished returns true
 void ChassisMotionProfileCommand::End(bool /* interrupted */) {
   std::cout << "ChassisMotionProfileCommand::End" << std::endl;
-  notifier.Stop();
+  mChassis.StopNotifier();
   mChassis.SetModePercentOutput();
-}
-
-void ChassisMotionProfileCommand::PeriodicTask() {
-  mChassis.ProcessMotionProfileBuffer();
 }
