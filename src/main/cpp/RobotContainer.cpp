@@ -21,7 +21,7 @@
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
-#include "commands/Aim.h"
+#include "commands/AimPID.h"
 #include "commands/EnableShoot.h"
 #include "commands/HoodOutFull.h"
 #include "commands/HoodRetract.h"
@@ -121,7 +121,7 @@ RobotContainer::RobotContainer()
     )
   );
   
-  frc::SmartDashboard::PutData("VisionMode", new Aim(mChassis));
+  frc::SmartDashboard::PutData("VisionMode", new AimPID(mChassis));
   frc::SmartDashboard::PutData("Lime Lights On", new LimeLightsOn(mChassis));
   frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
 
