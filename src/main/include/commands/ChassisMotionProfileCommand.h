@@ -3,7 +3,6 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/Notifier.h>
 #include "commands/MotionProfile.h"
 #include "subsystems/Chassis.h"
 
@@ -60,10 +59,7 @@ private:
   unsigned int pointDurationMillis;
   bool velocityOnly;
 
-  frc::Notifier notifier;
   MotionProfileState* state;
-
-  static void PeriodicTask(Chassis* chassis);
 
   int mCount{0};
 };

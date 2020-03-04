@@ -76,6 +76,8 @@ class Chassis : public frc2::SubsystemBase {
 	void GetMotionProfileStatus(MotionProfileStatus* leftStatus,
 	                            MotionProfileStatus* rightStatus);
 	void SetMotionMagic(int position);
+  void StartNotifier();
+  void StopNotifier();
 
   using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
 

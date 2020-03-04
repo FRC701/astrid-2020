@@ -72,7 +72,16 @@ Chassis::Chassis(const wpi::Twine& name,
      mDrive.SetRightSideInverted(false);
 
      SetPID(mComponents);
-    mNotifier.StartPeriodic(units::second_t(0.005));
+}
+
+void Chassis::StartNotifier()
+{
+    mNotifier.StartPeriodic(units::millisecond_t(10));
+}
+
+void Chassis::StopNotifier()
+{
+    mNotifier.Stop();
 }
 
 void Chassis::PeriodicTask()
