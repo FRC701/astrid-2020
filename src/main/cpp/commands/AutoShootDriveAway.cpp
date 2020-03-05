@@ -18,7 +18,6 @@ AutoShootDriveAway::AutoShootDriveAway(Chassis& chassis, Conveyor& conveyor, Sho
   // Add your commands here, e.g.
 
 
- // AddCommands(EnableShoot(chassis, conveyor, shooter), AutoRookie(chassis));
-  AddCommands(EnableShoot(chassis, conveyor, shooter), TimedDrive(chassis, 0.5, 50));
+  AddCommands(EnableShoot(chassis, conveyor, shooter), AutoRookie(chassis));
 }
 

@@ -17,5 +17,6 @@ AutoShootAndReverse::AutoShootAndReverse(Chassis& chassis, Conveyor& conveyor, S
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
 
-  AddCommands(EnableShoot(chassis, conveyor, shooter), TimedDrive(chassis, -0.4, 160) /* AutoReverseFour(chassis) */);
+  AddCommands(EnableShoot(chassis, conveyor, shooter),
+    AutoReverseFour(chassis));
 }
