@@ -225,9 +225,16 @@ void Chassis::GetMotionProfileStatus(MotionProfileStatus* leftStatus,
   mComponents.frontRight.GetMotionProfileStatus(*rightStatus);
 }
 
-void Chassis::SetMotionMagic(int position)
+void Chassis::SetMotionMagic(int leftPosition, int rightPosition)
 {
-  mComponents.frontLeft.Set(ControlMode::MotionMagic, position);
-  mComponents.frontRight.Set(ControlMode::MotionMagic, position);
+  mComponents.frontLeft.Set(ControlMode::MotionMagic, leftPosition);
+  mComponents.frontRight.Set(ControlMode::MotionMagic, rightPosition);
 }
 
+bool Chassis::IsInRange() const
+{
+    constexpr int kErrorThreshold = 10;
+
+    return (abs(mComponents.frontLeft.GetClosedLoopError()) < kErrorThreshold && 
+            abs(mComponents.frontRight.GetClosedLoopError()) < kErrorThreshold);
+}

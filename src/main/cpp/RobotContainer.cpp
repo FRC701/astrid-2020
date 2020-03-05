@@ -18,6 +18,7 @@
 #include "commands/AutoReverseFour.h"
 #include "commands/AutoShootAndReverse.h"
 #include "commands/ChassisShortAdjust.h"
+#include "commands/ChassisMotionMagicDrive.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
 #include "commands/TankDrive.h"
@@ -128,6 +129,8 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Lime Lights Off", new LimeLightsOff(mChassis));
 
   frc::SmartDashboard::PutData("Reset Left Chassis Pos", new ResetChassisPos(mChassis));
+
+  frc::SmartDashboard::PutData("Motion Magic Spin", new ChassisMotionMagicDrive(mChassis, -10000, 10000));
   
   frc::SmartDashboard::PutData("DooHickey Spin forward", new Spin(mDooHickey, [this] {return 18730.0 * 0.1;}));
   frc::SmartDashboard::PutData("DooHickey Spin backwards", new Spin(mDooHickey, [this] {return -18730.0 * 0.1;}));
