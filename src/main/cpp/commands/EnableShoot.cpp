@@ -25,7 +25,7 @@ EnableShoot::EnableShoot(Chassis& chassis, Conveyor& conveyor, Shooter& shooter)
   // What is this magic number? What is the calculation?
   AddCommands(
     LongHood(shooter), 
-    //Aim(mChassis),
+    Aim(mChassis),
     ShootBalls(shooter, conveyor, 2050), //\][] 2000RPM for testing
     StowHood(shooter)
   );
