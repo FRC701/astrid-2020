@@ -24,8 +24,6 @@
  *
  */
 
-using frc::Notifier;
-
 
 // Velocity only is achieved by removed PID. When there are no PID factors, but still and F (feedforward) factor
 // then only velocity is used.
@@ -50,11 +48,12 @@ namespace {
     std::cout << "Load Points:" << trajectoryPointCount << std::endl;
     unsigned int lastPoint = trajectoryPointCount - 1;
 
-    std::cout << chassisLeft << "," << chassisRight << std::endl;
-    std::cout << chassisLeft->velocity << "," << chassisRight->velocity << std::endl;
+    // std::cout << chassisLeft << "," << chassisRight << std::endl;
+    // std::cout << chassisLeft->velocity << "," << chassisRight->velocity << std::endl;
 
-    for (unsigned int point = 0; point < trajectoryPointCount; ++point) {
-      std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity << std::endl;
+    unsigned int point = 0;
+    for (; point < trajectoryPointCount; ++point) {
+      //std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity << std::endl;
 
       TrajectoryPoint rightTrajectoryPoint;
       rightTrajectoryPoint.position = chassisRight[point].position;
@@ -64,14 +63,19 @@ namespace {
       rightTrajectoryPoint.zeroPos = (point == 0);
       rightTrajectoryPoint.timeDur = pointDurationMillis;
 
+      rightTrajectoryPoint.auxiliaryPos = 0;
+      rightTrajectoryPoint.auxiliaryVel = 0;
+      rightTrajectoryPoint.profileSlotSelect1 = 0;
+      rightTrajectoryPoint.arbFeedFwd = 0;
+
       TrajectoryPoint leftTrajectoryPoint = rightTrajectoryPoint;
       leftTrajectoryPoint.position = chassisLeft[point].position;
       leftTrajectoryPoint.velocity = chassisLeft[point].velocity;
 
       chassis.PushMotionProfileTrajectory(leftTrajectoryPoint, rightTrajectoryPoint);
-      std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity<< std::endl;
+      //std::cout << "LoadPoints:" << point << "," << chassisLeft[point].velocity << "," << chassisRight[point].velocity<< std::endl;
     }
-    std::cout << "Load Points Complete"<< std::endl;
+    std::cout << "Load Points Complete. Loaded " << point << " points." << std::endl;
   }
 
   /**
@@ -179,9 +183,10 @@ namespace {
     std::cout << "MotionProfileLoadTalon::getNextState" << std::endl;
     MotionProfileStatus leftStatus, rightStatus;
     motionProfile->mChassis.GetMotionProfileStatus(&leftStatus, &rightStatus);
-    std::cout << "MotionProfileStatus" << leftStatus.btmBufferCnt << " " << rightStatus.btmBufferCnt << std::endl;
+    std::cout << "MotionProfileStatus - btmBufferCnt: " << leftStatus.btmBufferCnt << " " << rightStatus.btmBufferCnt << std::endl;
     if (leftStatus.btmBufferCnt > kMinPointsInTalon
         && rightStatus.btmBufferCnt > kMinPointsInTalon) {
+      //motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Enable);
       return &motionProfileRun;
     }
     else {
@@ -194,7 +199,7 @@ namespace {
     MotionProfileStatus leftStatus, rightStatus;
     motionProfile->mChassis.GetMotionProfileStatus(&leftStatus, &rightStatus);
     // activePointValid must precede isLastPoint.
-    std::cout << "MotionProfileRun" << leftStatus.activePointValid << " " << rightStatus.activePointValid << std::endl;
+    std::cout << "MotionProfileRun - valid: " << leftStatus.activePointValid << " " << rightStatus.activePointValid << std::endl;
     if (rightStatus.activePointValid && rightStatus.isLast
         && leftStatus.activePointValid && leftStatus.isLast) {
       return &motionProfileFinished;
@@ -217,6 +222,7 @@ void ChassisMotionProfileCommand::MotionProfileLoad::run(const ChassisMotionProf
   LoadPoints(motionProfile->mChassis,
              motionProfile->chassisLeft, motionProfile->chassisRight,
              motionProfile->trajectoryPointCount, motionProfile->pointDurationMillis, motionProfile->velocityOnly);
+  //motionProfile->mChassis.SetMotionProfileSetValue(SetValueMotionProfile::Disable);
 }
 
 bool ChassisMotionProfileCommand::MotionProfileLoad::isFinished() const {
@@ -245,7 +251,6 @@ ChassisMotionProfileCommand::ChassisMotionProfileCommand(
   trajectoryPointCount(_trajectoryPointCount),
   pointDurationMillis(_pointDurationMillis),
   velocityOnly(_velocityOnly),
-  notifier(&ChassisMotionProfileCommand::PeriodicTask, this),
   state(&motionProfileStart)
 {
   // Use Requires() here to declare subsystem dependencies
@@ -259,7 +264,7 @@ void ChassisMotionProfileCommand::Initialize() {
   mChassis.SetModeMotionProfile();
   // TODO StartPeriodic is deprecated. Use the units version
   // Need to understand units to do this correctly
-  notifier.StartPeriodic((pointDurationMillis * kMillisToSeconds) / 2.0);
+  mChassis.StartNotifier();
   std::cout << "Start Periodic" << std::endl;
   state = &motionProfileStart;
 }
@@ -276,19 +281,8 @@ bool ChassisMotionProfileCommand::IsFinished() {
 }
 
 // Called once after isFinished returns true
-void ChassisMotionProfileCommand::End() {
+void ChassisMotionProfileCommand::End(bool /* interrupted */) {
   std::cout << "ChassisMotionProfileCommand::End" << std::endl;
-  notifier.Stop();
+  mChassis.StopNotifier();
   mChassis.SetModePercentOutput();
-}
-
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
-void ChassisMotionProfileCommand::Interrupted() {
-  notifier.Stop();
-  mChassis.SetModePercentOutput();
-}
-
-void ChassisMotionProfileCommand::PeriodicTask() {
-  mChassis.ProcessMotionProfileBuffer();
 }

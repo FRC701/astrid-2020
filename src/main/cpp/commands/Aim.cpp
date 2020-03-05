@@ -26,21 +26,21 @@ void Aim::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void Aim::Execute() 
 {
-  if(mChassis.TargetOffset() > -10.0 && mChassis.TargetOffset() < 10.0)
+  if(mChassis.TargetOffset() > -10 && mChassis.TargetOffset() < 10)
   {
-    if(mChassis.TargetOffset() < -0.5)
+    if(mChassis.TargetOffset() < 1.5)
     {
-      mChassis.ArcadeDrive(0, 0.37);
+      mChassis.ArcadeDrive(0, -0.365);
     }
-    if(mChassis.TargetOffset() > 1.5)
+    if(mChassis.TargetOffset() > -0.5)
     {
-      mChassis.ArcadeDrive(0, -0.37);
+      mChassis.ArcadeDrive(0, 0.365);
     }
   }
   else
   {
-    double pCoefficient {-25};
-    double rotation = mChassis.TargetOffset() / pCoefficient;
+    double pCoefficient {25};
+    double rotation = (mChassis.TargetOffset() + 1.5) / pCoefficient;
     mChassis.ArcadeDrive(0, rotation);
   }  
 }

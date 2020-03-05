@@ -11,6 +11,7 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc/smartdashboard/SendableChooser.h>
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 #include <subsystems/Shooter.h>
@@ -68,6 +69,9 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
+  using Chooser = frc::SendableChooser<frc2::Command*>;
+  Chooser mChooser;
+
   frc::XboxController driver{0};
   frc::XboxController coDriver{1};
 
@@ -107,5 +111,6 @@ class RobotContainer {
                                     kDoohickeyPushyThangSolenoidReverse};
   DooHickey mDooHickey{"DooHickey", mDooHickeySpinner, mUpPushyThang};
 
+  void ConfigureAutoChooser();
   void ConfigureButtonBindings();
 };

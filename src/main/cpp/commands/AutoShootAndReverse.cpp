@@ -5,30 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/EnableShootShort.h"
-#include "commands/ChassisShortAdjust.h"
-#include "commands/ShortHood.h"
-#include "commands/SetConveyor.h"
-#include "commands/Shoot.h"
-#include "commands/ShootBallsShort.h"
-#include "commands/HoodRetract.h"
-#include "commands/TankDrive.h"
-#include "commands/TimedDrive.h"
-
+#include "commands/AutoShootAndReverse.h"
+#include <commands/EnableShoot.h>
+#include <commands/TimedDrive.h>
+#include <commands/AutoReverseFour.h>
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-EnableShootShort::EnableShootShort(Chassis& chassis, Conveyor& conveyor, Shooter& shooter)
-: mChassis(chassis), mConveyor(conveyor), mShooter(shooter)
-{
+AutoShootAndReverse::AutoShootAndReverse(Chassis& chassis, Conveyor& conveyor, Shooter& shooter) {
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  //
-  // What is this magic number? What is the calculation?
-  AddCommands(
-    ShortHood(shooter), 
-    ChassisShortAdjust(chassis),
-    ShootBallsShort(shooter, conveyor, 1350), // 2000RPM for testing
-    HoodRetract(shooter));
+
+  AddCommands(EnableShoot(chassis, conveyor, shooter),
+    AutoReverseFour(chassis));
 }

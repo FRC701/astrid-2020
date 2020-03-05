@@ -5,43 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/SetConveyorShoot.h"
+#include "commands/HickeyOn.h"
 
-SetConveyorShoot::SetConveyorShoot(Conveyor& conveyor, double speed)
-: mConveyor{conveyor}
-, mSpeed(speed)
-, mTimer()
+HickeyOn::HickeyOn(DooHickey& dooHickey)
+: mDooHickey{dooHickey}
 {
-  AddRequirements(&mConveyor);
-  // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements(&mDooHickey);
 }
+
 
 // Called when the command is initially scheduled.
-void SetConveyorShoot::Initialize() 
-{
-  mTimer.Start();
-  mTimer.Reset();
-}
+void HickeyOn::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void SetConveyorShoot::Execute()
+void HickeyOn::Execute() 
 {
-  mConveyor.SetConveyor(mSpeed);
+  mDooHickey.RetractThang();
 }
 
 // Called once the command ends or is interrupted.
-void SetConveyorShoot::End(bool interrupted)
+void HickeyOn::End(bool interrupted) 
 {
-  mConveyor.SetConveyor(0.0);
-  mTimer.Stop();
+  mDooHickey.PushThang();
 }
 
 // Returns true when the command should end.
-bool SetConveyorShoot::IsFinished()
-{
-  if(!mConveyor.IsBallExiting())
-  {
-    mTimer.Reset();
-  }
-  return (mTimer.Get() >= 1.5);
-}
+bool HickeyOn::IsFinished() { return false; }

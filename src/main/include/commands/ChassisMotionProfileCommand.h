@@ -1,9 +1,7 @@
-#ifndef ChassisMotionProfileCommand_H
-#define ChassisMotionProfileCommand_H
+#pragma once
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/Notifier.h>
 #include "commands/MotionProfile.h"
 #include "subsystems/Chassis.h"
 
@@ -19,11 +17,14 @@ public:
       unsigned int trajectoryPointCount,
       unsigned int pointDurationMillis,
       bool velocityOnly = true);
-  void Initialize();
-  void Execute();
-  bool IsFinished();
-  void End();
-  void Interrupted();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End(bool interrupted) override;
+
+  ChassisMotionProfileCommand(ChassisMotionProfileCommand&& other) = default;
+  ChassisMotionProfileCommand(const ChassisMotionProfileCommand& other) = default;
+  ChassisMotionProfileCommand() = delete;
 
   class MotionProfileState
   {
@@ -60,10 +61,6 @@ private:
   unsigned int pointDurationMillis;
   bool velocityOnly;
 
-  frc::Notifier notifier;
   MotionProfileState* state;
-
-  void PeriodicTask();
 };
 
-#endif  // ChassisMotionProfileCommand_H

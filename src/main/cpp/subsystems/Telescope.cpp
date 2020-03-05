@@ -28,7 +28,7 @@ Telescope::Telescope(
 // This method will be called once per scheduler run
 void Telescope::Periodic() 
 {
-    frc::SmartDashboard::PutBoolean("telescope limit", GetLimitSwitch());
+    frc::SmartDashboard::PutBoolean("telescope limit", GetRevLimitSwitch());
     frc::SmartDashboard::PutNumber("Telescope Encoder", GetPosition());
     frc::SmartDashboard::PutBoolean("Telescope limit switch", GetRevLimitSwitch());
 }

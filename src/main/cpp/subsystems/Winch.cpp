@@ -25,21 +25,6 @@ constexpr double ticksToRPM(double ticks)
   return rpm;
 }
 
-double inchesToRotations(double inches)
-{
-  return inches * 70 / (2 * M_PI) / 12;
-}
-
-double inchesToTicks(double inches)
-{
-  return inchesToRotations(inches) * kTicksPerRotation;
-}
-
-double ticksToInches(double ticks)
-{
-    return 1.0 / inchesToTicks(ticks);
-}
-
 void SetPID(Winch::Components& components)
 {
     components.left.Config_kP(0, kP, 10);
@@ -85,14 +70,12 @@ double Winch::WinchHookRightRPM()
 double Winch::WinchHookLeftPosition()
 {
     double winchHookPosition = mComponents.left.GetSelectedSensorPosition();
-    double inches = ticksToInches(winchHookPosition);
     return winchHookPosition;
 }
 
 double Winch::WinchHookRightPosition()
 {
     double winchHookPosition = mComponents.right.GetSelectedSensorPosition();
-    double inches = ticksToInches(winchHookPosition);
     return winchHookPosition;
 }
 

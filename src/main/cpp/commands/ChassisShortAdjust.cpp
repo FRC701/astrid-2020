@@ -14,7 +14,7 @@ extern const robovikes::TrajectoryPoint rightTrajectories[];
 }
 
 ChassisShortAdjust::ChassisShortAdjust(Chassis& chassis)
-: ChassisMotionProfileCommand(
+: frc2::CommandHelper<ChassisMotionProfileCommand, ChassisShortAdjust>(
     chassis,
     ShortAdjustTrajectories::leftTrajectories,
     ShortAdjustTrajectories::rightTrajectories,

@@ -5,43 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/SetConveyorShoot.h"
+#include "commands/TimedDrive.h"
 
-SetConveyorShoot::SetConveyorShoot(Conveyor& conveyor, double speed)
-: mConveyor{conveyor}
-, mSpeed(speed)
-, mTimer()
+TimedDrive::TimedDrive(Chassis& chassis, double percent, int counts)
+: mChassis(chassis)
+, mPercent(percent)
+, mCount(counts)
+, mTime(counts)
 {
-  AddRequirements(&mConveyor);
   // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements(&mChassis);
 }
 
 // Called when the command is initially scheduled.
-void SetConveyorShoot::Initialize() 
+void TimedDrive::Initialize() 
 {
-  mTimer.Start();
-  mTimer.Reset();
+  mCount = mTime;
 }
 
 // Called repeatedly when this Command is scheduled to run
-void SetConveyorShoot::Execute()
-{
-  mConveyor.SetConveyor(mSpeed);
+void TimedDrive::Execute() {
+  mChassis.TankDrive(mPercent, mPercent);
 }
 
 // Called once the command ends or is interrupted.
-void SetConveyorShoot::End(bool interrupted)
-{
-  mConveyor.SetConveyor(0.0);
-  mTimer.Stop();
+void TimedDrive::End(bool interrupted) {
+  mChassis.TankDrive(0.0, 0.0);  
 }
 
 // Returns true when the command should end.
-bool SetConveyorShoot::IsFinished()
-{
-  if(!mConveyor.IsBallExiting())
-  {
-    mTimer.Reset();
-  }
-  return (mTimer.Get() >= 1.5);
+bool TimedDrive::IsFinished() {
+  mCount--;
+  return mCount <= 0;
 }

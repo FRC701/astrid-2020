@@ -54,6 +54,7 @@ Chassis::Chassis(const wpi::Twine& name,
 
 :mComponents(components)
 , mDrive{mComponents.frontLeft, mComponents.frontRight}
+, mNotifier(&Chassis::PeriodicTask, this)
 {
     SetName(name);
     // TODO: SetSensorPhase does not seem to be having an effect
@@ -71,6 +72,21 @@ Chassis::Chassis(const wpi::Twine& name,
      mDrive.SetRightSideInverted(false);
 
      SetPID(mComponents);
+}
+
+void Chassis::StartNotifier()
+{
+    mNotifier.StartPeriodic(units::millisecond_t(10));
+}
+
+void Chassis::StopNotifier()
+{
+    mNotifier.Stop();
+}
+
+void Chassis::PeriodicTask()
+{
+    ProcessMotionProfileBuffer();
 }
 
 // This method will be called once per scheduler run
@@ -114,12 +130,12 @@ double Chassis::GetLeftPos()
     return mComponents.frontLeft.GetSelectedSensorPosition();
 }
 
-double Chassis::ResetLeftPos()
+void Chassis::ResetLeftPos()
 {
     mComponents.frontLeft.SetSelectedSensorPosition(0);
 }
 
-double Chassis::ResetRightPos()
+void Chassis::ResetRightPos()
 {
     mComponents.frontRight.SetSelectedSensorPosition(0);
 }
@@ -170,8 +186,8 @@ void Chassis::SetModePercentOutput()
 
 void Chassis::SetModeMotionProfile()
 {
-  mComponents.frontLeft.Set(ControlMode::MotionProfile, 0.0);
-  mComponents.frontRight.Set(ControlMode::MotionProfile, 0.0);
+  mComponents.frontLeft.Set(ControlMode::MotionProfile, SetValueMotionProfile::Disable);
+  mComponents.frontRight.Set(ControlMode::MotionProfile, SetValueMotionProfile::Disable);
 }
 
 void Chassis::ClearMotionProfileTrajectories()

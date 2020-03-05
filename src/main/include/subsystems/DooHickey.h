@@ -53,8 +53,8 @@ public:
   void SetHickeyPosition(double position);
   void PushThang();
   void RetractThang();
-  void UpdateSpeed();
-  void UpdatePos();
+  void UpdateSpeed(double speed);
+  void UpdatePos(double pos);
   void MoveSpinner(double speed);
 
 

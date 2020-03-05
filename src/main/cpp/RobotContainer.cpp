@@ -14,6 +14,9 @@
 #include "commands/AutoRookie10.h"
 #include "commands/AutoPoach.h"
 #include "commands/AutoPoachToShoot.h"
+#include "commands/AutoShootDriveAway.h"
+#include "commands/AutoReverseFour.h"
+#include "commands/AutoShootAndReverse.h"
 #include "commands/ChassisShortAdjust.h"
 #include "commands/IntakeOn.h"
 #include "commands/SetConveyor.h"
@@ -31,8 +34,10 @@
 #include "commands/SetHickeyPos.h"
 #include "commands/ShortHood.h"
 #include "commands/StowHood.h"
+#include "commands/TimedDrive.h"
 #include "commands/HickeyDisengage.h"
 #include "commands/HickeyEngage.h"
+#include "commands/HickeyOn.h"
 #include "commands/RunConveyor.h"
 #include "commands/ResetBallConveyor.h"
 #include <commands/HoodRetract.h>
@@ -46,6 +51,7 @@
 #include <commands/ResetChassisPos.h>
 #include "commands/FullEndIntake.h"
 #include "commands/SetSlowTankDrive.h"
+
 
 
 namespace {
@@ -111,7 +117,7 @@ RobotContainer::RobotContainer()
     Spin
     (
       mDooHickey,
-      [this] { return coDriver.GetY(JoystickHand::kRightHand); }
+      [this] { return coDriver.GetX(JoystickHand::kRightHand); }
     )
   );
   
@@ -121,8 +127,8 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Reset Left Chassis Pos", new ResetChassisPos(mChassis));
   
-  frc::SmartDashboard::PutData("Spin 600 RPM", new Spin(mDooHickey, [this] {return 0.1;}));
-  frc::SmartDashboard::PutData("Spin 6000 RPM", new Spin(mDooHickey, [this] {return 0.9404;}));
+  frc::SmartDashboard::PutData("DooHickey Spin forward", new Spin(mDooHickey, [this] {return 18730.0 * 0.1;}));
+  frc::SmartDashboard::PutData("DooHickey Spin backwards", new Spin(mDooHickey, [this] {return -18730.0 * 0.1;}));
   frc::SmartDashboard::PutData("Spin distance", new SetHickeyPos(mDooHickey, TargetPos));
   frc::SmartDashboard::PutData("Engage da Hickey", new HickeyEngage(mDooHickey));
   frc::SmartDashboard::PutData("Disengage da Hickey", new HickeyDisengage(mDooHickey));
@@ -178,10 +184,18 @@ RobotContainer::RobotContainer()
 
   // Some Autos for testing
   frc::SmartDashboard::PutData("Rookie Auto", new AutoRookie(mChassis));
+  frc::SmartDashboard::PutData("Auto Reverse 4", new AutoReverseFour(mChassis));
   frc::SmartDashboard::PutData("Rookie Auto 10", new AutoRookie10(mChassis));
   frc::SmartDashboard::PutData("Poach", new AutoPoach(mChassis));
   frc::SmartDashboard::PutData("Poach To Shoot", new AutoPoachToShoot(mChassis));
   frc::SmartDashboard::PutData("Short Adjust", new ChassisShortAdjust(mChassis));
+
+  frc::SmartDashboard::PutData("Shoot & Drive Away", new AutoShootDriveAway(mChassis, mConveyor, mShooter));
+  frc::SmartDashboard::PutData("Shoot & Drive Reverse", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
+
+  frc::SmartDashboard::PutData("Timed Drive 1/4", new TimedDrive(mChassis, 0.5, 50 / 4)); // 50 is one second 
+
+  ConfigureAutoChooser();
   // Configure the button bindings
   ConfigureButtonBindings();
 
@@ -207,17 +221,24 @@ void RobotContainer::ConfigureButtonBindings() {
   DBumperRight.ToggleWhenPressed(SetSlowTankDrive(mChassis, [this] { return -1.0*driver.GetY(JoystickHand::kLeftHand);}, [this] { return -1.0*driver.GetY(JoystickHand::kRightHand);}));
 
   coX.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
-  coB.WhenPressed(HickeyEngage(mDooHickey));
+  coB.ToggleWhenPressed(HickeyOn(mDooHickey));
   coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
 
-  coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchRight));
+  coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchInches));
 
 
 
 }
 
+void RobotContainer::ConfigureAutoChooser()
+{
+  mChooser.AddOption("Shoot and Drive Away From Goal", new AutoShootDriveAway(mChassis, mConveyor, mShooter));
+  mChooser.AddDefault("Shoot and Drive Towards Goal", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
+
+  frc::SmartDashboard::PutData("Autonomous Chooser", &mChooser);
+}
+
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-  // An example command will be run in autonomous
-  return nullptr;
+  return mChooser.GetSelected();
 }
