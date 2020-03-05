@@ -13,6 +13,8 @@ namespace
   constexpr double kI = 0.0;
   constexpr double kD = 0.0;
 
+  constexpr int kTargetCountMax = 25; // 50 is one second
+
   using Super = frc2::PIDCommand;
 }
 
@@ -28,6 +30,7 @@ AimPID::AimPID(Chassis& chassis)
                     // This uses the output
                     [this](double rotation) { mChassis.ArcadeDrive(0.0, rotation); })
     , mChassis{chassis}
+    , mTargetCount{0}
 {
   GetController().SetTolerance(1.0);
 }
@@ -36,14 +39,23 @@ void AimPID::Initialize()
 {
   mChassis.SetVisionCam();
   mChassis.limeLightLightsOn();
+  mTargetCount = 0;
 
   Super::Initialize();
 }
 
 // Returns true when the command should end.
 bool AimPID::IsFinished()
-{ 
-  return  GetController().AtSetpoint();
+{
+  if (GetController().AtSetpoint())
+  {
+    return ++mTargetCount >= kTargetCountMax;
+  }
+  else
+  {
+    mTargetCount = 0;
+    return false;
+  }
 }
 
 void AimPID::End(bool interrupted)

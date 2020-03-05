@@ -23,4 +23,5 @@ class AimPID
 
 private:
   Chassis& mChassis;
+  int mTargetCount;
 };
