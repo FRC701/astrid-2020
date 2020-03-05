@@ -9,7 +9,9 @@
 
 namespace 
 {
-  constexpr double kP = 1.0;
+  constexpr double kMaxTargetOffset = 25;
+  constexpr double kPScale = 1.0/2.0;
+  constexpr double kP = (1.0 * kPScale)/kMaxTargetOffset;
   constexpr double kI = 0.0;
   constexpr double kD = 0.0;
 
