@@ -59,7 +59,8 @@
 
 namespace {
   constexpr double kWinchPercentOutput = 0.5;
-  constexpr double kWinchInches = 48;
+  constexpr double kWinchInches = 60;
+  constexpr double kWinchNudge = 6;
 }
 
 RobotContainer::RobotContainer()
@@ -235,6 +236,8 @@ void RobotContainer::ConfigureButtonBindings() {
   coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
 
   coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchInches));
+  coBumperRight.WhenPressed(new WinchHook(mWinch, kWinchNudge));
+
 
 
 
