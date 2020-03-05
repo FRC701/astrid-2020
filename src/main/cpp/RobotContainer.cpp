@@ -51,6 +51,8 @@
 #include <commands/ResetChassisPos.h>
 #include "commands/FullEndIntake.h"
 #include "commands/SetSlowTankDrive.h"
+#include "commands/AutoTrench.h"
+#include "commands/AutoTrenchReverse.h"
 
 
 
@@ -189,6 +191,10 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Poach", new AutoPoach(mChassis));
   frc::SmartDashboard::PutData("Poach To Shoot", new AutoPoachToShoot(mChassis));
   frc::SmartDashboard::PutData("Short Adjust", new ChassisShortAdjust(mChassis));
+
+  frc::SmartDashboard::PutData("Trench Auto Reverse", new AutoTrenchReverse(mChassis));
+  frc::SmartDashboard::PutData("Trench Auto Forward", new AutoTrench(mChassis));
+
 
   frc::SmartDashboard::PutData("Shoot & Drive Away", new AutoShootDriveAway(mChassis, mConveyor, mShooter));
   frc::SmartDashboard::PutData("Shoot & Drive Reverse", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
