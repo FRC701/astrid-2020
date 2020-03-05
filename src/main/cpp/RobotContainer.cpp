@@ -55,6 +55,8 @@
 #include "commands/AutoShortShot.h"
 #include "commands/AutoTrench.h"
 #include "commands/AutoTrenchReverse.h"
+#include "commands/AutoTrenchRun.h"
+
 
 
 
@@ -252,6 +254,7 @@ void RobotContainer::ConfigureAutoChooser()
   mChooser.AddDefault("Shoot and Drive Towards Goal", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
   mChooser.AddOption("just drive auto", new AutoReverseFour(mChassis));
   mChooser.AddOption("no auto", nullptr);
+  mChooser.AddOption("Trench Run", new AutoTrenchRun(mChassis, mConveyor, mIntake, mShooter));
 
   frc::SmartDashboard::PutData("Autonomous Chooser", &mChooser);
 }
