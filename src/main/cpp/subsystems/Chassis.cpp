@@ -26,6 +26,19 @@ namespace{
         double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
         return ticks;
     }
+
+    constexpr double kWheelDiameterInches = 6.0;
+    constexpr double kWheelDiameterFeet = kWheelDiameterInches / 12.0;
+    constexpr double kFeetPerRotation = M_PI * kWheelDiameterFeet;
+    constexpr double kWheelGearTeeth = 84.0;
+    constexpr double kEncoderGearTeeth = 8.0;
+
+    double feetToTicks(double feet) 
+    {
+        return feet * 13000;
+    }
+
+    
     constexpr double kMaxVelocityError{3500-3000};
     constexpr double kP{(.10*1023)/kMaxVelocityError};
     constexpr double kI{0.0};
@@ -227,8 +240,8 @@ void Chassis::GetMotionProfileStatus(MotionProfileStatus* leftStatus,
 
 void Chassis::SetMotionMagic(int leftPosition, int rightPosition)
 {
-  mComponents.frontLeft.Set(ControlMode::MotionMagic, leftPosition);
-  mComponents.frontRight.Set(ControlMode::MotionMagic, rightPosition);
+  mComponents.frontLeft.Set(ControlMode::MotionMagic, feetToTicks(leftPosition));
+  mComponents.frontRight.Set(ControlMode::MotionMagic, feetToTicks(rightPosition));
 }
 
 bool Chassis::IsInRange() const

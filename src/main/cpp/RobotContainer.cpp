@@ -52,6 +52,7 @@
 #include <commands/ResetChassisPos.h>
 #include "commands/FullEndIntake.h"
 #include "commands/SetSlowTankDrive.h"
+#include "commands/AutoShortShot.h"
 #include "commands/AutoTrench.h"
 #include "commands/AutoTrenchReverse.h"
 
@@ -131,7 +132,7 @@ RobotContainer::RobotContainer()
 
   frc::SmartDashboard::PutData("Reset Left Chassis Pos", new ResetChassisPos(mChassis));
 
-  frc::SmartDashboard::PutData("Motion Magic Spin", new ChassisMotionMagicDrive(mChassis, -10000, 10000));
+  frc::SmartDashboard::PutData("Motion Magic Spin", new ChassisMotionMagicDrive(mChassis, -1, 1));
   
   frc::SmartDashboard::PutData("DooHickey Spin forward", new Spin(mDooHickey, [this] {return 18730.0 * 0.1;}));
   frc::SmartDashboard::PutData("DooHickey Spin backwards", new Spin(mDooHickey, [this] {return -18730.0 * 0.1;}));
@@ -195,6 +196,7 @@ RobotContainer::RobotContainer()
   frc::SmartDashboard::PutData("Poach", new AutoPoach(mChassis));
   frc::SmartDashboard::PutData("Poach To Shoot", new AutoPoachToShoot(mChassis));
   frc::SmartDashboard::PutData("Short Adjust", new ChassisShortAdjust(mChassis));
+  frc::SmartDashboard::PutData("Auto Short Shot", new AutoShortShot(mChassis, mConveyor, mShooter));
 
   frc::SmartDashboard::PutData("Trench Auto Reverse", new AutoTrenchReverse(mChassis));
   frc::SmartDashboard::PutData("Trench Auto Forward", new AutoTrench(mChassis));
