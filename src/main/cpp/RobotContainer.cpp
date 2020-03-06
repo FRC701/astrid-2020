@@ -255,6 +255,8 @@ void RobotContainer::ConfigureAutoChooser()
   mChooser.AddOption("just drive auto", new AutoReverseFour(mChassis));
   mChooser.AddOption("no auto", nullptr);
   mChooser.AddOption("Trench Run", new AutoTrenchRun(mChassis, mConveyor, mIntake, mShooter));
+  mChooser.AddOption("Short Shot", new AutoShortShot(mChassis, mConveyor, mShooter));
+  
 
   frc::SmartDashboard::PutData("Autonomous Chooser", &mChooser);
 }
