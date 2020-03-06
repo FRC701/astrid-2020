@@ -217,6 +217,7 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button coY {[this]{return coDriver.GetRawButton(4);}};
   frc2::Button coBumperLeft {[this]{return coDriver.GetRawButton(5);}};
   frc2::Button coBumperRight {[this]{return coDriver.GetRawButton(6);}};
+  frc2::Button coBack {[this]{return coDriver.GetRawButton(7);}};
 
 //took out buttons for doohickey, intake, and shooter; still need buttons for them
 //DBumperRight.ToggleWhenPressed(SetSlowTankDrive(mChassis, [this] { return -1.0*driver.GetY(JoystickHand::kLeftHand);}, [this] { return -1.0*driver.GetY(JoystickHand::kRightHand);}));
@@ -225,7 +226,7 @@ void RobotContainer::ConfigureButtonBindings() {
   coB.ToggleWhenPressed(HickeyOn(mDooHickey));
   coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
-
+  coBack.WhenPressed(StowHood(mShooter));
   coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchInches));
   coBumperRight.WhenPressed(new WinchHook(mWinch, kWinchNudge));
 
