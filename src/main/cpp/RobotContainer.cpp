@@ -242,10 +242,6 @@ void RobotContainer::ConfigureButtonBindings() {
   coBack.WhenPressed(StowHood(mShooter));
   coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchInches));
   coBumperRight.WhenPressed(new WinchHook(mWinch, kWinchNudge));
-
-
-
-
 }
 
 void RobotContainer::ConfigureAutoChooser()

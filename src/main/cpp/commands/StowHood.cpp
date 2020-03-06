@@ -9,13 +9,14 @@
 #include "commands/LatchDisengage.h"
 #include "commands/HoodRetract.h"
 #include <frc2/command/WaitCommand.h>
+#include "commands/StopShooting.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 StowHood::StowHood(Shooter& shooter) {
   constexpr units::second_t kWaitLatch{.25};
-  AddCommands(HoodRetract(shooter), frc2::WaitCommand(kWaitLatch), LatchDisengage(shooter) );
+  AddCommands(HoodRetract(shooter), frc2::WaitCommand(kWaitLatch), LatchDisengage(shooter), StopShooting(shooter));
 }
 
   

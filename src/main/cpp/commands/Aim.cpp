@@ -65,7 +65,7 @@ bool Aim::IsFinished()
   {
     return mChassis.TargetOffset() < 1 && mChassis.TargetOffset() > -1;
   }
-  if(mTimer.Get() > 5)
+  if(mTimer.Get() > 10)
   {
     return true;
   }
