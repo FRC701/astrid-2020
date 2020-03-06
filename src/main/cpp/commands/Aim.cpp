@@ -22,8 +22,8 @@ void Aim::Initialize()
   mChassis.SetVisionCam();
   mChassis.limeLightLightsOn();
   mCounter = 0;
-  mTimer.Start();
   mTimer.Reset();
+  mTimer.Start();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -49,7 +49,10 @@ void Aim::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void Aim::End(bool interrupted) {}
+void Aim::End(bool interrupted) 
+{
+  mTimer.Stop();
+}
 
 // Returns true when the command should end.
 bool Aim::IsFinished()
@@ -65,13 +68,6 @@ bool Aim::IsFinished()
   {
     return mChassis.TargetOffset() < 2 && mChassis.TargetOffset() > 0;
   }
-  if(mTimer.Get() > 10000)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-  
+
+  return mTimer.HasPeriodPassed(units::second_t(10000.0));  
 }
