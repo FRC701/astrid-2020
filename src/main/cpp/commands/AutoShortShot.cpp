@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/AutoShortShot.h"
+#include "commands/AutoShortShotMP.h"
 #include "commands/ChassisMotionMagicDrive.h"
 #include "commands/EnableShootShort.h"
 
@@ -18,5 +19,8 @@ AutoShortShot::AutoShortShot(Chassis& chassis, Conveyor& conveyor, Shooter& shoo
   constexpr double kRobotLengthFeet = (31.0 + (kBumperThicknessInches * 2.0)) / 12.0;
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  AddCommands(ChassisMotionMagicDrive(chassis, 10.0 - kRobotLengthFeet, 10.0 - kRobotLengthFeet), EnableShootShort(chassis, conveyor, shooter));
+  AddCommands(
+    //ChassisMotionMagicDrive(chassis, 10.0 - kRobotLengthFeet, 10.0 - kRobotLengthFeet), 
+    AutoShortShotMP(chassis),
+    EnableShootShort(chassis, conveyor, shooter));
 }
