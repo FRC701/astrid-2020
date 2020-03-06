@@ -24,6 +24,8 @@ ChassisMotionMagicDrive::ChassisMotionMagicDrive(Chassis& chassis,
 void ChassisMotionMagicDrive::Initialize() 
 {
   mRangeCount = 0;
+  mChassis.ResetLeftPos();
+  mChassis.ResetRightPos();
 }
 
 // Called repeatedly when this Command is scheduled to run

@@ -79,6 +79,15 @@ Chassis::Chassis(const wpi::Twine& name,
     mComponents.frontRight.SetInverted(false);
     mComponents.backRight.SetInverted(false);
 
+    mComponents.frontLeft.ConfigMotionAcceleration(1500, 10);
+    mComponents.frontLeft.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents.frontRight.ConfigMotionAcceleration(1500, 10);
+    mComponents.frontRight.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents.backLeft.ConfigMotionAcceleration(1500, 10);
+    mComponents.backLeft.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents.backRight.ConfigMotionAcceleration(1500, 10);
+    mComponents.backRight.ConfigMotionCruiseVelocity(1500, 10);
+    
      mComponents.backLeft.Follow(mComponents.frontLeft); 
      mComponents.backRight.Follow(mComponents.frontRight); 
      
