@@ -224,8 +224,8 @@ void RobotContainer::ConfigureButtonBindings() {
 
   coX.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
   coB.ToggleWhenPressed(HickeyOn(mDooHickey));
-  coA.WhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
-  coY.WhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
+  coA.ToggleWhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
+  coY.ToggleWhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
   coBack.WhenPressed(StowHood(mShooter));
   coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchInches));
   coBumperRight.WhenPressed(new WinchHook(mWinch, kWinchNudge));
