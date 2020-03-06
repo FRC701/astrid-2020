@@ -31,19 +31,19 @@ void Aim::Execute()
 {
   if(mChassis.TargetOffset() > -10 && mChassis.TargetOffset() < 10)
   {
-    if(mChassis.TargetOffset() < 1.5)
+    if(mChassis.TargetOffset() < 2)
     {
-      mChassis.ArcadeDrive(0, -0.365);
+      mChassis.ArcadeDrive(0, -0.33);
     }
-    if(mChassis.TargetOffset() > -0.5)
+    if(mChassis.TargetOffset() > 0)
     {
-      mChassis.ArcadeDrive(0, 0.365);
+      mChassis.ArcadeDrive(0, 0.33);
     }
   }
   else
   {
     double pCoefficient {25};
-    double rotation = (mChassis.TargetOffset() + 1.5) / pCoefficient;
+    double rotation = (mChassis.TargetOffset()) / pCoefficient;
     mChassis.ArcadeDrive(0, rotation);
   }  
 }
@@ -56,16 +56,16 @@ bool Aim::IsFinished()
 {
   if(mCounter <= 30)
   {
-    if(mChassis.TargetOffset() < 1 && mChassis.TargetOffset() > -1)
+    if(mChassis.TargetOffset() < 2 && mChassis.TargetOffset() > 0)
     {
       mCounter++;
     }
   }
   if(mCounter > 30)
   {
-    return mChassis.TargetOffset() < 1 && mChassis.TargetOffset() > -1;
+    return mChassis.TargetOffset() < 2 && mChassis.TargetOffset() > 0;
   }
-  if(mTimer.Get() > 10)
+  if(mTimer.Get() > 10000)
   {
     return true;
   }
