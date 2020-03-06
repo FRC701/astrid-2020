@@ -239,6 +239,8 @@ void RobotContainer::ConfigureAutoChooser()
 {
   mChooser.AddOption("Shoot and Drive Away From Goal", new AutoShootDriveAway(mChassis, mConveyor, mShooter));
   mChooser.AddDefault("Shoot and Drive Towards Goal", new AutoShootAndReverse(mChassis, mConveyor, mShooter));
+  mChooser.AddOption("just drive auto", new AutoReverseFour(mChassis));
+  mChooser.AddOption("no auto", nullptr);
 
   frc::SmartDashboard::PutData("Autonomous Chooser", &mChooser);
 }
