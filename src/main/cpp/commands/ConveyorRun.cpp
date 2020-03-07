@@ -5,36 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/IntakeGuard.h"
+#include "commands/ConveyorRun.h"
 
-IntakeGuard::IntakeGuard(Intake& intake, double speed)
-: mIntake{intake}
-, mSpeed(speed)
+ConveyorRun::ConveyorRun(Conveyor& conveyor, double percentVBus)
+: mConveyor(conveyor) 
+, mPercentVBus(percentVBus)
 {
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements(&mIntake);
+  AddRequirements(&mConveyor);
 }
-
-
 
 // Called when the command is initially scheduled.
-void IntakeGuard::Initialize() 
-{
-  mIntake.IntakeEngage();
-}
+void ConveyorRun::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void IntakeGuard::Execute() 
+void ConveyorRun::Execute() 
 {
-  mIntake.SetIntake(mSpeed);
+  mConveyor.SetConveyor(mPercentVBus);
 }
 
 // Called once the command ends or is interrupted.
-void IntakeGuard::End(bool interrupted) 
+void ConveyorRun::End(bool interrupted) 
 {
-  mIntake.SetIntake(0.0);
-  mIntake.IntakeDisengage();
+  mConveyor.SetConveyor(0.0);
 }
 
 // Returns true when the command should end.
-bool IntakeGuard::IsFinished() { return false; }
+bool ConveyorRun::IsFinished()
+{ 
+  return false; 
+}

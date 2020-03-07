@@ -57,6 +57,7 @@
 #include "commands/AutoTrench.h"
 #include "commands/AutoTrenchReverse.h"
 #include "commands/AutoTrenchRun.h"
+#include "commands/Outtake.h"
 
 
 
@@ -232,15 +233,18 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::Button coBumperLeft {[this]{return coDriver.GetRawButton(5);}};
   frc2::Button coBumperRight {[this]{return coDriver.GetRawButton(6);}};
   frc2::Button coBack {[this]{return coDriver.GetRawButton(7);}};
+  frc2::Button coStart {[this]{return coDriver.GetRawButton(8);}};
+
 
 //took out buttons for doohickey, intake, and shooter; still need buttons for them
 //DBumperRight.ToggleWhenPressed(SetSlowTankDrive(mChassis, [this] { return -1.0*driver.GetY(JoystickHand::kLeftHand);}, [this] { return -1.0*driver.GetY(JoystickHand::kRightHand);}));
-  DBumperRight.ToggleWhenPressed(IntakeGuard(mIntake));
+  DBumperRight.ToggleWhenPressed(IntakeGuard(mIntake, -0.4));
   coX.ToggleWhenPressed(EnableIntake(mIntake, mConveyor, mChassis));
   coB.ToggleWhenPressed(HickeyOn(mDooHickey));
   coA.ToggleWhenPressed(EnableShootShort(mChassis, mConveyor, mShooter));
   coY.ToggleWhenPressed(EnableShoot(mChassis, mConveyor, mShooter));
   coBack.WhenPressed(StowHood(mShooter));
+  coStart.ToggleWhenPressed(Outtake(mIntake, mConveyor));
   coBumperLeft.WhenPressed(new WinchHook(mWinch, kWinchInches));
   coBumperRight.WhenPressed(new WinchHook(mWinch, kWinchNudge));
 }
