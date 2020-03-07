@@ -9,7 +9,8 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/Intake.h"
+
+#include "subsystems/Conveyor.h"
 
 /**
  * An example command.
@@ -18,10 +19,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class IntakeGuard
-    : public frc2::CommandHelper<frc2::CommandBase, IntakeGuard> {
+class ConveyorRun
+    : public frc2::CommandHelper<frc2::CommandBase, ConveyorRun> {
  public:
-  IntakeGuard(Intake& intake, double speed);
+  ConveyorRun(Conveyor& conveyor, double percentVBus);
 
   void Initialize() override;
 
@@ -30,8 +31,7 @@ class IntakeGuard
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-
 private:
-  Intake& mIntake;
-  double mSpeed;
+  Conveyor& mConveyor;
+  double mPercentVBus;
 };

@@ -7,31 +7,14 @@
 
 #pragma once
 
-#include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc2/command/ParallelCommandGroup.h>
 #include "subsystems/Intake.h"
+#include "subsystems/Conveyor.h"
 
-/**
- * An example command.
- *
- * <p>Note that this extends CommandHelper, rather extending CommandBase
- * directly; this is crucially important, or else the decorator functions in
- * Command will *not* work!
- */
-class IntakeGuard
-    : public frc2::CommandHelper<frc2::CommandBase, IntakeGuard> {
+class Outtake
+    : public frc2::CommandHelper<frc2::ParallelCommandGroup,
+                                 Outtake> {
  public:
-  IntakeGuard(Intake& intake, double speed);
-
-  void Initialize() override;
-
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
-
-private:
-  Intake& mIntake;
-  double mSpeed;
+  Outtake(Intake& intake, Conveyor& conveyor);
 };
