@@ -114,12 +114,6 @@ void Chassis::PeriodicTask()
 // This method will be called once per scheduler run
 void Chassis::Periodic() 
 {
-    frc::SmartDashboard::PutNumber("left chassis velocity", GetLeftVelocity());
-    frc::SmartDashboard::PutNumber("right chassis velocity", GetRightVelocity());
-    frc::SmartDashboard::PutNumber("Target Offset", TargetOffset());
-    frc::SmartDashboard::PutNumber("Target Distance", TargetDistance());
-    frc::SmartDashboard::PutNumber("Right Chassis Pos", GetRightPos());
-    frc::SmartDashboard::PutNumber("Left Chassis Pos", GetLeftPos());
 }
 
 void Chassis::TankDrive(double left, double right)
@@ -174,7 +168,7 @@ double Chassis::TargetOffset()
 
 double Chassis::TargetDistance() //this doesn't work
 {
-    double distanceFeet = 14.6 - (11.6 * log(mTable->GetNumber("ta",0.0)));
+    double distanceFeet = mTable->GetNumber("ta",0.0);
     return distanceFeet;
 }
 

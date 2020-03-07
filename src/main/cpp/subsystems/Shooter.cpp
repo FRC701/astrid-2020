@@ -143,12 +143,11 @@ void Shooter::Periodic()
 {
   frc::SmartDashboard::PutNumber("Left Motor RPM", MotorBottomRPM());
   frc::SmartDashboard::PutNumber("Right Motor RPM", MotorTopRPM());
-  frc::SmartDashboard::PutBoolean("Shooter is in range", IsInRange());
-  frc::SmartDashboard::PutNumber("TVERT", GetTargetDistance());
 }
 
 double Shooter::GetTargetDistance()
 {
+  /*
   double target1 = mTable2->GetNumber("ta",0.0);
   double target2 = mTable2->GetNumber("ta",0.0);
   double target3 = mTable2->GetNumber("ta",0.0);
@@ -160,5 +159,7 @@ double Shooter::GetTargetDistance()
   double target9 = mTable2->GetNumber("ta",0.0);
   double target10 = mTable2->GetNumber("ta",0.0);
   double target = (target1 + target2  + target3 + target4 + target5 + target6 + target7 + target8 + target9 + target10) / 10;
+  */
+  double target = mTable2->GetNumber("ta",0.0);
   return target;
 }

@@ -20,8 +20,6 @@ Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX& conveyorMotor)
 // This method will be called once per scheduler run
 void Conveyor::Periodic()
 {
-    frc::SmartDashboard::PutNumber("conveyor velocity", GetVelocity());
-    frc::SmartDashboard::PutNumber("Balls:", BallCount());
     frc::SmartDashboard::PutBoolean("Conveyor Enter Limit Switch", IsBallComing());
     frc::SmartDashboard::PutBoolean("Conveyor Exit Limit Switch", IsBallExiting());
 }

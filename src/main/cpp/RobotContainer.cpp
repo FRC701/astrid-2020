@@ -62,7 +62,7 @@
 
 namespace {
   constexpr double kWinchPercentOutput = 0.5;
-  constexpr double kWinchInches = 80;
+  constexpr double kWinchInches = 60;
   constexpr double kWinchNudge = 20;
 }
 

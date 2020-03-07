@@ -10,7 +10,6 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include <subsystems/Chassis.h>
-#include <frc/Timer.h>
 
 /**
  * An example command.
@@ -35,5 +34,4 @@ class Aim
  private:
   Chassis& mChassis;
   int mCounter;
-  frc::Timer mTimer;
 };

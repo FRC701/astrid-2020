@@ -82,7 +82,7 @@ class RobotContainer {
 
   // TODO: Aggregate initialization appears to not be supported
   // Sadness. There must be a better way.
-  Telescope::Components mTelescopeComponents{kTelescope};
+  Telescope::Components mTelescopeComponents{kTelescope, coDriver};
   Telescope mTelescope{"Telescope", mTelescopeComponents};
 
   Winch::Components mWinchComponents{kWinchLeft, kWinchRight};
