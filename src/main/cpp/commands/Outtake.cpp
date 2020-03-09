@@ -16,5 +16,5 @@
 Outtake::Outtake(Intake& intake, Conveyor& conveyor) {
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  AddCommands(IntakeEngage(intake), IntakeGuard(intake, -0.8), ConveyorRun(conveyor, -0.8));
+  AddCommands(IntakeGuard(intake, -0.8), ConveyorRun(conveyor, -0.8));
 }
