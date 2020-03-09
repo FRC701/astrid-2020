@@ -8,6 +8,7 @@
 #pragma once
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc2/command/SubsystemBase.h>
+#include <frc/XboxController.h>
 
 class Telescope : public frc2::SubsystemBase {
  public:
@@ -16,6 +17,7 @@ class Telescope : public frc2::SubsystemBase {
  struct Components
  {
          WPI_TalonSRX telescopeMotor;
+         frc::XboxController& coDriver;
  };
 
   Telescope(const wpi::Twine& name,

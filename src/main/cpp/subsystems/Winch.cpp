@@ -92,12 +92,6 @@ double Winch::RightVoltage()
 // This method will be called once per scheduler run
 void Winch::Periodic() 
 {
-    frc::SmartDashboard::PutNumber("Winch Hook Left Motor RPM", WinchHookLeftRPM());
-    frc::SmartDashboard::PutNumber("Winch Hook Right Motor RPM", WinchHookRightRPM());
-    frc::SmartDashboard::PutNumber("Winch Hook Left Motor Position", WinchHookLeftPosition());
-    frc::SmartDashboard::PutNumber("Winch Hook Right Motor Position", WinchHookRightPosition());
-    frc::SmartDashboard::PutNumber("Winch Hook Left Motor Voltage", LeftVoltage());
-    frc::SmartDashboard::PutNumber("Winch Hook Right Motor Voltage", RightVoltage());
 }
 
 void Winch::WinchHook(double position)

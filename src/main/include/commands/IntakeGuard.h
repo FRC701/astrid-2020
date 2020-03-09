@@ -9,8 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/Shooter.h>
-#include "subsystems/Chassis.h"
+#include "subsystems/Intake.h"
 
 /**
  * An example command.
@@ -19,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class Shoot
-    : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
+class IntakeGuard
+    : public frc2::CommandHelper<frc2::CommandBase, IntakeGuard> {
  public:
-  Shoot(Shooter& mShooter, double speed);
+  IntakeGuard(Intake& intake, double speed);
 
   void Initialize() override;
 
@@ -32,9 +31,7 @@ class Shoot
 
   bool IsFinished() override;
 
-  private:
-
-  Shooter& mShooter;
+private:
+  Intake& mIntake;
   double mSpeed;
-  int mCounter;
 };

@@ -63,6 +63,7 @@ class Chassis : public frc2::SubsystemBase {
   void SetVisionCam();
   void limeLightLightsOn();
   void limeLightLightsOff();
+  
 
 	// Motion Profile Support
 	void SetModePercentOutput();
@@ -75,11 +76,13 @@ class Chassis : public frc2::SubsystemBase {
 	void ProcessMotionProfileBuffer();
 	void GetMotionProfileStatus(MotionProfileStatus* leftStatus,
 	                            MotionProfileStatus* rightStatus);
-	void SetMotionMagic(int position);
+	void SetMotionMagic(int leftPosition, int rightPosition);
 
   void StartNotifier();
   void StopNotifier();
   void PeriodicTask();
+
+  bool IsInRange() const;
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

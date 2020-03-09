@@ -26,7 +26,6 @@ Intake::Intake(
 // This method will be called once per scheduler run
 void Intake::Periodic()
 {
-    frc::SmartDashboard::PutNumber("Intake velocity", GetVelocity());
 }
 
 void Intake::SetIntake(double speed)

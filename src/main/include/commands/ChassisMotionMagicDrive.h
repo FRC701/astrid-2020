@@ -9,7 +9,6 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <subsystems/Shooter.h>
 #include "subsystems/Chassis.h"
 
 /**
@@ -19,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class Shoot
-    : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
+class ChassisMotionMagicDrive
+    : public frc2::CommandHelper<frc2::CommandBase, ChassisMotionMagicDrive> {
  public:
-  Shoot(Shooter& mShooter, double speed);
+  ChassisMotionMagicDrive(Chassis& chassis, int leftPosition, int rightPosition);
 
   void Initialize() override;
 
@@ -32,9 +31,10 @@ class Shoot
 
   bool IsFinished() override;
 
-  private:
+private:
+  Chassis& mChassis;
+  int mLeftPosition;
+  int mRightPosition;
+  int mRangeCount;
 
-  Shooter& mShooter;
-  double mSpeed;
-  int mCounter;
 };

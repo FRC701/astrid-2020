@@ -5,19 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/IntakeCommand.h"
-#include "commands/IntakeOn.h"
-#include "commands/SetConveyor.h"
-#include "commands/ConveyorInWait.h"
+#include "commands/AutoShortShot.h"
+#include "commands/AutoShortShotMP.h"
+#include "commands/ChassisMotionMagicDrive.h"
+#include "commands/EnableShootShort.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-IntakeCommand::IntakeCommand(Intake& intake, Conveyor& conveyor, Chassis& chassis)
-: mIntake(intake), mConveyor(conveyor), mChassis(chassis)
+AutoShortShot::AutoShortShot(Chassis& chassis, Conveyor& conveyor, Shooter& shooter) 
 {
+  constexpr double kBumperThicknessInches = 0.75 + 2.5;
+  constexpr double kRobotLengthFeet = (31.0 + (kBumperThicknessInches * 2.0)) / 12.0;
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  AddCommands(IntakeOn(mIntake, mChassis, 0.7), ConveyorInWait(mConveyor, 0.25));
-                                                // was SetConveyor .7
+  AddCommands(
+    //ChassisMotionMagicDrive(chassis, 10.0 - kRobotLengthFeet, 10.0 - kRobotLengthFeet), 
+    AutoShortShotMP(chassis),
+    EnableShootShort(chassis, conveyor, shooter));
 }

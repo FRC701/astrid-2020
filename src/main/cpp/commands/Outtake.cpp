@@ -5,19 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/IntakeCommand.h"
-#include "commands/IntakeOn.h"
-#include "commands/SetConveyor.h"
-#include "commands/ConveyorInWait.h"
+#include "commands/Outtake.h"
+#include "commands/IntakeEngage.h"
+#include "commands/IntakeGuard.h"
+#include "commands/ConveyorRun.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-IntakeCommand::IntakeCommand(Intake& intake, Conveyor& conveyor, Chassis& chassis)
-: mIntake(intake), mConveyor(conveyor), mChassis(chassis)
-{
+Outtake::Outtake(Intake& intake, Conveyor& conveyor) {
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  AddCommands(IntakeOn(mIntake, mChassis, 0.7), ConveyorInWait(mConveyor, 0.25));
-                                                // was SetConveyor .7
+  AddCommands(IntakeGuard(intake, -0.8), ConveyorRun(conveyor, -0.8));
 }

@@ -5,19 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/IntakeCommand.h"
-#include "commands/IntakeOn.h"
-#include "commands/SetConveyor.h"
-#include "commands/ConveyorInWait.h"
+#include "commands/AutoTrenchRun.h"
+#include <commands/AutoTrenchReverse.h>
+#include <commands/EnableShoot.h>
+#include <commands/AutoTrenchPickUpBalls.h>
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-IntakeCommand::IntakeCommand(Intake& intake, Conveyor& conveyor, Chassis& chassis)
-: mIntake(intake), mConveyor(conveyor), mChassis(chassis)
-{
+AutoTrenchRun::AutoTrenchRun(Chassis& chassis, Conveyor& conveyor, Intake& intake, Shooter& shooter) {
   // Add your commands here, e.g.
-  // AddCommands(FooCommand(), BarCommand());
-  AddCommands(IntakeOn(mIntake, mChassis, 0.7), ConveyorInWait(mConveyor, 0.25));
-                                                // was SetConveyor .7
+  AddCommands(EnableShoot(chassis, conveyor, shooter), AutoTrenchPickUpBalls(chassis, conveyor, intake),
+              AutoTrenchReverse(chassis), EnableShoot(chassis, conveyor, shooter));
 }

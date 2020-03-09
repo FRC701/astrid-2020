@@ -7,7 +7,7 @@
 
 #include "commands/Shoot.h"
 
-Shoot::Shoot(Shooter& mShooter,  double speed)
+Shoot::Shoot(Shooter& mShooter, double speed)
 : mShooter(mShooter)
 , mSpeed(speed)
 , mCounter(0)
@@ -25,6 +25,7 @@ void Shoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() 
 {
+  /*
   double target1 = mShooter.GetTargetDistance();
   double target2 = mShooter.GetTargetDistance();
   double target3 = mShooter.GetTargetDistance();
@@ -36,10 +37,12 @@ void Shoot::Execute()
   double target9 = mShooter.GetTargetDistance();
   double target10 = mShooter.GetTargetDistance();
   double target = (target1 + target2 + target3 + target4 + target5 + target6 + target7 + target8 + target9 + target10) / 10;
+  */
+  double target = mShooter.GetTargetDistance();
   //double avgTarget = (target + mShooter.GetTargetDistance()) / 2;
   //mCounter++;
   double motorSpeed = 3957 - (2878 * target) + (1178 * target * target) - (154 * target * target * target);
-  mShooter.Shoot(motorSpeed);
+  mShooter.Shoot(/*motorSpeed*/1600 );
   mCounter = 0;
 }
 

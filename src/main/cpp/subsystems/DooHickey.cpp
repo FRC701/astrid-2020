@@ -90,7 +90,7 @@ void DooHickey::RetractThang() {
 }
 
 void DooHickey::Periodic() {
-
+  #if 0
     /**
      * The method GetColor() returns a normalized color value from the sensor and can be
      * useful if outputting the color to an RGB LED or similar. To
@@ -197,7 +197,7 @@ void DooHickey::Periodic() {
     frc::SmartDashboard::PutString("Detected Color", colorString);
     frc::SmartDashboard::PutNumber("Rotation Control Finished", IsRotationControlFinished);
     frc::SmartDashboard::PutString("Assigned Color", assignedColorString);
-
+  #endif
   }
 
 

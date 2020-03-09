@@ -26,6 +26,19 @@ namespace{
         double ticks = (rpm * kTicksPerRotation) / kHundredMillisPerSecond / kSecondsPerMin;
         return ticks;
     }
+
+    constexpr double kWheelDiameterInches = 6.0;
+    constexpr double kWheelDiameterFeet = kWheelDiameterInches / 12.0;
+    constexpr double kFeetPerRotation = M_PI * kWheelDiameterFeet;
+    constexpr double kWheelGearTeeth = 84.0;
+    constexpr double kEncoderGearTeeth = 8.0;
+
+    double feetToTicks(double feet) 
+    {
+        return feet * 13000;
+    }
+
+    
     constexpr double kMaxVelocityError{3500-3000};
     constexpr double kP{(.10*1023)/kMaxVelocityError};
     constexpr double kI{0.0};
@@ -66,6 +79,15 @@ Chassis::Chassis(const wpi::Twine& name,
     mComponents.frontRight.SetInverted(false);
     mComponents.backRight.SetInverted(false);
 
+    mComponents.frontLeft.ConfigMotionAcceleration(1500, 10);
+    mComponents.frontLeft.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents.frontRight.ConfigMotionAcceleration(1500, 10);
+    mComponents.frontRight.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents.backLeft.ConfigMotionAcceleration(1500, 10);
+    mComponents.backLeft.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents.backRight.ConfigMotionAcceleration(1500, 10);
+    mComponents.backRight.ConfigMotionCruiseVelocity(1500, 10);
+    
      mComponents.backLeft.Follow(mComponents.frontLeft); 
      mComponents.backRight.Follow(mComponents.frontRight); 
      
@@ -92,12 +114,6 @@ void Chassis::PeriodicTask()
 // This method will be called once per scheduler run
 void Chassis::Periodic() 
 {
-    frc::SmartDashboard::PutNumber("left chassis velocity", GetLeftVelocity());
-    frc::SmartDashboard::PutNumber("right chassis velocity", GetRightVelocity());
-    frc::SmartDashboard::PutNumber("Target Offset", TargetOffset());
-    frc::SmartDashboard::PutNumber("Target Distance", TargetDistance());
-    frc::SmartDashboard::PutNumber("Right Chassis Pos", GetRightPos());
-    frc::SmartDashboard::PutNumber("Left Chassis Pos", GetLeftPos());
 }
 
 void Chassis::TankDrive(double left, double right)
@@ -152,7 +168,7 @@ double Chassis::TargetOffset()
 
 double Chassis::TargetDistance() //this doesn't work
 {
-    double distanceFeet = 14.6 - (11.6 * log(mTable->GetNumber("ta",0.0)));
+    double distanceFeet = mTable->GetNumber("ta",0.0);
     return distanceFeet;
 }
 
@@ -225,9 +241,16 @@ void Chassis::GetMotionProfileStatus(MotionProfileStatus* leftStatus,
   mComponents.frontRight.GetMotionProfileStatus(*rightStatus);
 }
 
-void Chassis::SetMotionMagic(int position)
+void Chassis::SetMotionMagic(int leftPosition, int rightPosition)
 {
-  mComponents.frontLeft.Set(ControlMode::MotionMagic, position);
-  mComponents.frontRight.Set(ControlMode::MotionMagic, position);
+  mComponents.frontLeft.Set(ControlMode::MotionMagic, feetToTicks(leftPosition));
+  mComponents.frontRight.Set(ControlMode::MotionMagic, feetToTicks(rightPosition));
 }
 
+bool Chassis::IsInRange() const
+{
+    constexpr int kErrorThreshold = 10;
+
+    return (abs(mComponents.frontLeft.GetClosedLoopError()) < kErrorThreshold && 
+            abs(mComponents.frontRight.GetClosedLoopError()) < kErrorThreshold);
+}

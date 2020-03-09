@@ -2,7 +2,7 @@
 
 #include "ChassisMotionProfileCommand.h"
 
-class AutoReverseFour : public ChassisMotionProfileCommand {
+class AutoReverseFour :  public frc2::CommandHelper<ChassisMotionProfileCommand, AutoReverseFour> {
 public:
   AutoReverseFour(Chassis& chassis);
 };

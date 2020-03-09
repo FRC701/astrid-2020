@@ -14,7 +14,7 @@ extern const robovikes::TrajectoryPoint rightTrajectories[];
 }
 
 AutoReverseFour::AutoReverseFour(Chassis& chassis)
-: ChassisMotionProfileCommand(
+: frc2::CommandHelper<ChassisMotionProfileCommand, AutoReverseFour>(
     chassis,
     Reverse4Trajectories::leftTrajectories,
     Reverse4Trajectories::rightTrajectories,

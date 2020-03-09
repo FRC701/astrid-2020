@@ -29,7 +29,6 @@ Telescope::Telescope(
 void Telescope::Periodic() 
 {
     frc::SmartDashboard::PutBoolean("telescope limit", GetRevLimitSwitch());
-    frc::SmartDashboard::PutNumber("Telescope Encoder", GetPosition());
     frc::SmartDashboard::PutBoolean("Telescope limit switch", GetRevLimitSwitch());
 }
 
