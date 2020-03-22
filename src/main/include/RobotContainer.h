@@ -90,7 +90,7 @@ class RobotContainer {
 
   // Conveyor Components
   WPI_TalonFX mConveyorMotor{kConveyor};
-  Conveyor mConveyor{"Conveyor", mConveyorMotor};
+  Conveyor mConveyor{"Conveyor", &mConveyorMotor};
     
   Shooter::Components mShooterComponents{
     WPI_TalonFX{kShooterLeft},

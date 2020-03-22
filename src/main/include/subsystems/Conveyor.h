@@ -15,7 +15,7 @@ class Conveyor : public frc2::SubsystemBase {
   using WPI_TalonFX = ctre::phoenix::motorcontrol::can::WPI_TalonFX;
 
   Conveyor(const wpi::Twine& name,
-        WPI_TalonFX& conveyorMotor);
+        WPI_TalonFX* const conveyorMotor);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -33,7 +33,7 @@ class Conveyor : public frc2::SubsystemBase {
   void ResetBalls();
 
  private:
- WPI_TalonFX& mConveyorMotor;
+ WPI_TalonFX* const mConveyorMotor;
  int mBallCount{0};
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

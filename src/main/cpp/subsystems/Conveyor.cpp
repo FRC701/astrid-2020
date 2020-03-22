@@ -8,13 +8,13 @@
 #include "subsystems/Conveyor.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
-Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX& conveyorMotor) 
+Conveyor::Conveyor(const wpi::Twine& name, WPI_TalonFX* const conveyorMotor) 
 : mConveyorMotor{conveyorMotor}
 {
     SetName(name);
 
-    mConveyorMotor.SetInverted(true);
-    mConveyorMotor.OverrideLimitSwitchesEnable(false);
+    mConveyorMotor->SetInverted(true);
+    mConveyorMotor->OverrideLimitSwitchesEnable(false);
 }
 
 // This method will be called once per scheduler run
@@ -26,12 +26,12 @@ void Conveyor::Periodic()
 
 bool Conveyor::IsBallComing()
 {
-    return mConveyorMotor.IsFwdLimitSwitchClosed();
+    return mConveyorMotor->IsFwdLimitSwitchClosed();
 }
 
 bool Conveyor::IsBallExiting()
 {
-    return mConveyorMotor.IsRevLimitSwitchClosed();
+    return mConveyorMotor->IsRevLimitSwitchClosed();
 }
 
 void Conveyor::BallIntakeIncoming()
@@ -50,7 +50,7 @@ void Conveyor::BallIntakeExiting()
 }
 void Conveyor::SetConveyor(double speed)
 {
-    mConveyorMotor.Set(speed);
+    mConveyorMotor->Set(speed);
 }
 
 int Conveyor::BallCount()
@@ -65,7 +65,7 @@ bool Conveyor::IsShooting()
 
 double Conveyor::GetVelocity()
 {
-    return mConveyorMotor.GetSelectedSensorVelocity();
+    return mConveyorMotor->GetSelectedSensorVelocity();
 }
 
 void Conveyor::ResetBalls()
