@@ -52,45 +52,46 @@ void SetPID(Shooter::Components& components)
 
 } // namespace
 
-Shooter::Shooter(const wpi::Twine& name, Components& components)
+Shooter::Shooter(const wpi::Twine& name, Components* const components)
 : mComponents(components)
 , mThresholdLoops(0)
 {
     SetName(name);
-    mComponents.shooterleft.SetInverted(false);
-    mComponents.shooterright.SetInverted(true);
-    mComponents.shooterright.Follow(mComponents.shooterleft);
-    SetPID(mComponents);
+    auto& [shooterLeft, shooterRight, hood, latch] = *mComponents;
+    shooterLeft.SetInverted(false);
+    shooterRight.SetInverted(true);
+    shooterRight.Follow(shooterLeft);
+    SetPID(*mComponents);
 }
 
 void Shooter::IdleShoot() 
 {
-  mComponents.shooterleft.Set(ControlMode::PercentOutput, 0.0);
+  mComponents->shooterleft.Set(ControlMode::PercentOutput, 0.0);
 }
 
 double Shooter::MotorTopRPM()
 {
-  double speedTP100msTop = mComponents.shooterleft.GetSelectedSensorVelocity();
+  double speedTP100msTop = mComponents->shooterleft.GetSelectedSensorVelocity();
   double RPMMotorTop = ticksToRPM(speedTP100msTop);
   return RPMMotorTop;
 }
 
 double Shooter::MotorBottomRPM()
 {
-  double speedTP100msTop = mComponents.shooterright.GetSelectedSensorVelocity();
+  double speedTP100msTop = mComponents->shooterright.GetSelectedSensorVelocity();
   double RPMMotorBottom = ticksToRPM(speedTP100msTop);
   return RPMMotorBottom;
 }
 
 double Shooter::GetVelocity()
 {
-  return mComponents.shooterleft.GetSelectedSensorVelocity();
+  return mComponents->shooterleft.GetSelectedSensorVelocity();
 }
 
 double Shooter::Shoot(double speedRPM)
 {
   double speed = RPMToTicks(speedRPM);  
-  mComponents.shooterleft.Set(ControlMode::Velocity, speed);
+  mComponents->shooterleft.Set(ControlMode::Velocity, speed);
   return speed;
 }
 
@@ -105,7 +106,7 @@ bool Shooter::IsInRange() const
   constexpr int kLoopsToSettle = 30;
 
   constexpr double kErrorThresholdTicks{RPMToTicks(kErrorThresholdRPM)};
-  int loopError = mComponents.shooterleft.GetClosedLoopError();
+  int loopError = mComponents->shooterleft.GetClosedLoopError();
   if (loopError < kErrorThresholdTicks && loopError > -kErrorThresholdTicks)
   {
     ++mThresholdLoops;
@@ -120,22 +121,22 @@ bool Shooter::IsInRange() const
 //Start of Pistons
 void Shooter::PushHood()
 {
-  mComponents.hood.Set(kHoodOutFull);
+  mComponents->hood.Set(kHoodOutFull);
 }
 
 void Shooter::RetractHood()
 {
-  mComponents.hood.Set(kHoodRetract);
+  mComponents->hood.Set(kHoodRetract);
 }
 
 void Shooter::EngageLatch()
 {
-  mComponents.latch.Set(kLatchEngage);
+  mComponents->latch.Set(kLatchEngage);
 }
 
 void Shooter::DisengageLatch()
 {
-  mComponents.latch.Set(kLatchDisengage);
+  mComponents->latch.Set(kLatchDisengage);
 }
 
 // This method will be called once per scheduler run

@@ -26,7 +26,7 @@ class Shooter : public frc2::SubsystemBase {
   frc::DoubleSolenoid latch;
 }; 
 
-  Shooter(const wpi::Twine& name, Components& components);
+  Shooter(const wpi::Twine& name, Components* const components);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -49,6 +49,6 @@ class Shooter : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  Components& mComponents;
+  Components* const mComponents;
   int mutable mThresholdLoops;
 };
