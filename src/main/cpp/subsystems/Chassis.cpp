@@ -72,24 +72,25 @@ Chassis::Chassis(const wpi::Twine& name,
     SetName(name);
     // TODO: SetSensorPhase does not seem to be having an effect
     // The velocity is still going in reverse to the direction of travel.
-    mComponents->frontLeft.SetSensorPhase(false);
-    mComponents->backLeft.SetSensorPhase(true);
-    mComponents->frontLeft.SetInverted(true);
-    mComponents->backLeft.SetInverted(true);
-    mComponents->frontRight.SetInverted(false);
-    mComponents->backRight.SetInverted(false);
+    auto& [frontLeft, frontRight, backLeft, backRight] = *mComponents;
+    frontLeft.SetSensorPhase(false);
+    backLeft.SetSensorPhase(true);
+    frontLeft.SetInverted(true);
+    backLeft.SetInverted(true);
+    frontRight.SetInverted(false);
+    backRight.SetInverted(false);
 
-    mComponents->frontLeft.ConfigMotionAcceleration(1500, 10);
-    mComponents->frontLeft.ConfigMotionCruiseVelocity(1500, 10);
-    mComponents->frontRight.ConfigMotionAcceleration(1500, 10);
-    mComponents->frontRight.ConfigMotionCruiseVelocity(1500, 10);
-    mComponents->backLeft.ConfigMotionAcceleration(1500, 10);
-    mComponents->backLeft.ConfigMotionCruiseVelocity(1500, 10);
-    mComponents->backRight.ConfigMotionAcceleration(1500, 10);
-    mComponents->backRight.ConfigMotionCruiseVelocity(1500, 10);
+    frontLeft.ConfigMotionAcceleration(1500, 10);
+    frontLeft.ConfigMotionCruiseVelocity(1500, 10);
+    frontRight.ConfigMotionAcceleration(1500, 10);
+    frontRight.ConfigMotionCruiseVelocity(1500, 10);
+    backLeft.ConfigMotionAcceleration(1500, 10);
+    backLeft.ConfigMotionCruiseVelocity(1500, 10);
+    backRight.ConfigMotionAcceleration(1500, 10);
+    backRight.ConfigMotionCruiseVelocity(1500, 10);
     
-     mComponents->backLeft.Follow(mComponents->frontLeft); 
-     mComponents->backRight.Follow(mComponents->frontRight); 
+     backLeft.Follow(frontLeft); 
+     backRight.Follow(frontRight); 
      
      mDrive.SetRightSideInverted(false);
 
