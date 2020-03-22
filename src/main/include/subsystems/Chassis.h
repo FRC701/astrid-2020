@@ -36,7 +36,7 @@ class Chassis : public frc2::SubsystemBase {
       WPI_TalonFX backRight;
   };
   Chassis(const wpi::Twine& name,
-        Components& components);
+        Components* const components);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -87,7 +87,7 @@ class Chassis : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  Components& mComponents;
+  Components* const mComponents;
 
   frc::DifferentialDrive mDrive;
   frc::Notifier mNotifier;

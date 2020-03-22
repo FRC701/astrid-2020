@@ -77,7 +77,7 @@ class RobotContainer {
 
   // Chassis Components
   Chassis::Components mChassisComponents{kChassisFrontLeft, kChassisFrontRight,kChassisRearLeft,kChassisRearRight};  
-  Chassis mChassis{"Chassis", mChassisComponents};
+  Chassis mChassis{"Chassis", &mChassisComponents};
   
 
   // TODO: Aggregate initialization appears to not be supported

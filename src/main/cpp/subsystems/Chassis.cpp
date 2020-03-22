@@ -63,37 +63,37 @@ void SetPID(Chassis::Components& components)
 } //namespace
 
 Chassis::Chassis(const wpi::Twine& name,
-    Components& components)
+    Components* const components)
 
 :mComponents(components)
-, mDrive{mComponents.frontLeft, mComponents.frontRight}
+, mDrive{mComponents->frontLeft, mComponents->frontRight}
 , mNotifier(&Chassis::PeriodicTask, this)
 {
     SetName(name);
     // TODO: SetSensorPhase does not seem to be having an effect
     // The velocity is still going in reverse to the direction of travel.
-    mComponents.frontLeft.SetSensorPhase(false);
-    mComponents.backLeft.SetSensorPhase(true);
-    mComponents.frontLeft.SetInverted(true);
-    mComponents.backLeft.SetInverted(true);
-    mComponents.frontRight.SetInverted(false);
-    mComponents.backRight.SetInverted(false);
+    mComponents->frontLeft.SetSensorPhase(false);
+    mComponents->backLeft.SetSensorPhase(true);
+    mComponents->frontLeft.SetInverted(true);
+    mComponents->backLeft.SetInverted(true);
+    mComponents->frontRight.SetInverted(false);
+    mComponents->backRight.SetInverted(false);
 
-    mComponents.frontLeft.ConfigMotionAcceleration(1500, 10);
-    mComponents.frontLeft.ConfigMotionCruiseVelocity(1500, 10);
-    mComponents.frontRight.ConfigMotionAcceleration(1500, 10);
-    mComponents.frontRight.ConfigMotionCruiseVelocity(1500, 10);
-    mComponents.backLeft.ConfigMotionAcceleration(1500, 10);
-    mComponents.backLeft.ConfigMotionCruiseVelocity(1500, 10);
-    mComponents.backRight.ConfigMotionAcceleration(1500, 10);
-    mComponents.backRight.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents->frontLeft.ConfigMotionAcceleration(1500, 10);
+    mComponents->frontLeft.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents->frontRight.ConfigMotionAcceleration(1500, 10);
+    mComponents->frontRight.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents->backLeft.ConfigMotionAcceleration(1500, 10);
+    mComponents->backLeft.ConfigMotionCruiseVelocity(1500, 10);
+    mComponents->backRight.ConfigMotionAcceleration(1500, 10);
+    mComponents->backRight.ConfigMotionCruiseVelocity(1500, 10);
     
-     mComponents.backLeft.Follow(mComponents.frontLeft); 
-     mComponents.backRight.Follow(mComponents.frontRight); 
+     mComponents->backLeft.Follow(mComponents->frontLeft); 
+     mComponents->backRight.Follow(mComponents->frontRight); 
      
      mDrive.SetRightSideInverted(false);
 
-     SetPID(mComponents);
+     SetPID(*mComponents);
 }
 
 void Chassis::StartNotifier()
@@ -128,32 +128,32 @@ void Chassis::SlowTankDrive(double left, double right)
 
 double Chassis::GetLeftVelocity()
 {
-    return mComponents.frontLeft.GetSelectedSensorVelocity();
+    return mComponents->frontLeft.GetSelectedSensorVelocity();
 }
 
 double Chassis::GetRightVelocity()
 {
-    return mComponents.frontRight.GetSelectedSensorVelocity();
+    return mComponents->frontRight.GetSelectedSensorVelocity();
 }
 
 double Chassis::GetRightPos()
 {
-    return mComponents.frontRight.GetSelectedSensorPosition();
+    return mComponents->frontRight.GetSelectedSensorPosition();
 }
 
 double Chassis::GetLeftPos()
 {
-    return mComponents.frontLeft.GetSelectedSensorPosition();
+    return mComponents->frontLeft.GetSelectedSensorPosition();
 }
 
 void Chassis::ResetLeftPos()
 {
-    mComponents.frontLeft.SetSelectedSensorPosition(0);
+    mComponents->frontLeft.SetSelectedSensorPosition(0);
 }
 
 void Chassis::ResetRightPos()
 {
-    mComponents.frontRight.SetSelectedSensorPosition(0);
+    mComponents->frontRight.SetSelectedSensorPosition(0);
 }
 
 void Chassis::ArcadeDrive(double speed, double rotation)
@@ -196,20 +196,20 @@ void Chassis::limeLightLightsOff()
 
 void Chassis::SetModePercentOutput()
 {
-  mComponents.frontLeft.Set(ControlMode::PercentOutput, 0.0);
-  mComponents.frontRight.Set(ControlMode::PercentOutput, 0.0);
+  mComponents->frontLeft.Set(ControlMode::PercentOutput, 0.0);
+  mComponents->frontRight.Set(ControlMode::PercentOutput, 0.0);
 }
 
 void Chassis::SetModeMotionProfile()
 {
-  mComponents.frontLeft.Set(ControlMode::MotionProfile, SetValueMotionProfile::Disable);
-  mComponents.frontRight.Set(ControlMode::MotionProfile, SetValueMotionProfile::Disable);
+  mComponents->frontLeft.Set(ControlMode::MotionProfile, SetValueMotionProfile::Disable);
+  mComponents->frontRight.Set(ControlMode::MotionProfile, SetValueMotionProfile::Disable);
 }
 
 void Chassis::ClearMotionProfileTrajectories()
 {
-  mComponents.frontLeft.ClearMotionProfileTrajectories();
-  mComponents.frontRight.ClearMotionProfileTrajectories();
+  mComponents->frontLeft.ClearMotionProfileTrajectories();
+  mComponents->frontRight.ClearMotionProfileTrajectories();
 }
 
 void Chassis::ConfigMotionProfileTrajectoryPeriod(int trajectoryDurationMillis) {
@@ -217,40 +217,40 @@ void Chassis::ConfigMotionProfileTrajectoryPeriod(int trajectoryDurationMillis) 
 
 void Chassis::SetMotionProfileSetValue(SetValueMotionProfile setValue)
 {
-  mComponents.frontLeft.Set(ControlMode::MotionProfile, setValue);
-  mComponents.frontRight.Set(ControlMode::MotionProfile, setValue);
+  mComponents->frontLeft.Set(ControlMode::MotionProfile, setValue);
+  mComponents->frontRight.Set(ControlMode::MotionProfile, setValue);
 }
 
 void Chassis::PushMotionProfileTrajectory(const TrajectoryPoint& leftTrajectoryPoint,
                                           const TrajectoryPoint& rightTrajectoryPoint)
 {
-  mComponents.frontLeft.PushMotionProfileTrajectory(leftTrajectoryPoint);
-  mComponents.frontRight.PushMotionProfileTrajectory(rightTrajectoryPoint);
+  mComponents->frontLeft.PushMotionProfileTrajectory(leftTrajectoryPoint);
+  mComponents->frontRight.PushMotionProfileTrajectory(rightTrajectoryPoint);
 }
 
 void Chassis::ProcessMotionProfileBuffer()
 {
-  mComponents.frontLeft.ProcessMotionProfileBuffer();
-  mComponents.frontRight.ProcessMotionProfileBuffer();
+  mComponents->frontLeft.ProcessMotionProfileBuffer();
+  mComponents->frontRight.ProcessMotionProfileBuffer();
 }
 
 void Chassis::GetMotionProfileStatus(MotionProfileStatus* leftStatus,
                                      MotionProfileStatus* rightStatus)
 {
-  mComponents.frontLeft.GetMotionProfileStatus(*leftStatus);
-  mComponents.frontRight.GetMotionProfileStatus(*rightStatus);
+  mComponents->frontLeft.GetMotionProfileStatus(*leftStatus);
+  mComponents->frontRight.GetMotionProfileStatus(*rightStatus);
 }
 
 void Chassis::SetMotionMagic(int leftPosition, int rightPosition)
 {
-  mComponents.frontLeft.Set(ControlMode::MotionMagic, feetToTicks(leftPosition));
-  mComponents.frontRight.Set(ControlMode::MotionMagic, feetToTicks(rightPosition));
+  mComponents->frontLeft.Set(ControlMode::MotionMagic, feetToTicks(leftPosition));
+  mComponents->frontRight.Set(ControlMode::MotionMagic, feetToTicks(rightPosition));
 }
 
 bool Chassis::IsInRange() const
 {
     constexpr int kErrorThreshold = 10;
 
-    return (abs(mComponents.frontLeft.GetClosedLoopError()) < kErrorThreshold && 
-            abs(mComponents.frontRight.GetClosedLoopError()) < kErrorThreshold);
+    return (abs(mComponents->frontLeft.GetClosedLoopError()) < kErrorThreshold && 
+            abs(mComponents->frontRight.GetClosedLoopError()) < kErrorThreshold);
 }
