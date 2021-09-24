@@ -26,9 +26,9 @@ void IntakeOn::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void IntakeOn::Execute()
 {
-  double averageDrive = (mChassis.GetLeftVelocity() + mChassis.GetRightVelocity()) / 2;
-  double velocity = averageDrive * conversionFactor + mSpeed;
-  mIntake.SetIntake(velocity*2);
+  //double averageDrive = (mChassis.GetLeftVelocity() + mChassis.GetRightVelocity()) / 2;
+  //double velocity = averageDrive * conversionFactor + mSpeed;
+  mIntake.SetIntake(mSpeed);
 }
 
 // Called once the command ends or is interrupted.

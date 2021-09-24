@@ -18,6 +18,6 @@ IntakeCommand::IntakeCommand(Intake& intake, Conveyor& conveyor, Chassis& chassi
 {
   // Add your commands here, e.g.
   // AddCommands(FooCommand(), BarCommand());
-  AddCommands(IntakeOn(mIntake, mChassis, 0.7), ConveyorInWait(mConveyor, 0.25));
+  AddCommands(IntakeOn(mIntake, mChassis, 0.5), ConveyorInWait(mConveyor, 0.25));
                                                 // was SetConveyor .7
 }
