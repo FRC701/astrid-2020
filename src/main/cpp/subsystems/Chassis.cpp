@@ -74,10 +74,10 @@ Chassis::Chassis(const wpi::Twine& name,
     // The velocity is still going in reverse to the direction of travel.
     mComponents.frontLeft.SetSensorPhase(false);
     mComponents.backLeft.SetSensorPhase(true);
-    mComponents.frontLeft.SetInverted(true);
-    mComponents.backLeft.SetInverted(true);
-    mComponents.frontRight.SetInverted(false);
-    mComponents.backRight.SetInverted(false);
+    mComponents.frontLeft.SetInverted(false);
+    mComponents.backLeft.SetInverted(false); //true to false
+    mComponents.frontRight.SetInverted(true);
+    mComponents.backRight.SetInverted(true); //Changed from false to true
 
     mComponents.frontLeft.ConfigMotionAcceleration(1500, 10);
     mComponents.frontLeft.ConfigMotionCruiseVelocity(1500, 10);
@@ -189,7 +189,7 @@ void Chassis::limeLightLightsOn()
 
 void Chassis::limeLightLightsOff()
 {
-    mTable->PutNumber("ledMode", 1);
+    //mTable->PutNumber("ledMode", 1);
 }
 
 // Motion Profile Support Interface

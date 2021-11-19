@@ -30,6 +30,8 @@ class TankDrive
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
+
 private:
   Chassis& mChassis;
   std::function<double()> mLeft;

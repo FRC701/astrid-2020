@@ -26,22 +26,23 @@ void Aim::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void Aim::Execute() 
 {
-  if(mChassis.TargetOffset() > -10 && mChassis.TargetOffset() < 10)
+  double targetOffset = mChassis.TargetOffset();
+  if(targetOffset > -10.0 && targetOffset < 10.0)
   {
-    if(mChassis.TargetOffset() < 2)
+    if(targetOffset < 2.0)
     {
-      mChassis.ArcadeDrive(0, -0.36);
+      mChassis.ArcadeDrive(0.0, -0.36); //.36
     }
-    if(mChassis.TargetOffset() > 0)
+    if(targetOffset > 0.0)
     {
-      mChassis.ArcadeDrive(0, 0.36);
+      mChassis.ArcadeDrive(0.0, 0.36);
     }
   }
   else
   {
-    double pCoefficient {25};
+    double pCoefficient {25.0};
     double rotation = (mChassis.TargetOffset()) / pCoefficient;
-    mChassis.ArcadeDrive(0, rotation);
+    mChassis.ArcadeDrive(0.0, rotation);
   }  
 }
 
@@ -51,16 +52,17 @@ void Aim::End(bool interrupted) {}
 // Returns true when the command should end.
 bool Aim::IsFinished()
 {
+  double targetOffset = mChassis.TargetOffset();
   if(mCounter <= 30)
   {
-    if(mChassis.TargetOffset() < 2 && mChassis.TargetOffset() > 0)
+    if(targetOffset < 2.0 && targetOffset > 0.0)
     {
       mCounter++;
     }
   }
-  if(mCounter > 30)
+  else if(mCounter > 30)
   {
-    return mChassis.TargetOffset() < 2 && mChassis.TargetOffset() > 0;
+    return targetOffset < 2.0 && targetOffset > 0.0;
   }
   else
   {

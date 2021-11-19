@@ -42,7 +42,10 @@ void Shoot::Execute()
   //double avgTarget = (target + mShooter.GetTargetDistance()) / 2;
   //mCounter++;
   double motorSpeed = 3957 - (2878 * target) + (1178 * target * target) - (154 * target * target * target);
-  mShooter.Shoot(/*motorSpeed*/1600 );
+
+  //double motorSpeed = 3957 - (2878 * target) + (1178 * target * target) - (154 * target * target * target);
+
+  mShooter.Shoot(motorSpeed/*1600*/);
   mCounter = 0;
 }
 
